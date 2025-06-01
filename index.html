@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Grok Product Section Test</title>
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+  <!-- SECTION: Responsive Product Grid -->
+  <section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Grid: 1 column on mobile, 3 columns on md+ screens -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- Card 1: GPT Builder -->
+        <div class="text-center bg-white p-6 rounded-lg shadow-lg">
+          <!-- SVG Icon (three square blocks) -->
+          <div class="mx-auto mb-4">
+            <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <rect x="0"   y="0"  width="20" height="20" fill="#E5E7EB"/>
+              <rect x="20"  y="0"  width="20" height="20" fill="#E5E7EB"/>
+              <rect x="0"   y="20" width="20" height="20" fill="#E5E7EB"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">GPT Builder</h3>
+          <p class="text-gray-600 mb-4">Easily create and customize GPTs tailored to your needs.</p>
+          <button class="mt-2 px-6 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600">
+            Build Now
+          </button>
+        </div>
+
+        <!-- Card 2: GPT API (This will be rendered by React) -->
+        <div id="api-card-container"></div>
+
+        <!-- Card 3: Forecasting -->
+        <div class="text-center bg-white p-6 rounded-lg shadow-lg">
+          <!-- SVG Icon (line chart with orange endpoints) -->
+          <div class="mx-auto mb-4">
+            <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <polyline points="0,50 15,40 30,45 45,20 60,30"
+                        fill="none" stroke="#374151" stroke-width="3" />
+              <circle cx="0" cy="50" r="3" fill="#FB923C"/>
+              <circle cx="60" cy="30" r="3" fill="#FB923C"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">Forecasting</h3>
+          <p class="text-gray-600 mb-4">Generate accurate future predictions using advanced AI models.</p>
+          <button class="mt-2 px-6 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600">
+            Start Forecast
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- React + Babel + ReactDOM Scripts -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Inline React Component with JSX (type="text/babel") -->
+  <script type="text/babel">
+    const { useState } = React;
+
+    function ApiCard() {
+      const [active, setActive] = useState(false);
+      const handleClick = () => setActive(true);
+
+      return (
+        <div
+          className="text-center bg-white p-6 rounded-lg shadow-lg cursor-pointer"
+          onClick={handleClick}
+        >
+          <div className="mx-auto mb-4">
+            <svg width="120" height="60" viewBox="0 0 120 60" className="mx-auto" xmlns="http://www.w3.org/2000/svg">
+              {/* Three white circles on the left column */}
+              <circle cx="10" cy="15" r="5" stroke="#9CA3AF" strokeWidth="1"
+                style={{
+                  transform: active ? 'translateX(60px)' : 'translateX(0px)',
+                  fill: active ? '#FB923C' : '#FFFFFF',
+                  transition: 'transform 0.5s ease, fill 0.5s ease'
+                }}
+              />
+              <circle cx="10" cy="30" r="5" stroke="#9CA3AF" strokeWidth="1"
+                style={{
+                  transform: active ? 'translateX(60px)' : 'translateX(0px)',
+                  fill: active ? '#FB923C' : '#FFFFFF',
+                  transition: 'transform 0.5s ease, fill 0.5s ease'
+                }}
+              />
+              <circle cx="10" cy="45" r="5" stroke="#9CA3AF" strokeWidth="1"
+                style={{
+                  transform: active ? 'translateX(60px)' : 'translateX(0px)',
+                  fill: active ? '#FB923C' : '#FFFFFF',
+                  transition: 'transform 0.5s ease, fill 0.5s ease'
+                }}
+              />
+              {/* Three white circles on the right column */}
+              <circle cx="50" cy="15" r="5" stroke="#9CA3AF" strokeWidth="1"
+                style={{
+                  transform: active ? 'translateX(50px)' : 'translateX(0px)',
+                  fill: active ? '#FB923C' : '#FFFFFF',
+                  transition: 'transform 0.5s ease, fill 0.5s ease'
+                }}
+              />
+              <circle cx="50" cy="30" r="5" stroke="#9CA3AF" strokeWidth="1"
+                style={{
+                  transform: active ? 'translateX(50px)' : 'translateX(0px)',
+                  fill: active ? '#FB923C' : '#FFFFFF',
+                  transition: 'transform 0.5s ease, fill 0.5s ease'
+                }}
+              />
+              <circle cx="50" cy="45" r="5" stroke="#9CA3AF" strokeWidth="1"
+                style={{
+                  transform: active ? 'translateX(50px)' : 'translateX(0px)',
+                  fill: active ? '#FB923C' : '#FFFFFF',
+                  transition: 'transform 0.5s ease, fill 0.5s ease'
+                }}
+              />
+            </svg>
+          </div>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">GPT API</h3>
+          <p className="text-gray-600 mb-4">
+            Integrate Grok’s AI into your applications via our powerful API.
+          </p>
+          <button className="mt-2 px-6 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600">
+            Get API Key
+          </button>
+        </div>
+      );
+    }
+
+    // Mount the ApiCard component into the placeholder div
+    const rootElement = document.getElementById('api-card-container');
+    ReactDOM.createRoot(rootElement).render(<ApiCard />);
+  </script>
+</body>
+</html>
