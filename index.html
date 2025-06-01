@@ -1,179 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI for All Humanity</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* Custom font for better aesthetics */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body {
-            font-family: 'Inter', sans-serif;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI for All Humanity</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom font */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
 
-        /* Keyframe animation for balls: left to right, change color at center */
-        @keyframes ballFlow {
-            0% {
-                transform: translateX(-200px); /* Start far left, off-screen */
-                opacity: 0;
-                fill: white; /* Initial color: red */
-            }
-            10% {
-                transform: translateX(0px); /* Enter screen, fully visible */
-                opacity: 1;
-                fill: white; /* Still red */
-            }
-            49% {
-                transform: translateX(190px); /* Just before 50% of travel */
-                opacity: 1;
-                fill: white; /* Still red */
-            }
-            50% {
-                transform: translateX(200px); /* At 50% of travel, change color */
-                opacity: 1;
-                fill: yellow; /* Change to yellow */
-            }
-            51% {
-                transform: translateX(210px); /* Just after 50% of travel */
-                opacity: 1;
-                fill: yellow; /* Now yellow */
-            }
-            90% {
-                transform: translateX(390px); /* Almost off-screen right */
-                opacity: 1;
-                fill: yellow; /* Still yellow */
-            }
-            100% {
-                transform: translateX(450px); /* Go off-screen right, invisible */
-                opacity: 0;
-                fill: yellow; /* Still yellow */
-            }
-        }
+    /* Keyframe for horizontal flow, color switch at midpoint */
+    @keyframes ballFlow {
+      0% {
+        transform: translateX(-200px);
+        opacity: 0;
+        fill: white;
+      }
+      10% {
+        transform: translateX(0px);
+        opacity: 1;
+        fill: white;
+      }
+      49% {
+        transform: translateX(190px);
+        opacity: 1;
+        fill: white;
+      }
+      50% {
+        transform: translateX(200px);
+        opacity: 1;
+        fill: yellow;
+      }
+      51% {
+        transform: translateX(210px);
+        opacity: 1;
+        fill: yellow;
+      }
+      90% {
+        transform: translateX(390px);
+        opacity: 1;
+        fill: yellow;
+      }
+      100% {
+        transform: translateX(450px);
+        opacity: 0;
+        fill: yellow;
+      }
+    }
 
-        /* Class to apply the ball animation */
-        .animate-ball {
-            animation: ballFlow 3s linear infinite; /* Reduced duration to 3s for faster animation */
-        }
-    </style>
+    /* Apply animation to each dot */
+    .animate-ball {
+      animation: ballFlow 3s linear infinite;
+    }
+  </style>
 </head>
 <body class="bg-[#0D0D0D]">
-    <section id="section-4" class="relative min-h-[1800px] bg-[#0D0D0D] text-white overflow-hidden pt-32">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-32">
-            <div class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-8">
-                [ PRODUCTS ]
-            </div>
+  <section id="section-4" class="relative min-h-[1800px] bg-[#0D0D0D] text-white overflow-hidden pt-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-32">
+      <div class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-8">
+        [ PRODUCTS ]
+      </div>
 
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-24 leading-tight">
-                AI for all humanity
-            </h1>
+      <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-24 leading-tight">
+        AI for all humanity
+      </h1>
 
-            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
-                <div class="md:w-1/2 text-left">
-                    <h2 class="text-4xl font-semibold mb-4">Grok</h2>
-                    <p class="text-lg text-gray-300 mb-8 max-w-md">
-                        Grok is your cosmic guide, now accessible on grok.com, iOS, and Android. Explore the universe with AI.
-                    </p>
-                    <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                        USE NOW <span class="ml-2">&#8594;</span>
-                    </button>
-                </div>
-                <div class="md:w-1/2 flex justify-center items-center">
-                    <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-50">
-                        <path d="M150 10C84.7452 10 30 64.7452 30 130C30 195.255 84.7452 250 150 250C215.255 250 270 195.255 270 130C270 64.7452 215.255 10 150 10Z" stroke="white" stroke-width="2" stroke-dasharray="10 10"/>
-                        <circle cx="150" cy="130" r="80" stroke="white" stroke-width="1" stroke-dasharray="5 5"/>
-                        <path d="M150 50L170 80L130 80L150 50Z" fill="white"/>
-                        <path d="M150 210L170 180L130 180L150 210Z" fill="white"/>
-                        <path d="M90 130L120 150L120 110L90 130Z" fill="white"/>
-                        <path d="M210 130L180 150L180 110L210 130Z" fill="white"/>
-                        <text x="150" y="135" font-family="Inter" font-size="20" fill="white" text-anchor="middle">G</text>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
-                <div class="md:w-1/2 text-left">
-                    <h2 class="text-4xl font-semibold mb-4">API</h2>
-                    <p class="text-lg text-gray-300 mb-8 max-w-md">
-                        Supercharge your applications with Grok's enhanced speed, precision, and multilingual capabilities.
-                    </p>
-                    <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                        BUILD NOW <span class="ml-2">&#8594;</span>
-                    </button>
-                </div>
-                <div class="md:w-1/2 flex justify-center items-center">
-                    <svg id="api-svg" width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg" class="cursor-pointer">
-                        <rect x="20" y="20" width="360" height="210" rx="10" stroke="white" stroke-width="2"/>
-                        <line x1="20" y1="60" x2="380" y2="60" stroke="white" stroke-width="1"/>
-                        <circle cx="350" cy="40" r="8" fill="#FF5757"/> <circle cx="330" cy="40" r="8" fill="#FFC107"/> <circle cx="310" cy="40" r="8" fill="#8BC34A"/> <g id="dots-container" transform="translate(0, 100)">
-                            </g>
-                    </svg>
-                </div>
-            </div>
-
-            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
-                <div class="md:w-1/2 text-left">
-                    <h2 class="text-4xl font-semibold mb-4">Developer Docs</h2>
-                    <p class="text-lg text-gray-300 mb-8 max-w-md">
-                        Learn how to quickly install Grok at the heart of your applications and explore guides covering common use cases.
-                    </p>
-                    <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
-                        LEARN MORE <span class="ml-2">&#8594;</span>
-                    </button>
-                </div>
-                <div class="md:w-1/2 flex justify-center items-center">
-                    <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-50">
-                        <path d="M150 10C84.7452 10 30 64.7452 30 130C30 195.255 84.7452 250 150 250C215.255 250 270 195.255 270 130C270 64.7452 215.255 10 150 10Z" stroke="white" stroke-width="2" stroke-dasharray="10 10"/>
-                        <circle cx="150" cy="130" r="80" stroke="white" stroke-width="1" stroke-dasharray="5 5"/>
-                        <path d="M150 50L170 80L130 80L150 50Z" fill="white"/>
-                        <path d="M150 210L170 180L130 180L150 210Z" fill="white"/>
-                        <path d="M90 130L120 150L120 110L90 130Z" fill="white"/>
-                        <path d="M210 130L180 150L180 110L210 130Z" fill="white"/>
-                        <text x="150" y="135" font-family="Inter" font-size="20" fill="white" text-anchor="middle">G</text>
-                    </svg>
-                </div>
-            </div>
+      <!-- Grok Section with continuous animation on its SVG side -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-16">
+        <div class="md:w-1/2 text-left">
+          <h2 class="text-4xl font-semibold mb-4">Grok</h2>
+          <p class="text-lg text-gray-300 mb-8 max-w-md">
+            Grok is your cosmic guide, now accessible on grok.com, iOS, and Android. Explore the universe with AI.
+          </p>
+          <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+            USE NOW <span class="ml-2">&#8594;</span>
+          </button>
         </div>
-    </section>
+        <div class="md:w-1/2 flex justify-center items-center relative">
+          <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M150 10C84.7452 10 30 64.7452 30 130C30 195.255 84.7452 250 150 250C215.255 250 270 195.255 270 130C270 64.7452 215.255 10 150 10Z"
+                  stroke="white" stroke-width="2" stroke-dasharray="10 10"/>
+            <circle cx="150" cy="130" r="80" stroke="white" stroke-width="1" stroke-dasharray="5 5"/>
+            <path d="M150 50L170 80L130 80L150 50Z" fill="white"/>
+            <path d="M150 210L170 180L130 180L150 210Z" fill="white"/>
+            <path d="M90 130L120 150L120 110L90 130Z" fill="white"/>
+            <path d="M210 130L180 150L180 110L210 130Z" fill="white"/>
+            <text x="150" y="135" font-family="Inter" font-size="20" fill="white" text-anchor="middle">G</text>
+            <!-- Container for animated dots on the Grok SVG side -->
+            <g id="grok-dots" transform="translate(0, 0)"></g>
+          </svg>
+        </div>
+      </div>
 
-    <script>
+      <!-- API Section (static) -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-16">
+        <div class="md:w-1/2 text-left">
+          <h2 class="text-4xl font-semibold mb-4">API</h2>
+          <p class="text-lg text-gray-300 mb-8 max-w-md">
+            Supercharge your applications with Grok's enhanced speed, precision, and multilingual capabilities.
+          </p>
+          <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+            BUILD NOW <span class="ml-2">&#8594;</span>
+          </button>
+        </div>
+        <div class="md:w-1/2 flex justify-center items-center">
+          <svg width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="20" y="20" width="360" height="210" rx="10" stroke="white" stroke-width="2"/>
+            <line x1="20" y1="60" x2="380" y2="60" stroke="white" stroke-width="1"/>
+            <circle cx="350" cy="40" r="8" fill="#FF5757"/>
+            <circle cx="330" cy="40" r="8" fill="#FFC107"/>
+            <circle cx="310" cy="40" r="8" fill="#8BC34A"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Developer Docs Section (static) -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-16">
+        <div class="md:w-1/2 text-left">
+          <h2 class="text-4xl font-semibold mb-4">Developer Docs</h2>
+          <p class="text-lg text-gray-300 mb-8 max-w-md">
+            Learn how to quickly install Grok at the heart of your applications and explore guides covering common use cases.
+          </p>
+          <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+            LEARN MORE <span class="ml-2">&#8594;</span>
+          </button>
+        </div>
+        <div class="md:w-1/2 flex justify-center items-center">
+          <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-50">
+            <path d="M150 10C84.7452 10 30 64.7452 30 130C30 195.255 84.7452 250 150 250C215.255 250 270 195.255 270 130C270 64.7452 215.255 10 150 10Z"
+                  stroke="white" stroke-width="2" stroke-dasharray="10 10"/>
+            <circle cx="150" cy="130" r="80" stroke="white" stroke-width="1" stroke-dasharray="5 5"/>
+            <path d="M150 50L170 80L130 80L150 50Z" fill="white"/>
+            <path d="M150 210L170 180L130 180L150 210Z" fill="white"/>
+            <path d="M90 130L120 150L120 110L90 130Z" fill="white"/>
+            <path d="M210 130L180 150L180 110L210 130Z" fill="white"/>
+            <text x="150" y="135" font-family="Inter" font-size="20" fill="white" text-anchor="middle">G</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const dotsContainer = document.getElementById('dots-container');
+      const grokDotsContainer = document.getElementById('grok-dots');
+      const numDots = 200;
+      const dotRadius = 2;
+      const animationDuration = 3; // seconds
 
-        const numDots = 200; // Number of dots
-        const dotRadius = 2;
+      // Define vertical range to scatter dots around the Grok circle's midline
+      const svgHeight = 300;
+      const circleCenterY = 130;
+      const scatterRange = 30; // +/- 30px around center
 
-        const windowMinY = 60;
-        const windowMaxY = 230;
-        const centerY = (windowMinY + windowMaxY) / 2;
-        const translatedCenterY = centerY - 100; // match <g transform>
-        const verticalScatteringRange = 20;
+      // Generate and animate dots inside Grok SVG
+      const generateGrokDots = () => {
+        grokDotsContainer.innerHTML = '';
+        for (let i = 0; i < numDots; i++) {
+          const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          // Random start x: off‐screen to the left of the Grok SVG (−200 to 0)
+          const startX = -200 + Math.random() * 0;
+          // Random y around the Grok circle's vertical center
+          const cy = circleCenterY + (Math.random() - 0.5) * scatterRange;
+          circle.setAttribute('r', dotRadius);
+          circle.setAttribute('cx', startX);
+          circle.setAttribute('cy', cy);
+          circle.setAttribute('fill', 'white');
+          circle.classList.add('animate-ball');
 
-        const animationDuration = 3; // seconds
+          // Randomize negative delay for natural flow
+          const randomDelay = Math.random() * animationDuration;
+          circle.style.animationDelay = `-${randomDelay}s`;
 
-        const generateDots = () => {
-            dotsContainer.innerHTML = ''; // Clear
+          grokDotsContainer.appendChild(circle);
+        }
+      };
 
-            for (let i = 0; i < numDots; i++) {
-                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                circle.setAttribute('r', dotRadius);
-                const cx = 20 + Math.random() * 360;
-                const cy = translatedCenterY + (Math.random() - 0.5) * verticalScatteringRange;
-                circle.setAttribute('cy', cy);
-                circle.setAttribute('fill', 'red');
-                circle.classList.add('animate-ball');
-
-                // Assign a unique random negative delay to make it loop smoothly
-                const randomDelay = Math.random() * animationDuration;
-                circle.style.animationDelay = `-${randomDelay}s`;
-
-                dotsContainer.appendChild(circle);
-            }
-        };
-
-        generateDots(); // Auto-run on load
+      generateGrokDots(); // Run on page load
     });
-    </script>
+  </script>
 </body>
 </html>
-
