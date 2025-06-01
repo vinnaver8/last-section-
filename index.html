@@ -3,10 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Grok Product Section Test</title>
+  <title>Grok Product Section – Infinite Ball Animation</title>
 
   <!-- Tailwind CSS via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom CSS for infinite ball animation -->
+  <style>
+    /* Animate circles moving from left toward center (and back) */
+    @keyframes leftToCenter {
+      0% {
+        transform: translateX(0);
+        fill: #FFFFFF;
+      }
+      50% {
+        transform: translateX(40px);
+        fill: #FB923C;
+      }
+      100% {
+        transform: translateX(0);
+        fill: #FFFFFF;
+      }
+    }
+    /* Animate circles moving from center toward right (and back) */
+    @keyframes centerToRight {
+      0% {
+        transform: translateX(0);
+        fill: #FFFFFF;
+      }
+      50% {
+        transform: translateX(40px);
+        fill: #FB923C;
+      }
+      100% {
+        transform: translateX(0);
+        fill: #FFFFFF;
+      }
+    }
+    /* Apply the left‐group animation to each circle in that group */
+    .left-group circle {
+      animation: leftToCenter 2s linear infinite;
+    }
+    /* Stagger the start times of each left‐group circle */
+    .left-group circle:nth-of-type(1) { animation-delay: 0s; }
+    .left-group circle:nth-of-type(2) { animation-delay: 0.4s; }
+    .left-group circle:nth-of-type(3) { animation-delay: 0.8s; }
+
+    /* Apply the center‐group animation to each circle in that group */
+    .center-group circle {
+      animation: centerToRight 2s linear infinite;
+    }
+    /* Stagger the start times of each center‐group circle */
+    .center-group circle:nth-of-type(1) { animation-delay: 0s; }
+    .center-group circle:nth-of-type(2) { animation-delay: 0.4s; }
+    .center-group circle:nth-of-type(3) { animation-delay: 0.8s; }
+  </style>
 </head>
 <body class="bg-gray-50">
   <!-- SECTION: Responsive Product Grid -->
@@ -32,8 +83,33 @@
           </button>
         </div>
 
-        <!-- Card 2: GPT API (This will be rendered by React) -->
-        <div id="api-card-container"></div>
+        <!-- Card 2: GPT API (with infinite ball animation) -->
+        <div class="text-center bg-white p-6 rounded-lg shadow-lg">
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">GPT API</h3>
+          <p class="text-gray-600 mb-4">
+            Integrate Grok’s AI into your applications via our powerful API.
+          </p>
+          <!-- SVG with two groups: left‐group starts on the left, center‐group starts at center -->
+          <div class="mx-auto mb-4">
+            <svg width="120" height="60" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
+              <!-- Left‐group: three circles initially at x=15, moving toward center (x ~55) -->
+              <g class="left-group">
+                <circle cx="15" cy="15" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
+                <circle cx="15" cy="30" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
+                <circle cx="15" cy="45" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
+              </g>
+              <!-- Center‐group: three circles initially at x=55, moving toward right (x ~95) -->
+              <g class="center-group">
+                <circle cx="55" cy="15" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
+                <circle cx="55" cy="30" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
+                <circle cx="55" cy="45" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
+              </g>
+            </svg>
+          </div>
+          <button class="mt-2 px-6 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600">
+            Get API Key
+          </button>
+        </div>
 
         <!-- Card 3: Forecasting -->
         <div class="text-center bg-white p-6 rounded-lg shadow-lg">
@@ -56,87 +132,5 @@
       </div>
     </div>
   </section>
-
-  <!-- React + Babel + ReactDOM Scripts -->
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-  <!-- Inline React Component with JSX (type="text/babel") -->
-  <script type="text/babel">
-    const { useState } = React;
-
-    function ApiCard() {
-      const [active, setActive] = useState(false);
-      const handleClick = () => setActive(true);
-
-      return (
-        <div
-          className="text-center bg-white p-6 rounded-lg shadow-lg cursor-pointer"
-          onClick={handleClick}
-        >
-          <div className="mx-auto mb-4">
-            <svg width="120" height="60" viewBox="0 0 120 60" className="mx-auto" xmlns="http://www.w3.org/2000/svg">
-              {/* Three white circles on the left column */}
-              <circle cx="10" cy="15" r="5" stroke="#9CA3AF" strokeWidth="1"
-                style={{
-                  transform: active ? 'translateX(60px)' : 'translateX(0px)',
-                  fill: active ? '#FB923C' : '#FFFFFF',
-                  transition: 'transform 0.5s ease, fill 0.5s ease'
-                }}
-              />
-              <circle cx="10" cy="30" r="5" stroke="#9CA3AF" strokeWidth="1"
-                style={{
-                  transform: active ? 'translateX(60px)' : 'translateX(0px)',
-                  fill: active ? '#FB923C' : '#FFFFFF',
-                  transition: 'transform 0.5s ease, fill 0.5s ease'
-                }}
-              />
-              <circle cx="10" cy="45" r="5" stroke="#9CA3AF" strokeWidth="1"
-                style={{
-                  transform: active ? 'translateX(60px)' : 'translateX(0px)',
-                  fill: active ? '#FB923C' : '#FFFFFF',
-                  transition: 'transform 0.5s ease, fill 0.5s ease'
-                }}
-              />
-              {/* Three white circles on the right column */}
-              <circle cx="50" cy="15" r="5" stroke="#9CA3AF" strokeWidth="1"
-                style={{
-                  transform: active ? 'translateX(50px)' : 'translateX(0px)',
-                  fill: active ? '#FB923C' : '#FFFFFF',
-                  transition: 'transform 0.5s ease, fill 0.5s ease'
-                }}
-              />
-              <circle cx="50" cy="30" r="5" stroke="#9CA3AF" strokeWidth="1"
-                style={{
-                  transform: active ? 'translateX(50px)' : 'translateX(0px)',
-                  fill: active ? '#FB923C' : '#FFFFFF',
-                  transition: 'transform 0.5s ease, fill 0.5s ease'
-                }}
-              />
-              <circle cx="50" cy="45" r="5" stroke="#9CA3AF" strokeWidth="1"
-                style={{
-                  transform: active ? 'translateX(50px)' : 'translateX(0px)',
-                  fill: active ? '#FB923C' : '#FFFFFF',
-                  transition: 'transform 0.5s ease, fill 0.5s ease'
-                }}
-              />
-            </svg>
-          </div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">GPT API</h3>
-          <p className="text-gray-600 mb-4">
-            Integrate Grok’s AI into your applications via our powerful API.
-          </p>
-          <button className="mt-2 px-6 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600">
-            Get API Key
-          </button>
-        </div>
-      );
-    }
-
-    // Mount the ApiCard component into the placeholder div
-    const rootElement = document.getElementById('api-card-container');
-    ReactDOM.createRoot(rootElement).render(<ApiCard />);
-  </script>
 </body>
 </html>
