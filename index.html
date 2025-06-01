@@ -1,136 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Grok Product Section – Infinite Ball Animation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI for All Humanity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
 
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+        /* Keyframe animation for balls: left to right, change color at center */
+        @keyframes ballFlow {
+            0% {
+                transform: translateX(-200px); /* Start far left, off-screen */
+                opacity: 0;
+                fill: red; /* Initial color: red */
+            }
+            10% {
+                transform: translateX(0px); /* Enter screen, fully visible */
+                opacity: 1;
+                fill: red; /* Still red */
+            }
+            49% {
+                transform: translateX(190px); /* Just before 50% of travel */
+                opacity: 1;
+                fill: red; /* Still red */
+            }
+            50% {
+                transform: translateX(200px); /* At 50% of travel, change color */
+                opacity: 1;
+                fill: yellow; /* Change to yellow */
+            }
+            51% {
+                transform: translateX(210px); /* Just after 50% of travel */
+                opacity: 1;
+                fill: yellow; /* Now yellow */
+            }
+            90% {
+                transform: translateX(390px); /* Almost off-screen right */
+                opacity: 1;
+                fill: yellow; /* Still yellow */
+            }
+            100% {
+                transform: translateX(450px); /* Go off-screen right, invisible */
+                opacity: 0;
+                fill: yellow; /* Still yellow */
+            }
+        }
 
-  <!-- Custom CSS for infinite ball animation -->
-  <style>
-    /* Animate circles moving from left toward center (and back) */
-    @keyframes leftToCenter {
-      0% {
-        transform: translateX(0);
-        fill: #FFFFFF;
-      }
-      50% {
-        transform: translateX(40px);
-        fill: #FB923C;
-      }
-      100% {
-        transform: translateX(0);
-        fill: #FFFFFF;
-      }
-    }
-    /* Animate circles moving from center toward right (and back) */
-    @keyframes centerToRight {
-      0% {
-        transform: translateX(0);
-        fill: #FFFFFF;
-      }
-      50% {
-        transform: translateX(40px);
-        fill: #FB923C;
-      }
-      100% {
-        transform: translateX(0);
-        fill: #FFFFFF;
-      }
-    }
-    /* Apply the left‐group animation to each circle in that group */
-    .left-group circle {
-      animation: leftToCenter 2s linear infinite;
-    }
-    /* Stagger the start times of each left‐group circle */
-    .left-group circle:nth-of-type(1) { animation-delay: 0s; }
-    .left-group circle:nth-of-type(2) { animation-delay: 0.4s; }
-    .left-group circle:nth-of-type(3) { animation-delay: 0.8s; }
-
-    /* Apply the center‐group animation to each circle in that group */
-    .center-group circle {
-      animation: centerToRight 2s linear infinite;
-    }
-    /* Stagger the start times of each center‐group circle */
-    .center-group circle:nth-of-type(1) { animation-delay: 0s; }
-    .center-group circle:nth-of-type(2) { animation-delay: 0.4s; }
-    .center-group circle:nth-of-type(3) { animation-delay: 0.8s; }
-  </style>
+        /* Class to apply the ball animation */
+        .animate-ball {
+            animation: ballFlow 3s linear infinite; /* Reduced duration to 3s for faster animation */
+        }
+    </style>
 </head>
-<body class="bg-gray-50">
-  <!-- SECTION: Responsive Product Grid -->
-  <section class="py-12 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Grid: 1 column on mobile, 3 columns on md+ screens -->
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<body class="bg-gray-900">
+    <section id="section-4" class="relative min-h-[1800px] bg-gray-800 text-white overflow-hidden pt-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-32">
+            <div class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-8">
+                [ PRODUCTS ]
+            </div>
 
-        <!-- Card 1: GPT Builder -->
-        <div class="text-center bg-white p-6 rounded-lg shadow-lg">
-          <!-- SVG Icon (three square blocks) -->
-          <div class="mx-auto mb-4">
-            <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-              <rect x="0"   y="0"  width="20" height="20" fill="#E5E7EB"/>
-              <rect x="20"  y="0"  width="20" height="20" fill="#E5E7EB"/>
-              <rect x="0"   y="20" width="20" height="20" fill="#E5E7EB"/>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">GPT Builder</h3>
-          <p class="text-gray-600 mb-4">Easily create and customize GPTs tailored to your needs.</p>
-          <button class="mt-2 px-6 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600">
-            Build Now
-          </button>
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-24 leading-tight">
+                AI for all humanity
+            </h1>
+
+            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
+                <div class="md:w-1/2 text-left">
+                    <h2 class="text-4xl font-semibold mb-4">Grok</h2>
+                    <p class="text-lg text-gray-300 mb-8 max-w-md">
+                        Grok is your cosmic guide, now accessible on grok.com, iOS, and Android. Explore the universe with AI.
+                    </p>
+                    <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        USE NOW <span class="ml-2">&#8594;</span>
+                    </button>
+                </div>
+                <div class="md:w-1/2 flex justify-center items-center">
+                    <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-50">
+                        <path d="M150 10C84.7452 10 30 64.7452 30 130C30 195.255 84.7452 250 150 250C215.255 250 270 195.255 270 130C270 64.7452 215.255 10 150 10Z" stroke="white" stroke-width="2" stroke-dasharray="10 10"/>
+                        <circle cx="150" cy="130" r="80" stroke="white" stroke-width="1" stroke-dasharray="5 5"/>
+                        <path d="M150 50L170 80L130 80L150 50Z" fill="white"/>
+                        <path d="M150 210L170 180L130 180L150 210Z" fill="white"/>
+                        <path d="M90 130L120 150L120 110L90 130Z" fill="white"/>
+                        <path d="M210 130L180 150L180 110L210 130Z" fill="white"/>
+                        <text x="150" y="135" font-family="Inter" font-size="20" fill="white" text-anchor="middle">G</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
+                <div class="md:w-1/2 text-left">
+                    <h2 class="text-4xl font-semibold mb-4">API</h2>
+                    <p class="text-lg text-gray-300 mb-8 max-w-md">
+                        Supercharge your applications with Grok's enhanced speed, precision, and multilingual capabilities.
+                    </p>
+                    <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        BUILD NOW <span class="ml-2">&#8594;</span>
+                    </button>
+                </div>
+                <div class="md:w-1/2 flex justify-center items-center">
+                    <svg id="api-svg" width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg" class="cursor-pointer">
+                        <rect x="20" y="20" width="360" height="210" rx="10" stroke="white" stroke-width="2"/>
+                        <line x1="20" y1="60" x2="380" y2="60" stroke="white" stroke-width="1"/>
+                        <circle cx="350" cy="40" r="8" fill="#FF5757"/> <circle cx="330" cy="40" r="8" fill="#FFC107"/> <circle cx="310" cy="40" r="8" fill="#8BC34A"/> <g id="dots-container" transform="translate(0, 100)">
+                            </g>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
+                <div class="md:w-1/2 text-left">
+                    <h2 class="text-4xl font-semibold mb-4">Developer Docs</h2>
+                    <p class="text-lg text-gray-300 mb-8 max-w-md">
+                        Learn how to quickly install Grok at the heart of your applications and explore guides covering common use cases.
+                    </p>
+                    <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        LEARN MORE <span class="ml-2">&#8594;</span>
+                    </button>
+                </div>
+                <div class="md:w-1/2 flex justify-center items-center">
+                    <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-50">
+                        <path d="M150 10C84.7452 10 30 64.7452 30 130C30 195.255 84.7452 250 150 250C215.255 250 270 195.255 270 130C270 64.7452 215.255 10 150 10Z" stroke="white" stroke-width="2" stroke-dasharray="10 10"/>
+                        <circle cx="150" cy="130" r="80" stroke="white" stroke-width="1" stroke-dasharray="5 5"/>
+                        <path d="M150 50L170 80L130 80L150 50Z" fill="white"/>
+                        <path d="M150 210L170 180L130 180L150 210Z" fill="white"/>
+                        <path d="M90 130L120 150L120 110L90 130Z" fill="white"/>
+                        <path d="M210 130L180 150L180 110L210 130Z" fill="white"/>
+                        <text x="150" y="135" font-family="Inter" font-size="20" fill="white" text-anchor="middle">G</text>
+                    </svg>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <!-- Card 2: GPT API (with infinite ball animation) -->
-        <div class="text-center bg-white p-6 rounded-lg shadow-lg">
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">GPT API</h3>
-          <p class="text-gray-600 mb-4">
-            Integrate Grok’s AI into your applications via our powerful API.
-          </p>
-          <!-- SVG with two groups: left‐group starts on the left, center‐group starts at center -->
-          <div class="mx-auto mb-4">
-            <svg width="120" height="60" viewBox="0 0 120 60" xmlns="http://www.w3.org/2000/svg">
-              <!-- Left‐group: three circles initially at x=15, moving toward center (x ~55) -->
-              <g class="left-group">
-                <circle cx="15" cy="15" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
-                <circle cx="15" cy="30" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
-                <circle cx="15" cy="45" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
-              </g>
-              <!-- Center‐group: three circles initially at x=55, moving toward right (x ~95) -->
-              <g class="center-group">
-                <circle cx="55" cy="15" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
-                <circle cx="55" cy="30" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
-                <circle cx="55" cy="45" r="5" stroke="#9CA3AF" stroke-width="1" fill="#FFFFFF" />
-              </g>
-            </svg>
-          </div>
-          <button class="mt-2 px-6 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600">
-            Get API Key
-          </button>
-        </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const apiSvg = document.getElementById('api-svg');
+            const dotsContainer = document.getElementById('dots-container');
 
-        <!-- Card 3: Forecasting -->
-        <div class="text-center bg-white p-6 rounded-lg shadow-lg">
-          <!-- SVG Icon (line chart with orange endpoints) -->
-          <div class="mx-auto mb-4">
-            <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
-              <polyline points="0,50 15,40 30,45 45,20 60,30"
-                        fill="none" stroke="#374151" stroke-width="3" />
-              <circle cx="0" cy="50" r="3" fill="#FB923C"/>
-              <circle cx="60" cy="30" r="3" fill="#FB923C"/>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Forecasting</h3>
-          <p class="text-gray-600 mb-4">Generate accurate future predictions using advanced AI models.</p>
-          <button class="mt-2 px-6 py-2 bg-orange-500 text-white font-medium rounded-md hover:bg-orange-600">
-            Start Forecast
-          </button>
-        </div>
+            const numDots = 200; // Increased number of dots for a denser line
+            const dotRadius = 2;
 
-      </div>
-    </div>
-  </section>
+            // Define the vertical range for dots within the window
+            const windowMinY = 60; // Bottom of top bar
+            const windowMaxY = 230; // Bottom of frame
+            const centerY = (windowMinY + windowMaxY) / 2; // Vertical center of the usable window area
+
+            // Adjust centerY based on the <g> element's transform
+            const translatedCenterY = centerY - 100; // 100 is the translateY of the dotsContainer
+            const verticalScatteringRange = 20; // +/- 10px from center for scattering
+
+            // Function to generate dots
+            const generateDots = () => {
+                dotsContainer.innerHTML = ''; // Clear existing dots
+
+                for (let i = 0; i < numDots; i++) {
+                    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                    circle.setAttribute('r', dotRadius);
+                    // All dots start at a random x within the visible window, and the animation handles the full sweep
+                    const cx = 20 + Math.random() * 360; // Random x within the window frame (20 to 380)
+                    // Set a fixed cy for a perfect horizontal line with scattering
+                    const cy = translatedCenterY + (Math.random() - 0.5) * verticalScatteringRange; // Add scattering
+                    circle.setAttribute('cy', cy);
+                    circle.setAttribute('fill', 'red'); // All start as red
+                    circle.classList.add('animated-dot'); // Add a common class for animation
+
+                    dotsContainer.appendChild(circle);
+                }
+            };
+
+            // Initial generation of dots
+            generateDots();
+
+            apiSvg.addEventListener('click', () => {
+                const animatedDots = document.querySelectorAll('.animated-dot');
+                const animationDuration = 3; // seconds, matching CSS
+
+                animatedDots.forEach(dot => {
+                    // Remove existing animation class to reset and re-trigger
+                    dot.classList.remove('animate-ball');
+                    // Force reflow to restart animation (hacky but works)
+                    void dot.offsetWidth;
+
+                    // Apply a random negative delay to each dot for a more scattered, continuous look
+                    const randomDelay = Math.random() * animationDuration; // Max animationDuration seconds delay
+                    dot.style.animationDelay = `-${randomDelay}s`;
+
+                    // Add the animation class
+                    dot.classList.add('animate-ball');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
+
