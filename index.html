@@ -79,7 +79,7 @@
                     </button>
                 </div>
                 <div class="md:w-1/2 flex justify-center items-center">
-                    <svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-50">
+                    <svg id="dots-container" width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg" class="opacity-50">
                         <path d="M150 10C84.7452 10 30 64.7452 30 130C30 195.255 84.7452 250 150 250C215.255 250 270 195.255 270 130C270 64.7452 215.255 10 150 10Z" stroke="white" stroke-width="2" stroke-dasharray="10 10"/>
                         <circle cx="150" cy="130" r="80" stroke="white" stroke-width="1" stroke-dasharray="5 5"/>
                         <path d="M150 50L170 80L130 80L150 50Z" fill="white"/>
@@ -105,7 +105,7 @@
                     <svg id="api-svg" width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg" class="cursor-pointer">
                         <rect x="20" y="20" width="360" height="210" rx="10" stroke="white" stroke-width="2"/>
                         <line x1="20" y1="60" x2="380" y2="60" stroke="white" stroke-width="1"/>
-                        <circle cx="350" cy="40" r="8" fill="#FF5757"/> <circle cx="330" cy="40" r="8" fill="#FFC107"/> <circle cx="310" cy="40" r="8" fill="#8BC34A"/> <g id="dots-container" transform="translate(0, 100)">
+                        <circle cx="350" cy="40" r="8" fill="#FF5757"/> <circle cx="330" cy="40" r="8" fill="#FFC107"/> <circle cx="310" cy="40" r="8" fill="#8BC34A"/> <g transform="translate(0, 100)">
                             </g>
                     </svg>
                 </div>
@@ -138,7 +138,7 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const dotsContainer = document.getElementById('');
+        const dotsContainer = document.getElementById('dots-container');
 
         const numDots = 200; // Number of dots
         const dotRadius = 2;
