@@ -119,18 +119,7 @@
   background-color: transparent; 
   overflow: hidden;
 }
-
-/* Everything else (editorCode, browser, spinner, case, pad)
-   can remain exactly as you already had it. */
-
-/* ─────────────────────────────────────────────────────────
-   (Paste your existing “.editorCode”, “.lines”, “.textarea”,
-    “.spinner,” “.case,” “.pad,” etc. from the CodePen snippet 
-    here, unchanged. In other words, everything you’d already 
-    written for .comp can stay as‐is, because it’s now inside 
-    .screen-wrapper.) 
-   ───────────────────────────────────────────────────────── */
-    </style></head>
+</style></head>
 <body class="bg-[#0D0D0D]">
     <section id="section-4" class="relative min-h-[1800px] bg-[#0D0D0D] text-white overflow-hidden pt-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-32">
@@ -281,12 +270,8 @@
     `;
     document.head.appendChild(style);
   }
-    </script>
-<!-- 1) jQuery (needed for the “typing + spinner” logic) -->
-<!-- 2) FontAwesome (for the <i class="fa fa-cog fa-spin fa-fw"> icons) -->
-<!-- 3) Your “box.init()” typing + spinner code (exactly as before) -->
-<script>
-  (function (box, $, undefined) {
+// macbook.css//
+(function (box, $, undefined) {
     if ($(window).width() >= 1024) {
       var letterWidth = 2;
     }
