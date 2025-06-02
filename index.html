@@ -182,44 +182,44 @@
             </div>
         </div>
     </section>
+ <script>
+  const wrap = document.querySelector('.wrap');
+  const total = 300;
+  const orbSize = 100;
+  const time = 14;
 
-    <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const dotsContainer = document.getElementById('dots-container');
+  for (let i = 1; i <= total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'c';
+    dot.style.animation = `orbit${i} ${time}s infinite`;
+    dot.style.animationDelay = `${i * 0.01}s`;
+    const hue = (40 / total * i);
+    dot.style.backgroundColor = `hsla(${hue}, 100%, 50%, 1)`;
+    wrap.appendChild(dot);
 
-        const numDots = 200; // Number of dots
-        const dotRadius = 2;
+    const z = Math.floor(Math.random() * 360);
+    const y = Math.floor(Math.random() * 360);
 
-        const windowMinY = 60;
-        const windowMaxY = 230;
-        const centerY = (windowMinY + windowMaxY) / 2;
-        const translatedCenterY = centerY - 100; // match <g transform>
-        const verticalScatteringRange = 20;
-
-        const animationDuration = 3; // seconds
-
-        const generateDots = () => {
-            dotsContainer.innerHTML = ''; // Clear
-
-            for (let i = 0; i < numDots; i++) {
-                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-                circle.setAttribute('r', dotRadius);
-                const cx = 20 + Math.random() * 360;
-                const cy = translatedCenterY + (Math.random() - 0.5) * verticalScatteringRange;
-                circle.setAttribute('cy', cy);
-                circle.setAttribute('fill', 'red');
-                circle.classList.add('animate-ball');
-
-                // Assign a unique random negative delay to make it loop smoothly
-                const randomDelay = Math.random() * animationDuration;
-                circle.style.animationDelay = `-${randomDelay}s`;
-
-                dotsContainer.appendChild(circle);
-            }
-        };
-
-        generateDots(); // Auto-run on load
-    });
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes orbit${i} {
+        20% {
+          opacity: 1;
+        }
+        30% {
+          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize}px) rotateZ(${z}deg);
+        }
+        80% {
+          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize}px) rotateZ(${z}deg);
+          opacity: 1;
+        }
+        100% {
+          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize * 3}px) rotateZ(${z}deg);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
     </script>
 </body>
 </html>
