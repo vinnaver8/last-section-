@@ -246,44 +246,6 @@
         </div>
     </section>
  <script>
-  const wrap = document.querySelector('.wrap');
-  const total = 300;
-  const orbSize = 100;
-  const time = 14;
-
-  for (let i = 1; i <= total; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'c';
-    dot.style.animation = `orbit${i} ${time}s infinite`;
-    dot.style.animationDelay = `${i * 0.01}s`;
-    const hue = (40 / total * i);
-    dot.style.backgroundColor = `hsla(${hue}, 100%, 50%, 1)`;
-    wrap.appendChild(dot);
-
-    const z = Math.floor(Math.random() * 360);
-    const y = Math.floor(Math.random() * 360);
-
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes orbit${i} {
-        20% {
-          opacity: 1;
-        }
-        30% {
-          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize}px) rotateZ(${z}deg);
-        }
-        80% {
-          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize}px) rotateZ(${z}deg);
-          opacity: 1;
-        }
-        100% {
-          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize * 3}px) rotateZ(${z}deg);
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-// macbook.css//
 (function (box, $, undefined) {
     if ($(window).width() >= 1024) {
       var letterWidth = 2;
