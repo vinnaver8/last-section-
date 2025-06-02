@@ -1,42 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI for All Humanity</title>
-
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- jQuery -->
-  <script
-    src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
-    integrity="sha512-894YeXLhN1+Lv8q+4A1n4u6suZhfE1K2Zg1MQN5J5RS4U8se5+S7VH1prTNuc2R19G7SkxRPrQLg2L+iEDDyhA=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-    defer
-  ></script>
-
-  <!-- Font Awesome -->
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    integrity="sha512-pMfpSUXc6w6dJLYj+KdqelqZDhNBSLtQ5VWPWMFN7ajsyjGClKc7uYThjZdWIX0VYGcdDQVO31zYgm6YF3/0Bg=="
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
-
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
-
-  <!-- Custom Styles -->
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI for All Humanity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
  .wrap {
   position: relative;
   top: 50%;
@@ -61,78 +35,8 @@
   border-radius: 50%;
   opacity: 0;
 }
-        /* ─────────────────────────────────────────────────────────
-   macbook.css
-   ───────────────────────────────────────────────────────── */
-
-/* 1) Laptop “Bezel” + “Keyboard Bar” */
-.laptop {
-  position: relative;
-  width: 350px;              /* overall laptop width */
-  height: 230px;             /* overall laptop height */
-  background-color: #222;    /* dark bezel color */
-  border-radius: 10px 10px 4px 4px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
-}
-
-/* “Keyboard Bar” (the bottom “base” under the screen) */
-.keyboard-bar {
-  position: absolute;
-  bottom: -20px;             /* sticks out below screen */
-  left: 10%;
-  width: 80%;
-  height: 20px;
-  background-color: #555;    /* slightly lighter gray */
-  border-radius: 0 0 6px 6px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-/* 2) Screen area INSIDE the bezel */
-.screen-wrapper {
-  position: absolute;
-  top: 12px;                 /* space from top bezel */
-  left: 12px;                /* space from left bezel */
-  width: calc(100% - 24px);  /* inset on both sides */
-  height: calc(100% - 32px); /* leave space for top “camera” strip */
-  background-color: #111;    /* very dark as a bezel border */
-  border-radius: 6px 6px 0 0;
-  overflow: hidden;
-}
-
-/* (Optional) a fake “camera dot” at top-center */
-.screen-wrapper::before {
-  content: "";
-  position: absolute;
-  top: 6px;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  background: #444;
-  border-radius: 50%;
-  transform: translateX(-50%);
-}
-
-/* 3) Now override .comp → .monitor so that it sits centered inside .screen-wrapper */
-.comp .monitor {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: transparent;   /* we let the inner purple “screen” show */
-}
-
-/* 4) .comp .screen must fill the entire screen-wrapper */
-.comp .screen {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: transparent; 
-  overflow: hidden;
-}
-</style></head>
+    </style>
+</head>
 <body class="bg-[#0D0D0D]">
     <section id="section-4" class="relative min-h-[1800px] bg-[#0D0D0D] text-white overflow-hidden pt-32">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-32">
@@ -177,55 +81,46 @@
                     </button>
                 </div>
                 <div class="md:w-1/2 flex justify-center items-center">
-  <!-- ─────────────────────────────────────────────
-       MacBook Container (lightweight, CSS‐only)
-       ───────────────────────────────────────────── -->
-  <div class="laptop">
-    <!-- This “screen” is where we’ll drop in your .comp animation -->
-    <div class="screen-wrapper">
-      <!-- Paste your “.comp” code right here: -->
-      <div class="comp">
-        <div class="monitor">
-          <div class="screen">
-            <div class="editorCode">
-              <aside class="lines"></aside>
-              <section class="textarea"></section>
-            </div>
-
-            <div class="editor">
-              <div class="tab">
-                <span>.</span>
-                <span>.</span>
-                <span>.</span>
-              </div>
-            </div>
-
-            <div class="browser">
-              <div class="tab">
-                <span>.</span>
-                <span>.</span>
-                <span>.</span>
-              </div>
-              <div class="spinner">
-                <div class="spin">
-                  <i class="fa fa-cog fa-spin fa-fw"></i>
-                </div>
-                <div class="spinMirror">
-                  <i class="fa fa-cog fa-spin fa-fw"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="case">
-          <div class="pad"></div>
-        </div>
-      </div>
-      <!-- End of .comp -->
-    </div>
-    <!-- “Keyboard Bar” under the laptop’s screen -->
-    <div class="keyboard-bar"></div>
-  </div>
+                    <svg
+      id="indox-svg"
+      viewBox="0 0 600 400"
+      class="w-full h-auto max-w-[600px] md:max-w-[700px] lg:max-w-[800px]"
+      xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="598" height="398" rx="12" ry="12" fill="#0D0D0D" stroke="#ffffff" stroke-width="1"/>
+      <line x1="1" y1="40" x2="599" y2="40" stroke="#ffffff" stroke-width="1"/>
+      <line x1="120" y1="40" x2="120" y2="400" stroke="white" stroke-width="1"/>
+      <circle cx="20" cy="20" r="6" fill="#FF5F57"/>
+      <circle cx="40" cy="20" r="6" fill="#FFBD2E"/>
+      <circle cx="60" cy="20" r="6" fill="#28C840"/>
+      <rect x="490" y="12" width="60" height="15" rx="7.5" fill="none" stroke="#ffffff" stroke-width="1"/>
+      <circle cx="570" cy="20" r="10" stroke="white" fill="none" stroke-width="1"/>
+      <text x="480" y="25" fill="#ffffff" font-family="sans-serif" font-size="18" text-anchor="end">INDOX</text>
+<g id="reveal-sequence" class="hidden-group">
+        <g id="step1">
+          <text x="15" y="65" fill="white" font-size="12" font-weight="bold">Today</text>
+          <rect x="10" y="75" width="100" height="25" rx="5" fill="#2C2C2C"/>
+          <text x="17" y="92" fill="white" font-size="12">Image Creation</text>
+        </g>
+        <g id="step2">
+          <text x="15" y="125" fill="white" font-size="12" font-weight="bold">Yesterday</text>
+          <rect x="10" y="135" width="100" height="25" rx="5" fill="#2C2C2C"/>
+          <text x="17" y="152" fill="white" font-size="12">Resume making</text>
+        </g>
+        <g id="step3">
+          <rect x="330" y="180" width="230" height="30" rx="10" fill="#444"/>
+          <text x="340" y="200" fill="white" font-size="12">What is the AI Toolkit?</text>
+        </g>
+        <g id="step4">
+          <rect x="140" y="220" width="350" height="90" rx="10" fill="#2E2E2E"/>
+          <text id="typing-container" x="150" y="240" class="typing-line"></text>
+        </g>
+        <g id="step5">
+          <rect x="140" y="340" width="320" height="25" rx="12" fill="none" stroke="white" stroke-width="1"/>
+          <text x="150" y="356" fill="#888" font-size="12">Ask anything, Indox...</text>
+          <path transform="translate(440, 344) scale(0.6)" fill="red" d="M11 16a1 1 0 0 1-.707-1.707L12.586 12l-2.293-2.293a1 1 0 0 1 1.414-1.414l3 3a1 1 0 0 1 0 1.414l-3 3A1 1 0 0 1 11 16z"/>
+        </g>
+      </g>
+         </svg>
                 </div>
             </div>
 
@@ -246,772 +141,43 @@
         </div>
     </section>
  <script>
-(function (box, $, undefined) {
-    if ($(window).width() >= 1024) {
-      var letterWidth = 2;
-    }
-    if ($(window).width() <= 1023) {
-      var letterWidth = 1;
-    }
-    if ($(window).width() <= 414) {
-      var letterWidth = 1;
-    }
+  const wrap = document.querySelector('.wrap');
+  const total = 300;
+  const orbSize = 100;
+  const time = 14;
 
-    box.templates = {
-      linenum: function (num) {
-        return '<span class="linenum editing" id="num-{{num}}">{{num}}</span>'.replace(
-          /\{\{num\}\}/g,
-          num
-        );
-      },
-      line: function (id) {
-        return '<span class="line editing" id="line-{{id}}"></span>'.replace(
-          "{{id}}",
-          id
-        );
-      },
-      code: function (type) {
-        return '<span class="code {{type}} editing"></span>'.replace(
-          "{{type}}",
-          type
-        );
-      },
-      cursor: function () {
-        return '<span class="cursor"></span>';
-      },
-    };
+  for (let i = 1; i <= total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'c';
+    dot.style.animation = `orbit${i} ${time}s infinite`;
+    dot.style.animationDelay = `${i * 0.01}s`;
+    const hue = (40 / total * i);
+    dot.style.backgroundColor = `hsla(${hue}, 100%, 50%, 1)`;
+    wrap.appendChild(dot);
 
-    function Line(num) {
-      this.num = num || 0;
-      this.elem = "#line-" + this.num;
-      this.next = function () {
-        this.num++;
-        this.elem = "#line-" + this.num;
-        return this;
-      };
-    }
-    function Random(max, min) {
-      if (max < min) {
-        var t = min;
-        min = max;
-        max = t;
-      }
-      var max = max || 0.01;
-      var min = min || 0;
-      return Math.floor(Math.random() * (max - min) + min);
-    }
-    function RandomDelay(max, min) {
-      var max = max || 0.01;
-      var min = min || 0;
-      if (Random() > 0.003) {
-        return Random(max, min);
-      }
-      return min;
-    }
+    const z = Math.floor(Math.random() * 360);
+    const y = Math.floor(Math.random() * 360);
 
-    box.currentLine = new Line();
-    box.prev = null;
-    box.depth = 0;
-    box.maxLines = Math.ceil($(".editorCode").width() / 10.5);
-
-    $(window).on("resize", function () {
-      box.maxLines = Math.ceil($(".editorCode").width() / 10.5);
-    });
-
-    box.init = function () {
-      if (detectIE() !== false) {
-        $(".editorCode.lines, .textarea").css("height", "100%");
-      }
-      box.writeCommentBlock(false);
-    };
-
-    box.newLine = function () {
-      $(".cursor").remove();
-      $("#line-" + box.currentLine.num + ", #num-" + box.currentLine.num).removeClass(
-        "editing"
-      );
-      box.currentLine = box.currentLine.next();
-      $(".lines").append(box.templates.linenum(box.currentLine.num));
-      $(".textarea").append(box.templates.line(box.currentLine.num));
-      $(box.currentLine.elem).append(box.templates.cursor());
-      var num = box.currentLine.num - (box.maxLines + 4);
-      if (num > 0) {
-        $("#line-" + num + ", #num-" + num).remove();
-      }
-      $(".editorCode").animate(
-        { scrollTop: $(".editorCode").prop("scrollHeight") },
-        { duration: 1000 }
-      );
-    };
-
-    box.choose = function (exclude) {
-      if (box.depth > 2) {
-        return box.closeBlock;
-      }
-      if (!exclude || exclude == "" || box.depth == 0) {
-        return box.writeFunction;
-      }
-      if (exclude == "!function") {
-        var R = Random(330);
-      } else if (exclude == "!comment") {
-        var R = Random(300);
-      }
-      if (R < 30) {
-        return box.writeCommentBlock;
-      }
-      if (R > 280) {
-        return box.writeComment;
-      } else if (R <= 90) {
-        return box.writeIf;
-      } else if (R <= 170) {
-        return box.writeVar;
-      } else if (R <= 230) {
-        return box.writeLoop();
-      } else {
-        if (["function", "if", "while", "for"].indexOf(box.prev) > -1) {
-          return box.choose(exclude);
-        } else {
-          return box.closeBlock;
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes orbit${i} {
+        20% {
+          opacity: 1;
+        }
+        30% {
+          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize}px) rotateZ(${z}deg);
+        }
+        80% {
+          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize}px) rotateZ(${z}deg);
+          opacity: 1;
+        }
+        100% {
+          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize * 3}px) rotateZ(${z}deg);
         }
       }
-    };
-
-    box.write = function (type) {
-      box.finishSection();
-      $(box.templates.code(type)).insertBefore(".cursor");
-    };
-
-    box.writeCommentBlock = function (nonew) {
-      box.prev = "comment";
-      var q = new Queue(function () {
-        box.newLine();
-        var r = box.choose("!comment");
-        r();
-      }, 3000);
-      var min = min || 1;
-      var max = max || 8;
-      var lines = Random(max, min);
-      if (!!nonew) {
-        q.add(function () {
-          box.newLine();
-          q.run();
-        });
-      }
-      for (var i = 0; i < lines; i++) {
-        q.add(function () {
-          box.newLine();
-          box.writeTab(box.depth);
-          box.write("comment");
-          box.setLength(Random(40, 20), function () {
-            q.run();
-          });
-        });
-      }
-      q.run();
-    };
-
-    box.writeComment = function () {
-      box.writeSpace();
-      box.write("comment");
-      box.setLength(Random(30, 10), function () {
-        var r = box.choose("!comment");
-        r();
-      });
-    };
-
-    box.writeFunction = function () {
-      box.prev = "function";
-      box.newLine();
-      box.writeTab(box.depth);
-      var q = new Queue(function () {
-        box.writeFunction();
-      });
-      q.add(function () {
-        box.write("type");
-        box.setLength(5, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("function");
-        box.setLength(Random(20, 5), function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("operator");
-        box.setLength(1, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("type");
-        box.setLength(8, function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.writeParams(function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.writeSpace();
-        box.write("dot");
-        box.setLength(1, function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.depth++;
-        var r = box.choose("!function");
-        r(function () {
-          q.run();
-        });
-      });
-      q.run();
-    };
-
-    box.writeParams = function (onFinish) {
-      var numParams = Random(5, 0);
-      var q = new Queue(onFinish);
-      for (var i = 0; i < numParams - 1; i++) {
-        q.add(function () {
-          box.write("variable");
-          box.setLength(Random(10, 1), function () {
-            box.write("dot");
-            box.writeSpace();
-            q.run();
-          });
-        });
-      }
-      q.add(function () {
-        box.write("variable");
-        box.setLength(Random(10, 1), function () {
-          q.run();
-        });
-      });
-      q.run();
-    };
-
-    box.writeVar = function (done) {
-      box.prev = "var";
-      var done = done;
-      var num = Random(5, 1);
-      var q = new Queue(function () {
-        var r = box.choose("!function");
-        r(done);
-      });
-      for (var i = 0; i < num; i++) {
-        if (Random(3, 1) == 2) {
-          q.add(function () {
-            box.newLine();
-            box.writeTab(box.depth);
-            box.write("type");
-            box.setLength(3, function () {
-              box.writeSpace();
-              q.run();
-            });
-          });
-          q.add(function () {
-            box.write("variable");
-            box.setLength(Random(10, 1), function () {
-              box.writeSpace();
-              q.run();
-            });
-          });
-        } else {
-          q.add(function () {
-            box.newLine();
-            box.writeTab(box.depth);
-            box.write("variable");
-            box.setLength(Random(10, 1), function () {
-              box.writeSpace();
-              q.run();
-            });
-          });
-        }
-        q.add(function () {
-          box.write("operator");
-          box.setLength(1, function () {
-            box.writeSpace();
-            q.run();
-          });
-        });
-        var rand = Random(5, 1);
-        switch (rand) {
-          case 1:
-            q.add(function () {
-              box.write("dot");
-              box.setLength(2, function () {
-                q.run();
-              });
-            });
-            break;
-          case 2:
-            q.add(function () {
-              box.write("number");
-              box.setLength(Random(5, 1), function () {
-                q.run();
-              });
-            });
-            break;
-          case 3:
-            q.add(function () {
-              box.write("variable");
-              box.setLength(Random(8, 4), function () {
-                q.run();
-              });
-            });
-            break;
-          case 4:
-            q.add(function () {
-              box.write("string");
-              box.setLength(Random(20, 4), function () {
-                q.run();
-              });
-            });
-            break;
-        }
-        q.add(function () {
-          box.write("dot");
-          box.setLength(1, function () {
-            q.run();
-          });
-        });
-      }
-      q.run();
-    };
-
-    box.writeIf = function (done) {
-      box.prev = "if";
-      var depth = depth || Random(5);
-      var done = done;
-      var q = new Queue(function () {
-        var r = box.choose("!function");
-        r(done);
-      });
-      box.newLine();
-      box.writeTab(box.depth);
-      q.add(function () {
-        box.write("operator");
-        box.setLength(2, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("variable");
-        box.setLength(Random(10, 4), function () {
-          q.run();
-        });
-      });
-      if (Random(2, 0) == 1) {
-        q.add(function () {
-          box.writeSpace();
-          box.write("operator");
-          box.setLength(2, function () {
-            box.writeSpace();
-            q.run();
-          });
-        });
-        var rand = Random(4, 1);
-        switch (rand) {
-          case 1:
-            q.add(function () {
-              box.write("number");
-              box.setLength(Random(5, 1), function () {
-                q.run();
-              });
-            });
-            break;
-          case 2:
-            q.add(function () {
-              box.write("variable");
-              box.setLength(Random(8, 4), function () {
-                q.run();
-              });
-            });
-            break;
-          case 3:
-            q.add(function () {
-              box.write("string");
-              box.setLength(Random(15, 4), function () {
-                q.run();
-              });
-            });
-            break;
-        }
-      }
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          box.depth++;
-          var r = box.choose("!function");
-          r(function () {
-            q.run();
-          });
-        });
-      });
-      q.run();
-    };
-
-    box.writeLoop = function () {
-      switch (Random(3, 1)) {
-        case 1:
-          return box.writeWhileLoop;
-        case 2:
-          return box.writeForLoop;
-      }
-    };
-
-    box.writeWhileLoop = function (done) {
-      box.prev = "while";
-      var done = done;
-      var q = new Queue(function () {
-        var r = box.choose("!function");
-        r(done);
-      });
-      box.newLine();
-      box.writeTab(box.depth);
-      q.add(function () {
-        box.write("operator");
-        box.setLength(5, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("variable");
-        box.setLength(1, function () {
-          q.run();
-        });
-      });
-      if (Random(2, 0) == 1) {
-        q.add(function () {
-          box.writeSpace();
-          box.write("operator");
-          box.setLength(1, function () {
-            box.writeSpace();
-            q.run();
-          });
-        });
-        switch (Random(4, 1)) {
-          case 1:
-            q.add(function () {
-              box.write("number");
-              box.setLength(Random(5, 1), function () {
-                q.run();
-              });
-            });
-            break;
-          case 2:
-            q.add(function () {
-              box.write("variable");
-              box.setLength(Random(8, 4), function () {
-                q.run();
-              });
-            });
-            break;
-          case 3:
-            q.add(function () {
-              box.write("string");
-              box.setLength(Random(15, 4), function () {
-                q.run();
-              });
-            });
-            break;
-        }
-      }
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          box.depth++;
-          var r = box.choose("!function");
-          r(function () {
-            q.run();
-          });
-        });
-      });
-      q.run();
-    };
-
-    box.writeForLoop = function (done) {
-      box.prev = "for";
-      var done = done;
-      var rLen = Random(4, 1);
-      var q = new Queue(function () {
-        var r = box.choose("!function");
-        r(done);
-      });
-      box.newLine();
-      box.writeTab(box.depth);
-      q.add(function () {
-        box.write("operator");
-        box.setLength(3, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("type");
-        box.setLength(3, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("variable");
-        box.setLength(rLen, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("operator");
-        box.setLength(1, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("number");
-        box.setLength(1, function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("variable");
-        box.setLength(rLen, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("operator");
-        box.setLength(Random(3, 1), function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("number");
-        box.setLength(Random(8, 1), function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("variable");
-        box.setLength(1, function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("operator");
-        box.setLength(2, function () {
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          box.writeSpace();
-          q.run();
-        });
-      });
-      q.add(function () {
-        box.write("dot");
-        box.setLength(1, function () {
-          box.depth++;
-          var r = box.choose("!function");
-          r(function () {
-            q.run();
-          });
-        });
-      });
-      q.run();
-    };
-
-    box.closeBlock = function (done) {
-      box.prev = "close";
-      var done = done;
-      var max = box.depth;
-      var q = new Queue(function () {
-        if (box.depth == 0) {
-          box.writeFunction();
-        } else {
-          done();
-        }
-      });
-      for (var i = 0; i < Random(max + 1, 1) - 1; i++) {
-        q.add(function () {
-          box.depth--;
-          box.newLine();
-          box.writeTab(box.depth);
-          box.write("dot");
-          box.setLength(1, function () {
-            q.run();
-          });
-        });
-      }
-      q.add(function () {
-        box.depth--;
-        box.newLine();
-        box.writeTab(box.depth);
-        box.write("dot");
-        box.setLength(1, function () {
-          var r = box.choose("!function");
-          r(function () {
-            q.run();
-          });
-        });
-      });
-      q.run();
-    };
-
-    box.writeSpace = function (num) {
-      var n = num || 1;
-      for (var i = 0; i < n; i++) {
-        box.write("space");
-      }
-    };
-
-    box.writeTab = function (num) {
-      var n = num || 0;
-      for (var i = 0; i < n; i++) {
-        box.write("tab");
-      }
-    };
-
-    box.setLength = function (len, onFinish) {
-      $(".cursor").addClass("moving");
-      $(".code.editing").css({ "border-radius": "3px 8px 8px 3px" });
-      $(".code.editing").animate(
-        { width: len * letterWidth },
-        {
-          duration: len * letterWidth * 4,
-          easing: "linear",
-          complete: function () {
-            $(".code.editing").css({ "border-radius": "3px" }).removeClass("editing");
-            $(".cursor").removeClass("moving");
-            onFinish();
-          },
-        }
-      );
-    };
-
-    box.finishSection = function () {
-      $(".code.editing").removeClass("editing");
-    };
-
-    function Queue(onFinish, delay) {
-      var queue = [];
-      var onFinish = onFinish;
-      var del = delay || 0;
-      this.add = function (fn) {
-        queue.push(fn);
-      };
-      var next = function () {
-        var fn = queue.shift();
-        fn();
-      };
-      var empty = function () {
-        return queue.length == 0;
-      };
-      this.run = function () {
-        setTimeout(function () {
-          if (!empty()) {
-            next();
-          } else {
-            onFinish();
-          }
-        }, RandomDelay(del));
-      };
-    }
-  })( (window.box = window.box || {}), jQuery );
-
-  function detectIE() {
-    var ua = window.navigator.userAgent;
-    var msie = ua.indexOf("MSIE ");
-    if (msie > 0) {
-      return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)), 10);
-    }
-    var trident = ua.indexOf("Trident/");
-    if (trident > 0) {
-      var rv = ua.indexOf("rv:");
-      return parseInt(ua.substring(rv + 3, ua.indexOf(".", rv)), 10);
-    }
-    var edge = ua.indexOf("Edge/");
-    if (edge > 0) {
-      return parseInt(ua.substring(edge + 5, ua.indexOf(".", edge)), 10);
-    }
-    return false;
+    `;
+    document.head.appendChild(style);
   }
-
-  /* Kick off the typing + spinner animation */
-  box.init();
     </script>
-    
 </body>
 </html>
