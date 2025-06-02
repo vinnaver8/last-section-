@@ -11,49 +11,7 @@
         body {
             font-family: 'Inter', sans-serif;
         }
-@keyframes ballFlow {
-0% {
-    transform: translateX(-200px); /* Start far left, off-screen */
-                opacity: 0;
-                fill: white; /* Initial color: red */
-            }
-            10% {
-                transform: translateX(0px); /* Enter screen, fully visible */
-                opacity: 1;
-                fill: white; /* Still red */
-            }
-            49% {
-                transform: translateX(190px); /* Just before 50% of travel */
-                opacity: 1;
-                fill: white; /* Still red */
-            }
-            50% {
-                transform: translateX(200px); /* At 50% of travel, change color */
-                opacity: 1;
-                fill: yellow; /* Change to yellow */
-            }
-            51% {
-                transform: translateX(210px); /* Just after 50% of travel */
-                opacity: 1;
-                fill: yellow; /* Now yellow */
-            }
-            90% {
-                transform: translateX(390px); /* Almost off-screen right */
-                opacity: 1;
-                fill: yellow; /* Still yellow */
-            }
-            100% {
-                transform: translateX(450px); /* Go off-screen right, invisible */
-                opacity: 0;
-                fill: yellow; /* Still yellow */
-            }
-        }
-
-        /* Class to apply the ball animation */
-        .animate-ball {
-            animation: ballFlow 3s linear infinite; /* Reduced duration to 3s for faster animation */
-        }
-        .wrap {
+ .wrap {
   position: relative;
   top: 50%;
   left: 50%;
@@ -162,7 +120,7 @@
           <path transform="translate(440, 344) scale(0.6)" fill="red" d="M11 16a1 1 0 0 1-.707-1.707L12.586 12l-2.293-2.293a1 1 0 0 1 1.414-1.414l3 3a1 1 0 0 1 0 1.414l-3 3A1 1 0 0 1 11 16z"/>
         </g>
       </g>
-                    </svg>
+         </svg>
                 </div>
             </div>
 
