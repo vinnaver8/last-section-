@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Auto-Rotating 3D Glass Cylinder on a Plate</title>
+  <title>3D Glass Cylinder + Overlay Header + Focus Light + Image Plate</title>
   <style>
-    /* ────────────────────────────────────────────────────────────────────────
-       BASIC RESET & BODY BACKGROUND
-    ──────────────────────────────────────────────────────────────────────── */
+    /* ─────────────────────────────────────────────────────────────────────────
+       1) RESET & BODY
+    ───────────────────────────────────────────────────────────────────────── */
     * {
       margin: 0;
       padding: 0;
@@ -17,34 +17,35 @@
       width: 100%;
       height: 100%;
       overflow: hidden;
-      background: #1e2128; /* Dark background to make glass pop */
+      background: #1e2128; /* dark background */
       font-family: Arial, sans-serif;
       color: #ffffff;
     }
 
-    /* ────────────────────────────────────────────────────────────────────────
-       SCENE & PERSPECTIVE
-       ──────────────────────────────────────────────────────────────────────── */
+    /* ─────────────────────────────────────────────────────────────────────────
+       2) SCENE & PERSPECTIVE
+    ───────────────────────────────────────────────────────────────────────── */
     .scene {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 800px;   /* Adjust if you need a larger/smaller container */
-      height: 600px;  /* Adjust as well */
+      width: 800px;   /* adjust container size as needed */
+      height: 600px;  /* adjust container size as needed */
       transform: translate(-50%, -50%);
-      perspective: 1500px; /* Strong perspective for deep 3D effect */
+      perspective: 1500px; /* strong perspective for deep 3D */
+      overflow: visible;
     }
 
-    /* ────────────────────────────────────────────────────────────────────────
-       CIRCULAR BASE (the “floor” for the cylinder)
-       ──────────────────────────────────────────────────────────────────────── */
+    /* ─────────────────────────────────────────────────────────────────────────
+       3) CIRCULAR BASE (“floor”)
+    ───────────────────────────────────────────────────────────────────────── */
     .base {
       position: absolute;
       bottom: 0;
       left: 50%;
       width: 500px;
       height: 500px;
-      margin-left: -250px; /* half of width, to center */
+      margin-left: -250px; /* half of width */
       background: radial-gradient(
         circle at center,
         rgba(255, 255, 255, 0.04) 0%,
@@ -56,55 +57,70 @@
       filter: blur(1px);
     }
 
-    /* ────────────────────────────────────────────────────────────────────────
-       FROSTED “PLATE” (thin ring) sitting just above the base
-       ──────────────────────────────────────────────────────────────────────── */
+    /* ─────────────────────────────────────────────────────────────────────────
+       4) IMAGE‐BACKED FROSTED PLATE
+       – We use your “previous image” as the background here. 
+       – If your filename is different, update the URL below.
+    ───────────────────────────────────────────────────────────────────────── */
     .plate {
       position: absolute;
       bottom: 0;
       left: 50%;
-      width: 450px; 
+      width: 450px;
       height: 20px;
-      margin-left: -225px; /* half of 450 */
-      margin-bottom: 250px; /* bring it up so it floats just above the base */
-      background: rgba(255, 255, 255, 0.03);
+      margin-left: -225px;  /* half of 450 */
+      margin-bottom: 250px; /* lift it above the base */
+      background: 
+        url('plate-image.png') center/cover no-repeat,  /* your image */
+        rgba(255, 255, 255, 0.03);                     /* light overlay */
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 50%;
       backdrop-filter: blur(6px);
       box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.02);
-      pointer-events: none; /* it’s decorative only */
-      transform: translateZ(0); /* ensure it sits in the same 3D space as the cylinder */
+      pointer-events: none;
+      transform: translateZ(0); /* keep it in same 3D stack */
     }
 
-    /* ────────────────────────────────────────────────────────────────────────
-       CYLINDER (holds all the 12 “faces”)
-       ──────────────────────────────────────────────────────────────────────── */
+    /* ─────────────────────────────────────────────────────────────────────────
+       5) THE 3D CYLINDER
+       – Holds 12 frosted‐glass faces
+       – Each face is 200×350 px, rotated by i×30°, and pushed out by ~373px
+    ───────────────────────────────────────────────────────────────────────── */
     .cylinder {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 0;   /* no direct width—each child “face” is centered absolutely */
-      height: 0;  /* same for height */
+      width: 0;
+      height: 0;
       transform-style: preserve-3d;
       transform: translate(-50%, -50%) rotateY(0deg);
-      /* We'll drive this rotation via JS for continuous animation */
+      /* this rotation is driven by JS for continuous spin */
     }
-
-    /* ────────────────────────────────────────────────────────────────────────
-       EACH FACE of the Cylinder
-       - 12 faces (index 0..11), each rotated 30° around Y and pushed outward by R px.
-       - Frosted-glass look with semi-transparent white + backdrop blur.
-       - Width: 200px, Height: 350px (adjust to your needs).
-       ──────────────────────────────────────────────────────────────────────── */
-    .face {
-      --i: 0; /* overridden inline if necessary */
+    .cylinder::before {
+      /* subtle glow ring around the mid-height */
+      content: "";
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 200px;  /* panel width */
-      height: 350px; /* panel height */
-      margin-left: -100px; /* half width */
-      margin-top: -175px;  /* half height */
+      width: 800px;
+      height: 800px;
+      margin-left: -400px;
+      margin-top: -400px;
+      border-radius: 50%;
+      box-shadow: 0 0 80px 20px rgba(255, 255, 255, 0.03);
+      pointer-events: none;
+      transform: rotateX(90deg) translateY(400px);
+    }
+
+    .face {
+      --i: 0; /* override inline */
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 350px;
+      margin-left: -100px; /* half of width */
+      margin-top: -175px;  /* half of height */
       background: rgba(255, 255, 255, 0.07);
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 20px;
@@ -118,20 +134,16 @@
       font-size: 1rem;
       transform-style: preserve-3d;
 
-      /* Rotate each face around Y, then push outward on Z. 
-         Angle = i * (360° / 12) = i * 30°. 
-         Cylinder radius R = faceWidth / (2*tan(π/12)) ≈ 373px.   */
+      /* rotate each face around Y, then push it outward: angle = i×30°, radius ≈373px */
       transform: rotateY(calc(var(--i) * 30deg)) translateZ(373px);
       z-index: 1;
     }
-
     .face .content {
       padding: 20px;
       width: 100%;
       height: 100%;
       overflow-y: auto;
     }
-    /* scrollbar styling if content overflows: */
     .face .content::-webkit-scrollbar {
       width: 6px;
     }
@@ -140,154 +152,186 @@
       border-radius: 3px;
     }
 
-    /* ────────────────────────────────────────────────────────────────────────
-       OPTIONAL: Subtle glow ring around the cylinder’s top edge
-       (purely decorative, adjust as you see fit)
-       ──────────────────────────────────────────────────────────────────────── */
-    .cylinder::before {
-      content: "";
+    /* ─────────────────────────────────────────────────────────────────────────
+       6) OVERLAY HEADER “H” (covers all panels)
+       – We absolutely position a giant <h1> in front of the cylinder.
+    ───────────────────────────────────────────────────────────────────────── */
+    .overlay-header {
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 800px;
-      height: 800px;
-      margin-left: -400px;
-      margin-top: -400px;
-      border-radius: 50%;
-      box-shadow: 0 0 80px 20px rgba(255, 255, 255, 0.03);
+      transform: translate(-50%, -50%);
+      font-size: 8rem;                /* adjust to taste */
+      font-weight: bold;
+      color: rgba(255, 255, 255, 0.6);/* semi‐transparent white */
+      pointer-events: none;           /* click‐through */
+      z-index: 2;                     /* sit above the entire cylinder */
+      letter-spacing: 0.1em;          /* optional spacing */
+      text-shadow:
+        0 0 20px rgba(255,255,255,0.2),
+        0 0 40px rgba(255,255,255,0.1);
+    }
+
+    /* ─────────────────────────────────────────────────────────────────────────
+       7) FOCUS LIGHT (down‐to‐up flash under the panels)
+       – We position a radial gradient under .cylinder and animate it upward,
+         fading in/out in a quick “flash.”
+    ───────────────────────────────────────────────────────────────────────── */
+    .focus-light {
+      position: absolute;
+      top: 50%;    /* start at center (we will translate upward) */
+      left: 50%;
+      width: 600px;  /* wide enough to cover the cylinder */
+      height: 600px; /* tall enough so the light can travel through */
+      margin-left: -300px; /* half width */
+      margin-top: -300px;  /* half height */
       pointer-events: none;
-      transform: rotateX(90deg) translateY(400px);
-      /* This “doughnut glow” sits horizontally around the mid-height of the cylinder. */
+      transform-style: preserve-3d;
+      z-index: 0; /* sit behind the “H” but in front of base */
+      /* we will animate a pseudo‐element for the actual gradient */
+    }
+    .focus-light::after {
+      content: "";
+      position: absolute;
+      bottom: -50px;   /* slightly below center */
+      left: 50%;
+      width: 400px;
+      height: 400px;
+      margin-left: -200px; /* half of width */
+      background: radial-gradient(
+        ellipse at bottom,
+        rgba(255, 255, 255, 0.5) 0%,
+        rgba(255, 255, 255, 0.0) 80%
+      );
+      opacity: 0;
+      transform: translateY(0);
+      filter: blur(40px);
+      animation: flashUp 2s infinite ease-in-out;
+    }
+
+    /* KEYFRAMES for the flash: 
+       - At 0%, it’s invisible at bottom.
+       - At ~10%, it quickly fades in (bright flash).
+       - From 10%→90%, it travels upward (and fades out).
+       - By 100%, it’s completely invisible again, ready to repeat.
+    ───────────────────────────────────────────────────────────────────────── */
+    @keyframes flashUp {
+      0% {
+        opacity: 0;
+        transform: translateY(0);
+      }
+      10% {
+        opacity: 0.8;
+        transform: translateY(0);
+      }
+      50% {
+        opacity: 0.3;
+        transform: translateY(-200px);
+      }
+      90% {
+        opacity: 0;
+        transform: translateY(-350px);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-350px);
+      }
     }
   </style>
 </head>
 <body>
   <div class="scene">
-    <!-- Circular base (floor) -->
+    <!-- 1) Circular Base (floor) -->
     <div class="base"></div>
 
-    <!-- Thin frosted-glass plate/ring above the base -->
+    <!-- 2) Thin Frosted Plate WITH your image as background -->
     <div class="plate"></div>
 
-    <!-- The 3D cylinder (12 faces) -->
+    <!-- 3) The 12‐panel frosted‐glass Cylinder -->
     <div id="cylinder" class="cylinder">
-      <!-- Face 0 -->
       <div class="face" style="--i: 0;">
         <div class="content">
-          <h3>Panel 1</h3>
-          <p>This is sample content. Swap in your own HTML or SVG here.</p>
+          <p>Panel 1</p>
         </div>
       </div>
-
-      <!-- Face 1 -->
       <div class="face" style="--i: 1;">
         <div class="content">
-          <h3>Panel 2</h3>
-          <p>Put whatever you like—charts, mini‐player, calendar, etc.</p>
+          <p>Panel 2</p>
         </div>
       </div>
-
-      <!-- Face 2 -->
       <div class="face" style="--i: 2;">
         <div class="content">
-          <h3>Panel 3</h3>
-          <ul>
-            <li>Item A</li>
-            <li>Item B</li>
-            <li>Item C</li>
-          </ul>
+          <p>Panel 3</p>
         </div>
       </div>
-
-      <!-- Face 3 -->
       <div class="face" style="--i: 3;">
         <div class="content">
-          <h3>Panel 4</h3>
-          <p>—</p>
+          <p>Panel 4</p>
         </div>
       </div>
-
-      <!-- Face 4 -->
       <div class="face" style="--i: 4;">
         <div class="content">
-          <h3>Panel 5</h3>
-          <p>—</p>
+          <p>Panel 5</p>
         </div>
       </div>
-
-      <!-- Face 5 -->
       <div class="face" style="--i: 5;">
         <div class="content">
-          <h3>Panel 6</h3>
-          <p>—</p>
+          <p>Panel 6</p>
         </div>
       </div>
-
-      <!-- Face 6 -->
       <div class="face" style="--i: 6;">
         <div class="content">
-          <h3>Panel 7</h3>
-          <p>—</p>
+          <p>Panel 7</p>
         </div>
       </div>
-
-      <!-- Face 7 -->
       <div class="face" style="--i: 7;">
         <div class="content">
-          <h3>Panel 8</h3>
-          <p>—</p>
+          <p>Panel 8</p>
         </div>
       </div>
-
-      <!-- Face 8 -->
       <div class="face" style="--i: 8;">
         <div class="content">
-          <h3>Panel 9</h3>
-          <p>—</p>
+          <p>Panel 9</p>
         </div>
       </div>
-
-      <!-- Face 9 -->
       <div class="face" style="--i: 9;">
         <div class="content">
-          <h3>Panel 10</h3>
-          <p>—</p>
+          <p>Panel 10</p>
         </div>
       </div>
-
-      <!-- Face 10 -->
       <div class="face" style="--i: 10;">
         <div class="content">
-          <h3>Panel 11</h3>
-          <p>—</p>
+          <p>Panel 11</p>
         </div>
       </div>
-
-      <!-- Face 11 -->
       <div class="face" style="--i: 11;">
         <div class="content">
-          <h3>Panel 12</h3>
-          <p>—</p>
+          <p>Panel 12</p>
         </div>
       </div>
     </div>
+
+    <!-- 4) Overlay Header “H” (covers all faces) -->
+    <h1 class="overlay-header">H</h1>
+
+    <!-- 5) Focus Light animation under the cylinder -->
+    <div class="focus-light"></div>
   </div>
 
   <script>
     /* ────────────────────────────────────────────────────────────────────────
-       JS: Continuous, Automatic Y-Rotation of the Cylinder
-       ──────────────────────────────────────────────────────────────────────── */
+       CONTINUOUS ROTATION OF THE CYLINDER
+    ──────────────────────────────────────────────────────────────────────── */
     (function() {
       const cylinder = document.getElementById('cylinder');
       let angleY = 0;
 
       function animate() {
-        angleY += 0.15; // adjust this for faster/slower rotation
+        angleY += 0.15; // speed of rotation; increase for faster, decrease for slower
         cylinder.style.transform = `translate(-50%, -50%) rotateY(${angleY}deg)`;
         requestAnimationFrame(animate);
       }
 
-      // Start the loop
       requestAnimationFrame(animate);
     })();
   </script>
