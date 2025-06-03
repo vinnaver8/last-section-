@@ -1,339 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>3D Glass Cylinder + Overlay Header + Focus Light + Image Plate</title>
-  <style>
-    /* ─────────────────────────────────────────────────────────────────────────
-       1) RESET & BODY
-    ───────────────────────────────────────────────────────────────────────── */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      background: #1e2128; /* dark background */
-      font-family: Arial, sans-serif;
-      color: #ffffff;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI for All Humanity</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font for better aesthetics */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+ .wrap {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  animation: rotate 14s infinite linear;
+}
 
-    /* ─────────────────────────────────────────────────────────────────────────
-       2) SCENE & PERSPECTIVE
-    ───────────────────────────────────────────────────────────────────────── */
-    .scene {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 800px;   /* adjust container size as needed */
-      height: 600px;  /* adjust container size as needed */
-      transform: translate(-50%, -50%);
-      perspective: 1500px; /* strong perspective for deep 3D */
-      overflow: visible;
-    }
+@keyframes rotate {
+  100% {
+    transform: rotateY(360deg) rotateX(360deg);
+  }
+}
 
-    /* ─────────────────────────────────────────────────────────────────────────
-       3) CIRCULAR BASE (“floor”)
-    ───────────────────────────────────────────────────────────────────────── */
-    .base {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 500px;
-      height: 500px;
-      margin-left: -250px; /* half of width */
-      background: radial-gradient(
-        circle at center,
-        rgba(255, 255, 255, 0.04) 0%,
-        rgba(0, 0, 0, 0.5) 100%
-      );
-      border: 2px solid rgba(255, 255, 255, 0.15);
-      border-radius: 50%;
-      transform: rotateX(90deg) translateY(250px);
-      filter: blur(1px);
-    }
-
-    /* ─────────────────────────────────────────────────────────────────────────
-       4) IMAGE‐BACKED FROSTED PLATE
-       – We use your “previous image” as the background here. 
-       – If your filename is different, update the URL below.
-    ───────────────────────────────────────────────────────────────────────── */
-    .plate {
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 450px;
-      height: 20px;
-      margin-left: -225px;  /* half of 450 */
-      margin-bottom: 250px; /* lift it above the base */
-      background: 
-        url('plate-image.png') center/cover no-repeat,  /* your image */
-        rgba(255, 255, 255, 0.03);                     /* light overlay */
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 50%;
-      backdrop-filter: blur(6px);
-      box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.02);
-      pointer-events: none;
-      transform: translateZ(0); /* keep it in same 3D stack */
-    }
-
-    /* ─────────────────────────────────────────────────────────────────────────
-       5) THE 3D CYLINDER
-       – Holds 12 frosted‐glass faces
-       – Each face is 200×350 px, rotated by i×30°, and pushed out by ~373px
-    ───────────────────────────────────────────────────────────────────────── */
-    .cylinder {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 0;
-      height: 0;
-      transform-style: preserve-3d;
-      transform: translate(-50%, -50%) rotateY(0deg);
-      /* this rotation is driven by JS for continuous spin */
-    }
-    .cylinder::before {
-      /* subtle glow ring around the mid-height */
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 800px;
-      height: 800px;
-      margin-left: -400px;
-      margin-top: -400px;
-      border-radius: 50%;
-      box-shadow: 0 0 80px 20px rgba(255, 255, 255, 0.03);
-      pointer-events: none;
-      transform: rotateX(90deg) translateY(400px);
-    }
-
-    .face {
-      --i: 0; /* override inline */
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 200px;
-      height: 350px;
-      margin-left: -100px; /* half of width */
-      margin-top: -175px;  /* half of height */
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 20px;
-      backdrop-filter: blur(8px);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      color: #ffffff;
-      font-size: 1rem;
-      transform-style: preserve-3d;
-
-      /* rotate each face around Y, then push it outward: angle = i×30°, radius ≈373px */
-      transform: rotateY(calc(var(--i) * 30deg)) translateZ(373px);
-      z-index: 1;
-    }
-    .face .content {
-      padding: 20px;
-      width: 100%;
-      height: 100%;
-      overflow-y: auto;
-    }
-    .face .content::-webkit-scrollbar {
-      width: 6px;
-    }
-    .face .content::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 3px;
-    }
-
-    /* ─────────────────────────────────────────────────────────────────────────
-       6) OVERLAY HEADER “H” (covers all panels)
-       – We absolutely position a giant <h1> in front of the cylinder.
-    ───────────────────────────────────────────────────────────────────────── */
-    .overlay-header {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 8rem;                /* adjust to taste */
-      font-weight: bold;
-      color: rgba(255, 255, 255, 0.6);/* semi‐transparent white */
-      pointer-events: none;           /* click‐through */
-      z-index: 2;                     /* sit above the entire cylinder */
-      letter-spacing: 0.1em;          /* optional spacing */
-      text-shadow:
-        0 0 20px rgba(255,255,255,0.2),
-        0 0 40px rgba(255,255,255,0.1);
-    }
-
-    /* ─────────────────────────────────────────────────────────────────────────
-       7) FOCUS LIGHT (down‐to‐up flash under the panels)
-       – We position a radial gradient under .cylinder and animate it upward,
-         fading in/out in a quick “flash.”
-    ───────────────────────────────────────────────────────────────────────── */
-    .focus-light {
-      position: absolute;
-      top: 50%;    /* start at center (we will translate upward) */
-      left: 50%;
-      width: 600px;  /* wide enough to cover the cylinder */
-      height: 600px; /* tall enough so the light can travel through */
-      margin-left: -300px; /* half width */
-      margin-top: -300px;  /* half height */
-      pointer-events: none;
-      transform-style: preserve-3d;
-      z-index: 0; /* sit behind the “H” but in front of base */
-      /* we will animate a pseudo‐element for the actual gradient */
-    }
-    .focus-light::after {
-      content: "";
-      position: absolute;
-      bottom: -50px;   /* slightly below center */
-      left: 50%;
-      width: 400px;
-      height: 400px;
-      margin-left: -200px; /* half of width */
-      background: radial-gradient(
-        ellipse at bottom,
-        rgba(255, 255, 255, 0.5) 0%,
-        rgba(255, 255, 255, 0.0) 80%
-      );
-      opacity: 0;
-      transform: translateY(0);
-      filter: blur(40px);
-      animation: flashUp 2s infinite ease-in-out;
-    }
-
-    /* KEYFRAMES for the flash: 
-       - At 0%, it’s invisible at bottom.
-       - At ~10%, it quickly fades in (bright flash).
-       - From 10%→90%, it travels upward (and fades out).
-       - By 100%, it’s completely invisible again, ready to repeat.
-    ───────────────────────────────────────────────────────────────────────── */
-    @keyframes flashUp {
-      0% {
-        opacity: 0;
-        transform: translateY(0);
-      }
-      10% {
-        opacity: 0.8;
-        transform: translateY(0);
-      }
-      50% {
-        opacity: 0.3;
-        transform: translateY(-200px);
-      }
-      90% {
-        opacity: 0;
-        transform: translateY(-350px);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-350px);
-      }
-    }
-  </style>
+.c {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  opacity: 0;
+}
+    </style>
 </head>
-<body>
-  <div class="scene">
-    <!-- 1) Circular Base (floor) -->
-    <div class="base"></div>
+<body class="bg-[#0D0D0D]">
+    <section id="section-4" class="relative min-h-[1800px] bg-[#0D0D0D] text-white overflow-hidden pt-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-32">
+            <div class="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-8">
+                [ PRODUCTS ]
+            </div>
 
-    <!-- 2) Thin Frosted Plate WITH your image as background -->
-    <div class="plate"></div>
+            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold mb-24 leading-tight">
+                AI for all humanity
+            </h1>
 
-    <!-- 3) The 12‐panel frosted‐glass Cylinder -->
-    <div id="cylinder" class="cylinder">
-      <div class="face" style="--i: 0;">
-        <div class="content">
-          <p>Panel 1</p>
-        </div>
-      </div>
-      <div class="face" style="--i: 1;">
-        <div class="content">
-          <p>Panel 2</p>
-        </div>
-      </div>
-      <div class="face" style="--i: 2;">
-        <div class="content">
-          <p>Panel 3</p>
-        </div>
-      </div>
-      <div class="face" style="--i: 3;">
-        <div class="content">
-          <p>Panel 4</p>
-        </div>
-      </div>
-      <div class="face" style="--i: 4;">
-        <div class="content">
-          <p>Panel 5</p>
-        </div>
-      </div>
-      <div class="face" style="--i: 5;">
-        <div class="content">
-          <p>Panel 6</p>
-        </div>
-      </div>
-      <div class="face" style="--i: 6;">
-        <div class="content">
-          <p>Panel 7</p>
-        </div>
-      </div>
-      <div class="face" style="--i: 7;">
-        <div class="content">
-          <p>Panel 8</p>
-        </div>
-      </div>
-      <div class="face" style="--i: 8;">
-        <div class="content">
-          <p>Panel 9</p>
-        </div>
-      </div>
-      <div class="face" style="--i: 9;">
-        <div class="content">
-          <p>Panel 10</p>
-        </div>
-      </div>
-      <div class="face" style="--i: 10;">
-        <div class="content">
-          <p>Panel 11</p>
-        </div>
-      </div>
-      <div class="face" style="--i: 11;">
-        <div class="content">
-          <p>Panel 12</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4) Overlay Header “H” (covers all faces) -->
-    <h1 class="overlay-header">H</h1>
-
-    <!-- 5) Focus Light animation under the cylinder -->
-    <div class="focus-light"></div>
+            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
+                <div class="md:w-1/2 text-left">
+                    <h2 class="text-4xl font-semibold mb-4">Grok</h2>
+                    <p class="text-lg text-gray-300 mb-8 max-w-md">
+                        Grok is your cosmic guide, now accessible on grok.com, iOS, and Android. Explore the universe with AI.
+                    </p>
+                    <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        USE NOW <span class="ml-2">&#8594;</span>
+                    </button>
+                </div>
+                <div class="w-full absolute right-[-250px]">
+  <div class="wrap">
+    <!-- Repeat the `.c` element exactly 300 times -->
+    <!-- You can hand‐copy 300 times, or generate via your template engine. -->
+    <div class="c"></div>
+    <div class="c"></div>
+    <!-- … repeat until you have 300 of these … -->
+    <div class="c"></div>
   </div>
+                </div>
+            </div>
 
-  <script>
-    /* ────────────────────────────────────────────────────────────────────────
-       CONTINUOUS ROTATION OF THE CYLINDER
-    ──────────────────────────────────────────────────────────────────────── */
-    (function() {
-      const cylinder = document.getElementById('cylinder');
-      let angleY = 0;
+            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
+                <div class="md:w-1/2 text-left">
+                    <h2 class="text-4xl font-semibold mb-4">API</h2>
+                    <p class="text-lg text-gray-300 mb-8 max-w-md">
+                        Supercharge your applications with Grok's enhanced speed, precision, and multilingual capabilities.
+                    </p>
+                    <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        BUILD NOW <span class="ml-2">&#8594;</span>
+                    </button>
+                </div>
+                <div class="md:w-1/2 flex justify-center items-center">
+                    <svg
+      id="indox-svg"
+      viewBox="0 0 600 400"
+      class="w-full h-auto max-w-[600px] md:max-w-[700px] lg:max-w-[800px]"
+      xmlns="http://www.w3.org/2000/svg">
+      <rect x="1" y="1" width="598" height="398" rx="12" ry="12" fill="#0D0D0D" stroke="#ffffff" stroke-width="1"/>
+      <line x1="1" y1="40" x2="599" y2="40" stroke="#ffffff" stroke-width="1"/>
+      <line x1="120" y1="40" x2="120" y2="400" stroke="white" stroke-width="1"/>
+      <circle cx="20" cy="20" r="6" fill="#FF5F57"/>
+      <circle cx="40" cy="20" r="6" fill="#FFBD2E"/>
+      <circle cx="60" cy="20" r="6" fill="#28C840"/>
+      <rect x="490" y="12" width="60" height="15" rx="7.5" fill="none" stroke="#ffffff" stroke-width="1"/>
+      <circle cx="570" cy="20" r="10" stroke="white" fill="none" stroke-width="1"/>
+      <text x="480" y="25" fill="#ffffff" font-family="sans-serif" font-size="18" text-anchor="end">INDOX</text>
+<g id="reveal-sequence" class="hidden-group">
+        <g id="step1">
+          <text x="15" y="65" fill="white" font-size="12" font-weight="bold">Today</text>
+          <rect x="10" y="75" width="100" height="25" rx="5" fill="#2C2C2C"/>
+          <text x="17" y="92" fill="white" font-size="12">Image Creation</text>
+        </g>
+        <g id="step2">
+          <text x="15" y="125" fill="white" font-size="12" font-weight="bold">Yesterday</text>
+          <rect x="10" y="135" width="100" height="25" rx="5" fill="#2C2C2C"/>
+          <text x="17" y="152" fill="white" font-size="12">Resume making</text>
+        </g>
+        <g id="step3">
+          <rect x="330" y="180" width="230" height="30" rx="10" fill="#444"/>
+          <text x="340" y="200" fill="white" font-size="12">What is the AI Toolkit?</text>
+        </g>
+        <g id="step4">
+          <rect x="140" y="220" width="350" height="90" rx="10" fill="#2E2E2E"/>
+          <text id="typing-container" x="150" y="240" class="typing-line"></text>
+        </g>
+        <g id="step5">
+          <rect x="140" y="340" width="320" height="25" rx="12" fill="none" stroke="white" stroke-width="1"/>
+          <text x="150" y="356" fill="#888" font-size="12">Ask anything, Indox...</text>
+          <path transform="translate(440, 344) scale(0.6)" fill="red" d="M11 16a1 1 0 0 1-.707-1.707L12.586 12l-2.293-2.293a1 1 0 0 1 1.414-1.414l3 3a1 1 0 0 1 0 1.414l-3 3A1 1 0 0 1 11 16z"/>
+        </g>
+      </g>
+         </svg>
+                </div>
+            </div>
 
-      function animate() {
-        angleY += 0.15; // speed of rotation; increase for faster, decrease for slower
-        cylinder.style.transform = `translate(-50%, -50%) rotateY(${angleY}deg)`;
-        requestAnimationFrame(animate);
+            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
+                <div class="md:w-1/2 text-left">
+                    <h2 class="text-4xl font-semibold mb-4">Developer Docs</h2>
+                    <p class="text-lg text-gray-300 mb-8 max-w-md">
+                        Learn how to quickly install Grok at the heart of your applications and explore guides covering common use cases.
+                    </p>
+                    <button class="px-8 py-4 bg-orange-600 hover:bg-orange-700 text-white font-semibold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+                        LEARN MORE <span class="ml-2">&#8594;</span>
+                    </button>
+                </div>
+                <div class="w-full md:w-1/2 flex justify-center items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 125" enable-background="new 0 0 100 100" xml:space="preserve"><g><path d="M58.652,79.589c-0.128,0.145-0.383,0.246-0.834,0.281c-0.075,0.008-0.187,0.008-0.322,0.017   c-0.349,0.01-0.884,0.018-1.565,0.034c-0.373,0-0.781,0-1.231,0.01c-0.689,0-1.633,0-2.745,0.009   c-1.644,0.009-3.46,0.009-5.263,0.009c-3.112,0-6.147-0.009-8.043-0.018c-0.527,0-0.961-0.01-1.292-0.01   c-1.098-0.011-1.931-0.024-2.355-0.043c-0.06,0-0.128,0-0.196-0.008c-0.077-0.011-0.145-0.019-0.204-0.027   c-1.471-0.203-0.306-1.375-0.306-1.375s1.786-1.396,2.67-2.787c0,0,0.263-0.011,0.51-2.161c0.34-3.043,0.637-5.406,0.637-5.406   h16.4c0,0,0.291,2.363,0.638,5.406c0.238,2.15,0.504,2.161,0.504,2.161c0.832,1.308,2.447,2.617,2.649,2.779   c0.011,0,0.019,0.01,0.019,0.01s0.06,0.059,0.136,0.159C58.643,78.857,58.904,79.291,58.652,79.589z" fill="#444"/><path d="M46.222,78.82c0.055,0.065,0.115,0.152,0.168,0.246C46.337,78.975,46.277,78.888,46.222,78.82z" fill="#444"/><path fill="#00FFAA" clip-rule="evenodd" d="M49.292,48.13c-0.701,0.253-1.378,0.499-2.058,0.745   c-2.704-7.051,1.365-15.164,8.157-17.4c0.242,0.669,0.485,1.339,0.741,2.048c-2.91,1.119-5.085,3.06-6.413,5.89   C48.391,42.246,48.289,45.159,49.292,48.13z"/><path fill="#00FFAA" clip-rule="evenodd" d="M57.738,37.979c-1.714,0.672-2.981,1.81-3.753,3.469   c-0.765,1.647-0.818,3.341-0.24,5.071c-0.694,0.251-1.364,0.494-2.035,0.737c-1.682-3.884,0.301-9.603,5.28-11.344   C57.234,36.588,57.48,37.265,57.738,37.979z"/><path fill="#444" clip-rule="evenodd" d="M94.871,73.569c-4.434-12.268-8.878-24.532-13.321-36.796   c-0.052-0.145-0.105-0.29-0.17-0.43c-0.24-0.526-0.628-0.905-1.16-1.132c-0.612-0.261-1.213-0.196-1.826,0.026   c-6.304,2.29-12.61,4.572-18.916,6.856c-0.115,0.042-0.231,0.086-0.344,0.137c-0.705,0.32-1.125,0.869-1.282,1.621   c-0.101,0.479,0.007,0.934,0.17,1.385c2.23,6.15,4.459,12.304,6.687,18.455c2.218,6.123,4.435,12.246,6.655,18.367   c0.091,0.249,0.191,0.503,0.333,0.725c0.578,0.909,1.649,1.234,2.732,0.843c5.236-1.896,10.473-3.793,15.708-5.689   c1.156-0.42,2.318-0.827,3.47-1.262c0.898-0.34,1.423-1.007,1.473-1.969C95.099,74.331,95.001,73.929,94.871,73.569z    M67.208,42.062c1.47-0.619,2.94-1.237,4.411-1.853c0.537-0.225,0.875-0.303,0.924-0.219c0.045,0.076,0.078,0.156,0.102,0.241   c0.027,0.095-0.283,0.289-0.833,0.521c-0.728,0.308-1.458,0.613-2.188,0.919c-0.706,0.296-1.412,0.593-2.118,0.889   c-0.628,0.263-0.975,0.345-1.024,0.243c-0.034-0.073-0.069-0.146-0.092-0.224C66.36,42.484,66.66,42.292,67.208,42.062z    M84.763,77.338c-0.742,0.273-1.487,0.539-2.231,0.809c-0.719,0.262-1.438,0.524-2.159,0.782c-0.642,0.23-1.029,0.188-1.148-0.12   c-0.083-0.219-0.167-0.438-0.238-0.663c-0.088-0.273,0.181-0.559,0.739-0.763c1.498-0.548,2.997-1.092,4.499-1.63   c0.548-0.196,0.928-0.151,1.036,0.108c0.097,0.233,0.183,0.472,0.258,0.713C85.604,76.848,85.322,77.132,84.763,77.338z    M72.396,78.453L60.342,46.369l19.844-7.233l11.591,31.806L72.396,78.453z"/><ellipse cx="93.561" cy="23.394" rx="0.097" ry="0"/><path d="M85.338,11.489c-4.09,0-7.404,3.314-7.404,7.404c0,4.089,3.314,7.404,7.404,7.404c4.089,0,7.403-3.315,7.403-7.404   C92.741,14.804,89.427,11.489,85.338,11.489z M84.123,22.701c-1.113-1.144-2.253-2.314-3.418-3.512   c0.38-0.35,0.838-0.77,1.341-1.231c0.626,0.668,1.286,1.373,2.011,2.146c1.564-1.621,3.042-3.152,4.546-4.711   c0.532,0.567,0.948,1.012,1.367,1.457C88.027,18.794,86.071,20.751,84.123,22.701z" fill="#00FFAA"/><g><path d="M8.229,63.063V19.911h67.908c-0.037-0.334-0.057-0.673-0.057-1.018c0-0.732,0.088-1.442,0.248-2.125h-29.75h-0.542H6.828    c0,0-1.909,0.087-1.909,1.615v46.716c0,0,0.128,1.784,1.91,1.909c1.714,0.123,36.894,0.012,39.588,0    c1.606,0.006,10.056,0.026,17.309,0.041l-1.438-3.985H8.229z" fill="#444"/><path d="M85.338,28.15c-0.29,0-0.576-0.015-0.858-0.041v10.228l3.214,9.941V27.846C86.941,28.044,86.151,28.15,85.338,28.15z" fill="#444"/></g></g></svg>
+                </div>
+            </div>
+        </div>
+    </section>
+ <script>
+  const wrap = document.querySelector('.wrap');
+  const total = 300;
+  const orbSize = 100;
+  const time = 14;
+
+  for (let i = 1; i <= total; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'c';
+    dot.style.animation = `orbit${i} ${time}s infinite`;
+    dot.style.animationDelay = `${i * 0.01}s`;
+    const hue = (40 / total * i);
+    dot.style.backgroundColor = `hsla(${hue}, 100%, 50%, 1)`;
+    wrap.appendChild(dot);
+
+    const z = Math.floor(Math.random() * 360);
+    const y = Math.floor(Math.random() * 360);
+
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes orbit${i} {
+        20% {
+          opacity: 1;
+        }
+        30% {
+          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize}px) rotateZ(${z}deg);
+        }
+        80% {
+          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize}px) rotateZ(${z}deg);
+          opacity: 1;
+        }
+        100% {
+          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize * 3}px) rotateZ(${z}deg);
+        }
       }
-
-      requestAnimationFrame(animate);
-    })();
-  </script>
+    `;
+    document.head.appendChild(style);
+  }
+    </script>
 </body>
 </html>
