@@ -35,6 +35,102 @@
   border-radius: 50%;
   opacity: 0;
 }
+             .animation-card {
+            background-color: #2c2c2c;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            padding: 25px;
+            width: 350px; /* Compact width */
+            min-height: 250px; /* Increased height to accommodate more steps */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Align content to the left */
+            box-sizing: border-box;
+            position: relative; /* For absolute positioning of response text */
+        }
+
+        .status-line {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            color: #ccc;
+            width: 100%; /* Ensure it takes full width */
+        }
+
+        .status-icon-container {
+            margin-right: 15px;
+            width: 24px; /* Fixed width for consistent alignment */
+            text-align: center;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid #f0f0f0;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: none; /* Hidden by default */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .checkmark {
+            font-size: 1.2em;
+            color: #4CAF50;
+            display: none; /* Hidden by default */
+        }
+
+        .status-message {
+            flex-grow: 1; /* Allow text to take remaining space */
+            color: #f0f0f0; /* Active message color */
+        }
+
+        .search-engines {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            margin-left: 39px; /* Align with text by compensating for icon-container */
+            margin-bottom: 15px;
+            gap: 8px;
+            display: none; /* Hidden by default */
+        }
+
+        .search-engines span {
+            background-color: #3a3a3a;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.8em;
+            color: #aaa;
+        }
+
+        .response-content {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow: hidden; /* Important for scrolling effect */
+            max-height: 120px; /* Max height for the scrolling text */
+            position: relative;
+            width: 100%;
+            display: none; /* Hidden by default */
+        }
+
+        .response-text {
+            white-space: pre-wrap; /* Preserve line breaks */
+            animation: scrollText linear infinite;
+            animation-play-state: paused; /* Paused by default */
+        }
+
+        @keyframes scrollText {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(calc(-100% + 120px)); /* Adjust 120px to max-height */ }
+        }
+    </style>
     </style>
 </head>
 <body class="bg-[#0D0D0D]">
@@ -81,47 +177,225 @@
                     </button>
                 </div>
                 <div class="md:w-1/2 flex justify-center items-center">
-                    <svg
-      id="indox-svg"
-      viewBox="0 0 600 400"
-      class="w-full h-auto max-w-[600px] md:max-w-[700px] lg:max-w-[800px]"
-      xmlns="http://www.w3.org/2000/svg">
-      <rect x="1" y="1" width="598" height="398" rx="12" ry="12" fill="#0D0D0D" stroke="#ffffff" stroke-width="1"/>
-      <line x1="1" y1="40" x2="599" y2="40" stroke="#ffffff" stroke-width="1"/>
-      <line x1="120" y1="40" x2="120" y2="400" stroke="white" stroke-width="1"/>
-      <circle cx="20" cy="20" r="6" fill="#FF5F57"/>
-      <circle cx="40" cy="20" r="6" fill="#FFBD2E"/>
-      <circle cx="60" cy="20" r="6" fill="#28C840"/>
-      <rect x="490" y="12" width="60" height="15" rx="7.5" fill="none" stroke="#ffffff" stroke-width="1"/>
-      <circle cx="570" cy="20" r="10" stroke="white" fill="none" stroke-width="1"/>
-      <text x="480" y="25" fill="#ffffff" font-family="sans-serif" font-size="18" text-anchor="end">INDOX</text>
-<g id="reveal-sequence" class="hidden-group">
-        <g id="step1">
-          <text x="15" y="65" fill="white" font-size="12" font-weight="bold">Today</text>
-          <rect x="10" y="75" width="100" height="25" rx="5" fill="#2C2C2C"/>
-          <text x="17" y="92" fill="white" font-size="12">Image Creation</text>
-        </g>
-        <g id="step2">
-          <text x="15" y="125" fill="white" font-size="12" font-weight="bold">Yesterday</text>
-          <rect x="10" y="135" width="100" height="25" rx="5" fill="#2C2C2C"/>
-          <text x="17" y="152" fill="white" font-size="12">Resume making</text>
-        </g>
-        <g id="step3">
-          <rect x="330" y="180" width="230" height="30" rx="10" fill="#444"/>
-          <text x="340" y="200" fill="white" font-size="12">What is the AI Toolkit?</text>
-        </g>
-        <g id="step4">
-          <rect x="140" y="220" width="350" height="90" rx="10" fill="#2E2E2E"/>
-          <text id="typing-container" x="150" y="240" class="typing-line"></text>
-        </g>
-        <g id="step5">
-          <rect x="140" y="340" width="320" height="25" rx="12" fill="none" stroke="white" stroke-width="1"/>
-          <text x="150" y="356" fill="#888" font-size="12">Ask anything, Indox...</text>
-          <path transform="translate(440, 344) scale(0.6)" fill="red" d="M11 16a1 1 0 0 1-.707-1.707L12.586 12l-2.293-2.293a1 1 0 0 1 1.414-1.414l3 3a1 1 0 0 1 0 1.414l-3 3A1 1 0 0 1 11 16z"/>
-        </g>
-      </g>
-         </svg>
-                </div>
+                <div class="animation-card" id="animationCard">
+        <!-- Step 1: Thought for X seconds -->
+        <div class="status-line" id="thought1Line">
+            <div class="status-icon-container">
+                <div class="spinner" id="thought1Spinner"></div>
+                <i class="fas fa-check-circle checkmark" id="thought1Checkmark"></i>
+            </div>
+            <span class="status-message" id="thought1Message">Thought for 0 seconds</span>
+        </div>
+
+        <!-- Step 2: Searched X websites -->
+        <div class="status-line" id="search1Line">
+            <div class="status-icon-container">
+                <div class="spinner" id="search1Spinner"></div>
+                <i class="fas fa-check-circle checkmark" id="search1Checkmark"></i>
+            </div>
+            <span class="status-message" id="search1Message">Searched 0 websites</span>
+        </div>
+
+        <!-- Step 3: Thought for X seconds -->
+        <div class="status-line" id="thought2Line">
+            <div class="status-icon-container">
+                <div class="spinner" id="thought2Spinner"></div>
+                <i class="fas fa-check-circle checkmark" id="thought2Checkmark"></i>
+            </div>
+            <span class="status-message" id="thought2Message">Thought for 0 seconds</span>
+        </div>
+
+        <!-- Step 4: Searching the web... -->
+        <div class="status-line" id="search2Line">
+            <div class="status-icon-container">
+                <div class="spinner" id="search2Spinner"></div>
+                <i class="fas fa-check-circle checkmark" id="search2Checkmark"></i>
+            </div>
+            <span class="status-message" id="search2Message">Searching the web...</span>
+        </div>
+        <div class="search-engines" id="search2Engines">
+            <span>google.com</span>
+            <span>bing.com</span>
+        </div>
+
+        <!-- AI Response Content -->
+        <div class="response-content" id="responseContent">
+            <div class="response-text" id="responseText">
+                <!-- AI generated response will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const animationCard = document.getElementById('animationCard');
+
+            const thought1Line = document.getElementById('thought1Line');
+            const thought1Spinner = document.getElementById('thought1Spinner');
+            const thought1Checkmark = document.getElementById('thought1Checkmark');
+            const thought1Message = document.getElementById('thought1Message');
+
+            const search1Line = document.getElementById('search1Line');
+            const search1Spinner = document.getElementById('search1Spinner');
+            const search1Checkmark = document.getElementById('search1Checkmark');
+            const search1Message = document.getElementById('search1Message');
+
+            const thought2Line = document.getElementById('thought2Line');
+            const thought2Spinner = document.getElementById('thought2Spinner');
+            const thought2Checkmark = document.getElementById('thought2Checkmark');
+            const thought2Message = document.getElementById('thought2Message');
+
+            const search2Line = document.getElementById('search2Line');
+            const search2Spinner = document.getElementById('search2Spinner');
+            const search2Checkmark = document.getElementById('search2Checkmark');
+            const search2Message = document.getElementById('search2Message');
+            const search2Engines = document.getElementById('search2Engines');
+
+            const responseContent = document.getElementById('responseContent');
+            const responseText = document.getElementById('responseText');
+
+            let thought1Interval;
+            let thought1Seconds = 0;
+            let thought2Interval;
+            let thought2Seconds = 0;
+
+            const sampleResponse = `The question "What is the meaning of life?" is one that has puzzled humanity for centuries, and it's not something that comes with a single, universal answer. Instead, it's a deeply personal and complex idea that can look very different depending on who's asking and what they value.
+
+A Range of Perspectives:
+Philosophers, theologians, and thinkers throughout history have offered countless interpretations. Some common themes include:
+- Finding purpose: Believing life has an inherent goal or mission.
+- Experiencing joy: Focusing on happiness, pleasure, and positive emotions.
+- Contributing to others: Making a positive impact on the world and people around you.
+- Seeking knowledge: Understanding the universe, oneself, and the nature of reality.
+- Creating meaning: Actively constructing one's own values and purpose.
+
+Ultimately, the "meaning of life" is often a journey of self-discovery and reflection, rather than a single destination or definitive answer.`;
+
+            function resetAllSteps() {
+                clearInterval(thought1Interval);
+                clearInterval(thought2Interval);
+
+                const allSpinners = [thought1Spinner, search1Spinner, thought2Spinner, search2Spinner];
+                const allCheckmarks = [thought1Checkmark, search1Checkmark, thought2Checkmark, search2Checkmark];
+                const allLines = [thought1Line, search1Line, thought2Line, search2Line];
+                const allMessages = [thought1Message, search1Message, thought2Message, search2Message];
+
+                allSpinners.forEach(spinner => spinner.style.display = 'none');
+                allCheckmarks.forEach(checkmark => {
+                    checkmark.style.display = 'none';
+                    checkmark.classList.remove('green-check');
+                });
+                allLines.forEach(line => line.style.color = '#ccc'); // Inactive color
+
+                thought1Message.textContent = 'Thought for 0 seconds';
+                search1Message.textContent = 'Searched 0 websites';
+                thought2Message.textContent = 'Thought for 0 seconds';
+                search2Message.textContent = 'Searching the web...';
+
+                search2Engines.style.display = 'none';
+                responseContent.style.display = 'none';
+                responseText.style.animationPlayState = 'paused';
+                responseText.style.transform = 'translateY(0)';
+                responseText.textContent = '';
+            }
+
+            function animateSequence() {
+                resetAllSteps(); // Reset all elements to initial state
+
+                // Phase 1: Thought for 15 seconds
+                thought1Seconds = 0;
+                thought1Spinner.style.display = 'block';
+                thought1Message.textContent = `Thought for ${thought1Seconds} seconds`;
+                thought1Line.style.color = '#f0f0f0'; // Active color
+
+                thought1Interval = setInterval(() => {
+                    thought1Seconds++;
+                    thought1Message.textContent = `Thought for ${thought1Seconds} seconds`;
+                }, 1000);
+
+                setTimeout(() => {
+                    clearInterval(thought1Interval);
+                    thought1Spinner.style.display = 'none';
+                    thought1Checkmark.style.display = 'block';
+                    thought1Checkmark.classList.add('green-check');
+                    thought1Line.style.color = '#ccc'; // Inactive color
+
+                    // Phase 2: Searched 4 websites (instant completion after thought1)
+                    setTimeout(() => {
+                        search1Checkmark.style.display = 'block';
+                        search1Checkmark.classList.add('green-check');
+                        search1Message.textContent = 'Searched 4 websites';
+                        search1Line.style.color = '#ccc'; // Inactive color
+
+                        // Phase 3: Thought for 6 seconds
+                        setTimeout(() => {
+                            thought2Seconds = 0;
+                            thought2Spinner.style.display = 'block';
+                            thought2Message.textContent = `Thought for ${thought2Seconds} seconds`;
+                            thought2Line.style.color = '#f0f0f0'; // Active color
+
+                            thought2Interval = setInterval(() => {
+                                thought2Seconds++;
+                                thought2Message.textContent = `Thought for ${thought2Seconds} seconds`;
+                            }, 1000);
+
+                            setTimeout(() => {
+                                clearInterval(thought2Interval);
+                                thought2Spinner.style.display = 'none';
+                                thought2Checkmark.style.display = 'block';
+                                thought2Checkmark.classList.add('green-check');
+                                thought2Line.style.color = '#ccc'; // Inactive color
+
+                                // Phase 4: Searching the web... (with spinner and search engines)
+                                setTimeout(() => {
+                                    search2Spinner.style.display = 'block';
+                                    search2Message.textContent = 'Searching the web...';
+                                    search2Engines.style.display = 'flex'; // Show search engines
+                                    search2Line.style.color = '#f0f0f0'; // Active color
+
+                                    setTimeout(() => {
+                                        search2Spinner.style.display = 'none';
+                                        search2Checkmark.style.display = 'block';
+                                        search2Checkmark.classList.add('green-check');
+                                        search2Message.textContent = 'Searched 7 websites';
+                                        search2Engines.style.display = 'none'; // Hide search engines
+                                        search2Line.style.color = '#ccc'; // Inactive color
+
+                                        // Final Phase: Display Response and start scrolling
+                                        setTimeout(() => {
+                                            responseContent.style.display = 'block';
+                                            responseText.textContent = sampleResponse;
+
+                                            // Calculate animation duration based on content height
+                                            const contentHeight = responseText.scrollHeight;
+                                            const containerHeight = responseText.clientHeight;
+                                            if (contentHeight > containerHeight) {
+                                                const scrollDistance = contentHeight - containerHeight;
+                                                const duration = scrollDistance / 20; // Adjust for scroll speed
+                                                responseText.style.animationDuration = `${duration}s`;
+                                                responseText.style.animationPlayState = 'running';
+                                                responseText.style.animationIterationCount = 'infinite';
+                                            }
+
+                                            // Loop the animation after a delay
+                                            setTimeout(() => {
+                                                animateSequence(); // Restart the animation
+                                            }, 8000); // Wait 8 seconds after response appears before restarting
+                                        }, 500); // Small delay before showing response
+                                    }, 3000); // Simulate search2 time (3 seconds)
+                                }, 500); // Small delay before starting search2 after thought2 completes
+                            }, 6000); // Simulate thought2 time (6 seconds)
+                        }, 500); // Small delay before starting thought2 after search1 completes
+                    }, 500); // Small delay after thought1 completes
+                }, 5000); // Simulate thought1 time (5 seconds)
+            }
+
+            // Start the animation automatically on page load
+            animateSequence();
+        });
+    </script>
+            
+            </div>
             </div>
 
             <div class="flex flex-col md:flex-row items-center justify-between gap-16">
