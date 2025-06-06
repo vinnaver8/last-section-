@@ -260,135 +260,115 @@
         flex-direction: column; /* Stack content vertically */
       }
     }
-          @import url('https://unpkg.com/normalize.css') layer(normalize);
+            /**
+     * Scoped CSS for #customScroller only.
+     * Defines width:500px, height:360px, and custom variables for speed/duration.
+     */
+    #customScroller {
+      --scroller-item-height: 1lh;            /* 1× line-height */
+      --scroller-mask-top: 0.25lh;
+      --scroller-mask-bottom: 0.25lh;
+      --scroller-mask-center: 0.5lh;
+      --indicator-border-thickness: 0.05em;
+      --indicator-corner: 0.175em;
+      --indicator-transition: 0.25s;
+      --indicator-hue: 320;                    /* initial hue */
+      --item-duration: 6;                      /* scroll duration (seconds) */
+      --item-delay: 1;                         /* delay before scroll starts (seconds) */
+      --highlight-ease: elastic.out(1, 0.875);
 
-    /* Declare layers */
-    @layer normalize, base, demo;
-
-    /* DEMO LAYER: styles for the scroller */
-    @layer demo {
-      .container {
-        --font-level: 8;
-        opacity: 0;
-        height: 3lh; /* “lh” = 1× line-height */
-        display: flex;
-        place-items: center;
-        mask: linear-gradient(
-          #0000 0.25lh,
-          #fff calc(50% - 0.5lh) calc(50% + 0.5lh),
-          #0000 calc(100% - 0.25lh)
-        );
-        color: color-mix(in lch, canvasText, canvas 15%);
-        text-align: center;
-        position: relative;
-        background: #000; /* force dark background */
-      }
-
-      ul {
-        padding: 0;
-        margin: 0;
-        list-style-type: none;
-        text-transform: uppercase;
-        line-height: 1;
-        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
-          sans-serif;
-        height: 1lh;
-        display: inline-grid;
-        position: relative;
-        padding-inline: 0.25em;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        justify-items: center;
-        text-align: center;
-      }
-
-      .indicator {
-        --c: 0.175em;
-
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        height: 1lh;
-        translate: -50% -50%;
-        border: 0.05em solid oklch(0.75 1 var(--h, 320));
-        transition: width 0.25s, border-color 0.25s;
-        width: calc((var(--width) * 1px) + var(--c));
-
-        /* create little rounded-corner mask around the word */
-        clip-path: polygon(
-          0 0,
-          var(--c) 0,
-          var(--c) var(--c),
-          0 var(--c),
-          0 100%,
-          0 calc(100% - var(--c)),
-          var(--c) calc(100% - var(--c)),
-          var(--c) 100%,
-          0 100%,
-          calc(100% - var(--c)) 100%,
-          calc(100% - var(--c)) calc(100% - var(--c)),
-          100% calc(100% - var(--c)),
-          100% 100%,
-          100% var(--c),
-          calc(100% - var(--c)) var(--c),
-          calc(100% - var(--c)) 0,
-          100% 0,
-          100% 100%,
-          0 100%
-        );
-      }
-
-      li {
-        display: inline-block;
-        width: fit-content;
-        height: 1lh;
-        grid-area: 1 / 1;
-        line-height: 1.2;
-      }
+      position: relative;
+      width: 500px;
+      height: 360px;
+      background: #000; /* forced dark background */
+      overflow: hidden;
+      font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
+        sans-serif;
     }
 
-    /* BASE LAYER: fluid typography + utilities */
-    @layer base {
-      :root {
-        --font-size-min: 16;
-        --font-size-max: 20;
-        --font-ratio-min: 1.2;
-        --font-ratio-max: 1.33;
-        --font-width-min: 375;
-        --font-width-max: 1500;
-      }
+    /* Container that holds the indicator and the list */
+    #customScroller .scroller-container {
+      --font-level: 8;
+      opacity: 0;
+      height: calc(var(--scroller-item-height) * 3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Mask to fade top and bottom */
+      mask: linear-gradient(
+        #0000  var(--scroller-mask-top),
+        #fff    calc(50% - var(--scroller-mask-center)),
+        #fff    calc(50% + var(--scroller-mask-center)),
+        #0000  calc(100% - var(--scroller-mask-bottom))
+      );
+      color: color-mix(in lch, canvasText, canvas 15%);
+      text-align: center;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
 
-      /* .fluid makes font “fluid” between min/max */
-      :where(.fluid) {
-        --fluid-min: calc(
-          var(--font-size-min) *
-            pow(var(--font-ratio-min), var(--font-level, 0))
-        );
-        --fluid-max: calc(
-          var(--font-size-max) *
-            pow(var(--font-ratio-max), var(--font-level, 0))
-        );
-        --fluid-preferred: calc(
-          (var(--fluid-max) - var(--fluid-min)) /
-            (var(--font-width-max) - var(--font-width-min))
-        );
-        --fluid-type: clamp(
-          (var(--fluid-min) / 16) * 1rem,
-          ((var(--fluid-min) / 16) * 1rem) -
-            (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
-            (var(--fluid-preferred) * var(--variable-unit, 100vi)),
-          (var(--fluid-max) / 16) * 1rem
-        );
-        font-size: var(--fluid-type);
-      }
+    /* The scrolling list */
+    #customScroller .scroller-list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      text-transform: uppercase;
+      line-height: 1;
+      height: var(--scroller-item-height);
+      display: inline-grid;
+      position: relative;
+      padding-inline: 0.25em;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
 
-      *,
-      *::before,
-      *::after {
-        box-sizing: border-box;
-      }
+    /* Indicator box around the visible word */
+    #customScroller .scroller-indicator {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      height: var(--scroller-item-height);
+      transform: translate(-50%, -50%);
+      border: var(--indicator-border-thickness) solid
+        oklch(0.75 1 var(--indicator-hue));
+      transition: width var(--indicator-transition),
+                  border-color var(--indicator-transition);
+      width: calc((var(--width) * 1px) + var(--indicator-corner));
 
+      /* Rounded‐corner mask */
+      clip-path: polygon(
+        0 0,
+        var(--indicator-corner) 0,
+        var(--indicator-corner) var(--indicator-corner),
+        0 var(--indicator-corner),
+        0 100%,
+        0 calc(100% - var(--indicator-corner)),
+        var(--indicator-corner) calc(100% - var(--indicator-corner)),
+        var(--indicator-corner) 100%,
+        0 100%,
+        calc(100% - var(--indicator-corner)) 100%,
+        calc(100% - var(--indicator-corner)) calc(100% - var(--indicator-corner)),
+        100% calc(100% - var(--indicator-corner)),
+        100% 100%,
+        100% var(--indicator-corner),
+        calc(100% - var(--indicator-corner)) var(--indicator-corner),
+        calc(100% - var(--indicator-corner)) 0,
+        100% 0,
+        100% 100%,
+        0 100%
+      );
+    }
+
+    /* Each list item */
+    #customScroller .scroller-item {
+      display: inline-block;
+      width: fit-content;
+      height: var(--scroller-item-height);
+      grid-area: 1 / 1;
+      line-height: 1.2;
+    }  
     </style>
 </head>
 <body class="bg-[#0D0D0D]">
@@ -698,49 +678,57 @@
                 <div class="w-full md:w-1/2 flex justify-center items-center">
                   <div class="container fluid">
     <div class="indicator flex items-center justify-center h-10 w-100"></div>
-    <ul>
-      <li>prototype.</li>
-      <li>solve.</li>
-      <li>build.</li>
-      <li>develop.</li>
-      <li>debug.</li>
-      <li>learn.</li>
-      <li>cook.</li>
-      <li>ship.</li>
-      <li>prompt.</li>
-      <li>collaborate.</li>
-      <li>create.</li>
-      <li>inspire.</li>
-      <li>follow.</li>
-      <li>innovate.</li>
-      <li>test.</li>
-      <li>optimize.</li>
-      <li>teach.</li>
-      <li>visualize.</li>
-      <li>transform.</li>
-      <li>scale.</li>
-      <li>do it.</li>
-    </ul>
+    <div id="customScroller">
+    <div class="scroller-container">
+      <div class="scroller-indicator"></div>
+      <ul class="scroller-list">
+        <li class="scroller-item">prototype.</li>
+        <li class="scroller-item">solve.</li>
+        <li class="scroller-item">build.</li>
+        <li class="scroller-item">develop.</li>
+        <li class="scroller-item">debug.</li>
+        <li class="scroller-item">learn.</li>
+        <li class="scroller-item">cook.</li>
+        <li class="scroller-item">ship.</li>
+        <li class="scroller-item">prompt.</li>
+        <li class="scroller-item">collaborate.</li>
+        <li class="scroller-item">create.</li>
+        <li class="scroller-item">inspire.</li>
+        <li class="scroller-item">follow.</li>
+        <li class="scroller-item">innovate.</li>
+        <li class="scroller-item">test.</li>
+        <li class="scroller-item">optimize.</li>
+        <li class="scroller-item">teach.</li>
+        <li class="scroller-item">visualize.</li>
+        <li class="scroller-item">transform.</li>
+        <li class="scroller-item">scale.</li>
+        <li class="scroller-item">do it.</li>
+      </ul>
+    </div>
+    </div>
  </div> 
       <script type="module">
     import gsap from 'https://cdn.skypack.dev/gsap@3.12.0';
 
-    gsap.defaults({
-      duration: 1,
-    });
+    // Read durations from CSS variables
+    const rootStyles = getComputedStyle(document.getElementById('customScroller'));
+    const itemDuration = parseFloat(rootStyles.getPropertyValue('--item-duration'));
+    const itemDelay    = parseFloat(rootStyles.getPropertyValue('--item-delay'));
+    const highlightEase = rootStyles.getPropertyValue('--highlight-ease');
+
+    gsap.defaults({ duration: 1 });
 
     // Create a paused timeline for each <li>
     const tl = gsap.timeline({ paused: true });
-    const lines = gsap.utils.toArray('ul li');
+    const lines = gsap.utils.toArray('#customScroller .scroller-item');
 
     // Initially place each <li> off-screen (below) by 300% of its own height
-    gsap.set('ul li', { yPercent: 300 });
+    gsap.set('#customScroller .scroller-item', { yPercent: 300 });
 
-    // Duplicate the array so that it can loop seamlessly
+    // Duplicate the array so it can loop seamlessly
     const paddedLines = [...lines, ...lines, ...lines];
 
     paddedLines.forEach((line, index) => {
-      // Each line has its own mini-timeline: move up by 600% (from +300% to -300%)
       const lineTl = gsap.timeline()
         .set(line, { yPercent: 300 })
         .to(
@@ -750,7 +738,7 @@
             repeatRefresh: true,
             immediateRender: false,
             ease: 'none',
-            duration: 6,
+            duration: itemDuration,
           },
           0
         );
@@ -775,23 +763,23 @@
     gsap.set(scrubber, { totalTime: lines.length + 2 });
 
     // The “indicator” must wrap exactly around the currently visible word
-    let index = 0;
-    gsap.set('.indicator', {
-      '--width': lines[index].getBoundingClientRect().width,
+    let indexCounter = 0;
+    const indicator = document.querySelector('#customScroller .scroller-indicator');
+    gsap.set(indicator, {
+      '--width': lines[0].getBoundingClientRect().width,
     });
 
-    // On each repeat, advance “index” and update the indicator’s width & hue
     const syncIndicator = () => {
-      index += 1;
-      gsap.set('.indicator', {
-        '--width': lines[index % lines.length].getBoundingClientRect()
-          .width,
-        '--h': gsap.utils.random(0, 359),
-      });
+      indexCounter += 1;
+      const nextWidth = lines[indexCounter % lines.length].getBoundingClientRect().width;
+      // Randomize hue
+      const newHue = Math.floor(Math.random() * 360);
+      indicator.style.setProperty('--width', `${nextWidth}`);
+      indicator.style.setProperty('--indicator-hue', newHue);
     };
 
     gsap.to(scrubber, {
-      delay: 1,
+      delay: itemDelay,
       totalTime: '+=1',
       duration: 1,
       repeat: -1,
@@ -799,12 +787,12 @@
       repeatRefresh: true,
       onStart: syncIndicator,
       onRepeat: syncIndicator,
-      ease: 'elastic.out(1, 0.875)',
+      ease: highlightEase,
     });
 
-    // Fade the container in
-    gsap.set('.container', { opacity: 1 });
-      </script>
+    // Fade the scroller container in
+    gsap.set('#customScroller .scroller-container', { opacity: 1 });
+            </script>
                     
                 </div>
             </div>
