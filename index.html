@@ -260,12 +260,9 @@
         flex-direction: column; /* Stack content vertically */
       }
     }
-          @import url('https://unpkg.com/normalize.css') layer(normalize);
-
-    /* Declare layers */
+    
+    @import url('https://unpkg.com/normalize.css') layer(normalize);
     @layer normalize, base, demo;
-
-    /* DEMO LAYER: styles for the scroller */
     @layer demo {
       .container {
         --font-level: 8;
@@ -695,9 +692,9 @@
                         LEARN MORE <span class="ml-2">&#8594;</span>
                     </button>
                 </div>
-                <div class="w-full flex justify-center items-center">
-  <div class="container fluid w-[500px] h-[360px] md:w-[500px] md:h-[360px]">
-    <div class="indicator"></div>
+<div class="w-full flex justify-center items-center">
+<div class="container fluid w-[500px] h-[360px] md:w-[500px] md:h-[360px] -translate-x-8">
+<div class="indicator"></div>
     <ul>
       <li>prototype.</li>
       <li>solve.</li>
