@@ -608,7 +608,7 @@ const tempDiv = document.createElement('div');
       <li>do it.</li>
     </ul>
   </div>
-            </div>
+</div></div>
 <script type="module">
     // Import GSAP library
     import gsap from 'https://cdn.skypack.dev/gsap@3.12.0';
@@ -704,12 +704,6 @@ const tempDiv = document.createElement('div');
         xPercent: -50 // This centers the indicator horizontally based on its own width
       });
     };
-
-    // Set initial width and position of the indicator based on the first word
-    // Call syncIndicator once initially to set the correct state for the first word
-    // Note: The first call to syncIndicator() increments index, so we need to ensure the initial setup
-    // correctly references the *first* word before any increments occur.
-    // Let's explicitly set the initial state for the indicator here.
     const initialLine = lines[0];
     const initialWordWidth = initialLine.getBoundingClientRect().width;
     const initialContainerRect = document.querySelector('.infinite-scroller-main-container').getBoundingClientRect();
@@ -742,7 +736,6 @@ const tempDiv = document.createElement('div');
     // Fade the container in once everything is set up
     gsap.set('.infinite-scroller-main-container', { opacity: 1 });
 </script>
-</div>
 </section>
  <script>
   const wrap = document.querySelector('.wrap');
