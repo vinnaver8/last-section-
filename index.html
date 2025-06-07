@@ -57,7 +57,7 @@ body {
       width: max-content;
   max-width: 0;
       animation:
-        typing-reveal 3s steps(29, end) forwards, /* steps(29, end) for "What is the meaning of life?" (29 chars) */
+        typing-reveal 3s steps(29, end) forwards,
         blink 0.6s step-end infinite alternate;
       padding-right: 2px;
         }
@@ -131,8 +131,6 @@ body {
       padding: 16px;
       box-sizing: border-box;
     }
-
-    /* Green check‐mark icon */
     #checkIcon {
       width: 24px;
       height: 24px;
@@ -146,9 +144,7 @@ body {
       font-size: 1.2rem;
       margin-bottom: 12px;
     }
-
-    /* Final text scroll if needed */
-    #finalContent {
+  #finalContent {
       font-size: 0.95rem;
       line-height: 1.4rem;
       color: #ddd;
@@ -278,49 +274,32 @@ body {
      }
  .infinite-scroller-main-container .indicator {
         --c: 0.3em;
-    /* Padding around the word inside the indicator */
-
         position: absolute;
         top: 50%;
         left: 50%;
         height: 1lh;
-        translate: -50% -50%; /* Center the indicator */
-        border: 0.05em solid oklch(0.75 1 var(--h, 320)); /* Dynamic border color */
-        transition: width 0.25s, border-color 0.25s; /* Smooth transitions for width and color */
-        width: calc((var(--width) * 1px) + (var(--c) * 2)); /* Adjust width based on word width + padding */
-        border-radius: 8px; /* Maintain rounded corners for the box */
-
-    /* Removed clip-path to ensure the box is a complete rectangle */
-      }
-
-    /* Styles for list items, scoped under the unique container class */
-      .infinite-scroller-main-container li {
+        translate: -50% -50%;
+    border: 0.05em solid oklch(0.75 1 var(--h, 320));
+     transition: width 0.25s, border-color 0.25s;
+     width: calc((var(--width) * 1px) + (var(--c) * 2));
+      border-radius: 8px;
+         }
+.infinite-scroller-main-container li {
         display: inline-block;
-        width: fit-content; /* Width adjusts to content */
+        width: fit-content;
         height: 1lh;
         grid-area: 1 / 1;
-/* All list items occupy the same grid area to stack */
       }
     }
-
-/* BASE LAYER: fluid typography + utilities */
     @layer base {
       :root {
         --font-size-min: 16;
-    /* Minimum font size in px */
-        --font-size-max: 20;
-    /* Maximum font size in px */
-        --font-ratio-min: 1.2;
-    /* Minimum font ratio for scaling */
-        --font-ratio-max: 1.33;
-    /* Maximum font ratio for scaling */
-        --font-width-min: 375;
-    /* Minimum viewport width for fluid typography */
-        --font-width-max: 1500;
-    /* Maximum viewport width for fluid typography */
-      }
-
-     /* .fluid makes font “fluid” between min/max */
+    --font-size-max: 20;
+     --font-ratio-min: 1.2;
+     --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+     }
       :where(.fluid) {
         --fluid-min: calc(
           var(--font-size-min) *
@@ -338,8 +317,8 @@ body {
           (var(--fluid-min) / 16) * 1rem,
           ((var(--fluid-min) / 16) * 1rem) -
             (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
-            (var(--fluid-preferred) * var(--variable-unit, 100vi)), /* Use viewport-relative unit */
-          (var(--fluid-max) / 16) * 1rem
+            (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+              (var(--fluid-max) / 16) * 1rem
         );
         font-size: var(--fluid-type);
       }
@@ -348,7 +327,6 @@ body {
       *::before,
       *::after {
         box-sizing: border-box;
-/* Include padding and border in the element's total width and height */
       }
 </style>
 </head>
@@ -375,12 +353,9 @@ body {
                 </div>
                 <div class="w-full absolute right-[-250px]">
   <div class="wrap">
-    <!-- Repeat the `.c` element exactly 300 times -->
-    <!-- You can hand‐copy 300 times, or generate via your template engine. -->
+<div class="c"></div>
     <div class="c"></div>
-    <div class="c"></div>
-    <!-- … repeat until you have 300 of these … -->
-    <div class="c"></div>
+  <div class="c"></div>
   </div>
                 </div>
             </div>
@@ -397,38 +372,29 @@ body {
                 </div>
                 <div class="md:w-1/2 flex justify-center items-center">
                 <div id="box" class="rounded-lg shadow-lg">
-    <!-- 1) Typing -->
-    <div id="typing" class="rounded-lg">What is the meaning of life?</div>
-
-    <!-- 2) Thinking + spinner + scroll -->
-    <div id="thinking" class="rounded-lg">
+     <div id="typing" class="rounded-lg">What is the meaning of life?</div>
+<div id="thinking" class="rounded-lg">
       <div id="spinner"></div>
       <div id="countText">Thinking for 1 second...</div>
-
-      <div id="scrollContainer">
+  <div id="scrollContainer">
         <div id="scrollContent">
           <p>First, I need to acknowledge the depth of the question. It's not something that can be answered lightly or with a simple phrase. The meaning of life encompasses philosophy, purpose, and individual experience.</p>
           <p>Second, perspectives vary: some find meaning through relationships, others through achievements, and still others through self-discovery or spiritual beliefs.</p>
           <p>Finally, each person's answer may evolve over time as they grow, learn, and encounter new experiences.</p>
-          <!-- Duplicate for seamless looping -->
           <p>First, I need to acknowledge the depth of the question. It's not something that can be answered lightly or with a simple phrase. The meaning of life encompasses philosophy, purpose, and individual experience.</p>
           <p>Second, perspectives vary: some find meaning through relationships, others through achievements, and still others through self-discovery or spiritual beliefs.</p>
           <p>Finally, each person's answer may evolve over time as they grow, learn and encounter new experiences.</p>
         </div>
       </div>
     </div>
-
-    <!-- 3) Final Thought Box -->
-    <div id="final" class="rounded-lg shadow-lg">
+ <div id="final" class="rounded-lg shadow-lg">
       <div id="finalHeader">
-        <!-- Inline SVG for green check mark -->
         <svg id="checkIcon" viewBox="0 0 24 24">
           <path d="M9 16.2l-3.5-3.5-1.4 1.4 4.9 4.9 10-10-1.4-1.4z"/>
         </svg>
         Thought for 5 seconds
       </div>
       <div id="finalContent">
-        <!-- Original content of finalContent is now stored in JS for typing effect -->
         <p>The question "What is the meaning of life?" is one that has puzzled humanity for centuries, and it's not something that comes with a single, universal answer. Instead, it's a deeply personal and complex idea that can look very different depending on who's asking and what they value.</p>
         <h4 style="margin-top:12px; margin-bottom:8px;">A Range of Perspectives</h4>
         <p>People have approached this question from many angles:</p>
@@ -440,9 +406,7 @@ body {
         </ul>
       </div>
     </div>
-
-    <!-- 4) Offices Display -->
-    <div id="offices-display">
+ <div id="offices-display">
       <div style="font-size: 0.8rem; color: #aaa; margin-bottom: 20px;">[ OFFICES ]</div>
       <h2>Collaboration across borders</h2>
 
@@ -459,13 +423,9 @@ body {
         </div>
         <div id="offices-map-container">
           <svg viewBox="0 0 500 250">
-            <!-- World outline - simplified for illustrative purposes -->
             <path d="M 0 125 C 125 0, 375 0, 500 125" stroke="#444" stroke-width="1" fill="none"/>
             <path d="M 0 125 C 125 250, 375 250, 500 125" stroke="#444" stroke-width="1" fill="none"/>
-
-            <!-- Cities and lines -->
-            <!-- San Francisco -->
-            <circle cx="100" cy="100" r="3" fill="#FF5733"/>
+<circle cx="100" cy="100" r="3" fill="#FF5733"/>
             <text x="105" y="95" class="city-name">SAN FRANCISCO</text>
             <text x="105" y="105" fill="#aaa">PALO ALTO</text>
             <text x="105" y="115" fill="#aaa">37.6145°N</text>
@@ -494,123 +454,90 @@ body {
     </div>
   </div>
 <script>
-    // Global variables for DOM elements
-    let typingDiv, thinkingDiv, finalDiv, countText, finalContent, officesDisplayDiv;
-    // Store parsed elements for the "one by one" typing effect in the final section
+  let typingDiv, thinkingDiv, finalDiv, countText, finalContent, officesDisplayDiv;
     let originalFinalContentElements = [];
 function startAnimationSequence() {
-      // Hide all sections to start fresh
-      typingDiv.style.display = "none";
+       typingDiv.style.display = "none";
       thinkingDiv.style.display = "none";
       finalDiv.style.display = "none";
       officesDisplayDiv.style.display = "none";
-
-      // Reset typing animation
-      typingDiv.style.maxWidth = "0";
+ typingDiv.style.maxWidth = "0";
       typingDiv.textContent = "What is the meaning of life?";
-
-      // Reset thinking animation elements
-      countText.textContent = `Thinking for 1 second...`;
+countText.textContent = `Thinking for 1 second...`;
       const scrollContent = document.getElementById("scrollContent");
       scrollContent.style.animationDuration = "10s";
-
-      // Reset final content for typing effect
-      finalContent.innerHTML = '';
-
-      // Stage 1: Typing animation (3 seconds)
-      typingDiv.style.display = "block";
+finalContent.innerHTML = '';
+typingDiv.style.display = "block";
       setTimeout(() => {
         typingDiv.style.display = "none"; // Hide typing div
         thinkingDiv.style.display = "block"; // Show thinking div
-
-        let seconds = 1;
+ let seconds = 1;
         countText.textContent = `Thinking for ${seconds} second...`;
-
-        // Stage 2: Thinking animation (counts up to 10 seconds)
         const intervalId = setInterval(() => {
           seconds++;
           const plural = seconds > 1 ? "seconds" : "second";
           countText.textContent = `Thinking for ${seconds} ${plural}...`;
-
-          if (seconds >= 10) { // Increased thinking time to 10 seconds
-            clearInterval(intervalId); // Stop the counter
-            // After 10 seconds, pause for 1 second, then show the final thought box
-            setTimeout(() => {
+if (seconds >= 10) { 
+                clearInterval(intervalId); // Stop the counter
+    setTimeout(() => {
               thinkingDiv.style.display = "none"; // Hide thinking div
               finalDiv.style.display = "block"; // Show final div
-              // Stage 3: Start typing out the final content "one by one"
-              typeOutFinalContent(0);
-            }, 1000); // 1 second pause
-          }
-        }, 1000); // Update counter every 1 second
-      }, 3000); // Initial typing animation duration
+                  typeOutFinalContent(0);
+            }, 1000);
+    }
+        }, 1000);
+      }, 3000);
     }
 function typeOutFinalContent(elementIndex) {
       if (elementIndex < originalFinalContentElements.length) {
         const currentElementHTML = originalFinalContentElements[elementIndex];
         const tempContainer = document.createElement('div');
         tempContainer.innerHTML = currentElementHTML;
-        const actualElement = tempContainer.firstElementChild; // Get the actual element (<p>, <h4>, <ul>)
-
-        if (!actualElement) { // Safety check for malformed HTML
-          console.error("Could not parse element:", currentElementHTML);
+        const actualElement = tempContainer.firstElementChild;
+        if (!actualElement) {
+     console.error("Could not parse element:", currentElementHTML);
           setTimeout(() => typeOutFinalContent(elementIndex + 1), 100);
           return;
         }
 
-        // Append the actual element to the final content container
-        finalContent.appendChild(actualElement);
+       finalContent.appendChild(actualElement);
 
         if (actualElement.tagName === 'P') {
-          // If it's a paragraph, type its text content character by character
-          const originalText = actualElement.textContent;
-          actualElement.textContent = ''; // Clear for typing effect
-          let charIndex = 0;
-          const typingSpeed = 20; // milliseconds per character
-
+           const originalText = actualElement.textContent;
+          actualElement.textContent = '';
+    let charIndex = 0;
+          const typingSpeed = 20;
           function typeChar() {
             if (charIndex < originalText.length) {
               actualElement.textContent += originalText[charIndex];
               charIndex++;
               setTimeout(typeChar, typingSpeed);
             } else {
-              // Finished typing this paragraph, move to the next element after a short pause
-              setTimeout(() => typeOutFinalContent(elementIndex + 1), 500);
+                  setTimeout(() => typeOutFinalContent(elementIndex + 1), 500);
             }
           }
-          typeChar(); // Start typing characters
-        } else if (actualElement.tagName === 'H4' || actualElement.tagName === 'UL') {
-          // For H4 and UL, just append them fully.
-          // Their content (including nested LIs for UL) will appear instantly with the block.
-          setTimeout(() => typeOutFinalContent(elementIndex + 1), 500); // Small pause before next block
+          typeChar();
+    } else if (actualElement.tagName === 'H4' || actualElement.tagName === 'UL') {
+         setTimeout(() => typeOutFinalContent(elementIndex + 1), 500);
         } else {
-          // For any other unexpected element type, just append and move on.
-          setTimeout(() => typeOutFinalContent(elementIndex + 1), 500);
+     setTimeout(() => typeOutFinalContent(elementIndex + 1), 500);
         }
       } else {
-        // All elements typed out. Stage 4: Show offices display
-        setTimeout(() => {
+     setTimeout(() => {
           finalDiv.style.display = "none";
           officesDisplayDiv.style.display = "block";
-          // Stage 5: Restart the entire animation sequence after a delay
-          setTimeout(startAnimationSequence, 5000); // Show offices for 5 seconds then restart
-        }, 1000); // Wait 1 second after final text finishes before showing offices
-      }
+      setTimeout(startAnimationSequence, 5000);
+        }, 1000);
+     }
     }
-
-    // Initialize elements and start the animation when the DOM is fully loaded
-    document.addEventListener("DOMContentLoaded", () => {
+   document.addEventListener("DOMContentLoaded", () => {
       typingDiv = document.getElementById("typing");
       thinkingDiv = document.getElementById("thinking");
       finalDiv = document.getElementById("final");
       countText = document.getElementById("countText");
       finalContent = document.getElementById("finalContent");
       officesDisplayDiv = document.getElementById("offices-display");
-
-      // Store the original HTML content of finalContent and parse its children
-      // This allows us to re-construct and type them out later
-      const tempDiv = document.createElement('div');
-      // Set initial content to be empty, as it will be populated by JS
+const tempDiv = document.createElement('div');
       tempDiv.innerHTML = `
         <p>The question "What is the meaning of life?" is one that has puzzled humanity for centuries, and it's not something that comes with a single, universal answer. Instead, it's a deeply personal and complex idea that can look very different depending on who's asking and what they value.</p>
         <h4 style="margin-top:12px; margin-bottom:8px;">A Range of Perspectives</h4>
@@ -623,9 +550,7 @@ function typeOutFinalContent(elementIndex) {
         </ul>
       `;
       originalFinalContentElements = Array.from(tempDiv.children).map(child => child.outerHTML);
-
-      // Start the animation for the very first time
-      startAnimationSequence();
+  startAnimationSequence();
     });
 </script>
             </div>
@@ -669,92 +594,69 @@ function typeOutFinalContent(elementIndex) {
     </ul>
   </div>
             </div>
-      <script type="module">
-    // Import GSAP library
+<script type="module">
     import gsap from 'https://cdn.skypack.dev/gsap@3.12.0';
-
-    // Set default duration for all GSAP animations
-    gsap.defaults({
+  gsap.defaults({
       duration: 1,
     });
-
-    // Create a paused timeline for the entire scroller animation
-    const tl = gsap.timeline({ paused: true });
-    // Get all list items (words)
-    const lines = gsap.utils.toArray('ul li');
-
-    // Initially place each <li> off-screen (below) by 300% of its own height
+  const tl = gsap.timeline({ paused: true });
+     const lines = gsap.utils.toArray('ul li');
     gsap.set('ul li', { yPercent: 300 });
-
-    // Duplicate the array so that it can loop seamlessly
-    // We duplicate it three times to ensure enough content for smooth looping
-    const paddedLines = [...lines, ...lines, ...lines];
-
-    paddedLines.forEach((line, index) => {
-      // Each line has its own mini-timeline: move up by 600% (from +300% to -300%)
-      // This creates the vertical scrolling effect
-      const lineTl = gsap.timeline()
-        .set(line, { yPercent: 300 }) // Start at 300% below original position
+const paddedLines = [...lines, ...lines, ...lines];
+ paddedLines.forEach((line, index) => {
+    const lineTl = gsap.timeline()
+        .set(line, { yPercent: 300 })
         .to(
           line,
           {
-            yPercent: '-=600', // Move up by 600% (ends at -300% above original)
-            repeatRefresh: true, // Recalculate values on repeat for responsiveness
-            immediateRender: false, // Don't render immediately on first run
-            ease: 'none', // Linear movement for consistent speed
-            duration: 6, // Duration for one full scroll cycle
-          },
-          0 // Start at the beginning of the lineTl
-        );
-      tl.add(lineTl, index); // Add each line's timeline to the main timeline
+            yPercent: '-=600',
+     repeatRefresh: true,
+         immediateRender: false,
+    ease: 'none',
+        duration: 6,
+              },
+          0
+     );
+      tl.add(lineTl, index);
     });
     const scrubber = gsap.timeline({ paused: true }).fromTo(
       tl,
       {
-        totalTime: lines.length + 1, // Starting point of the scrubber (middle of the paddedLines)
+        totalTime: lines.length + 1,
       },
       {
-        totalTime: lines.length * 2 + 1, // Ending point of the scrubber (middle of the paddedLines, one full cycle later)
-        ease: 'none', // Linear progression
-        duration: lines.length, // Duration of one full scroll cycle
-        repeat: -1, // Infinite repeat
-      }
+        totalTime: lines.length * 2 + 1,
+        ease: 'none',
+        duration: lines.length,
+    repeat: -1,
+     }
     );
     gsap.set(scrubber, { totalTime: lines.length + 2 });
 
-    // The “indicator” must wrap exactly around the currently visible word
-    let index = 0;
-    // Set initial width of the indicator based on the first word
-    gsap.set('.infinite-scroller-main-container .indicator', {
+     let index = 0;
+     gsap.set('.infinite-scroller-main-container .indicator', {
       '--width': lines[index].getBoundingClientRect().width,
     });
-
-    // Function to synchronize the indicator with the current word
-    const syncIndicator = () => {
-      index += 1; // Move to the next word
-      // Update the indicator's width and a random hue for its border color
+ const syncIndicator = () => {
+      index += 1;
       gsap.set('.infinite-scroller-main-container .indicator', {
         '--width': lines[index % lines.length].getBoundingClientRect()
-          .width, // Use modulo to loop back to the beginning of the original array
-        '--h': gsap.utils.random(0, 359), // Random hue for the border color
+          .width,
+        '--h': gsap.utils.random(0, 359),
       });
     };
-
-    // Animate the scrubber's totalTime to control the vertical scrolling
     gsap.to(scrubber, {
-      delay: 1, // Initial delay before animation starts
-      totalTime: '+=1', // Advance the scrubber's totalTime by 1 unit
-      duration: 1, // Duration of this specific animation step
-      repeat: -1, // Infinite repeat
-      repeatDelay: 1, // Delay before each repeat
-      repeatRefresh: true, // Recalculate values on repeat
-      onStart: syncIndicator, // Call syncIndicator when the animation starts
-      onRepeat: syncIndicator, // Call syncIndicator on each repeat
-      ease: 'elastic.out(1, 0.875)', // Elastic easing for a bouncy effect on the indicator
+      delay: 1,
+      totalTime: '+=1',
+      duration: 1,
+      repeat: -1,
+      repeatDelay: 1,
+      repeatRefresh: true,
+      onStart: syncIndicator,
+      onRepeat: syncIndicator,
+      ease: 'elastic.out(1, 0.875)',
     });
-
-    // Fade the container in once everything is set up
-    gsap.set('.infinite-scroller-main-container', { opacity: 1 });
+ gsap.set('.infinite-scroller-main-container', { opacity: 1 });
 </script>
 </div>
 </section>
