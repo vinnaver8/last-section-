@@ -228,78 +228,94 @@ body {
         flex-direction: column;
       }
     }
-    @import url('https://unpkg.com/normalize.css') layer(normalize);
+@import url('https://unpkg.com/normalize.css') layer(normalize);
+
+    /* Declare layers */
     @layer normalize, base, demo;
+
+    /* DEMO LAYER: styles for the scroller */
     @layer demo {
+      /* Unique class for the main scroller container */
       .infinite-scroller-main-container {
-        --font-level: 7;
+        --font-level: 5; /* Adjusted font level for a more balanced text size */
         opacity: 0;
-        width: 520px;
-     height: 400px;
-   max-width: 100%;
-     max-height: 100%;
-     display: flex;
-        place-items: center;
+        width: 600px; /* Set fixed width for larger screens */
+        height: 360px; /* Set fixed height for larger screens */
+        max-width: 100%; /* Ensures it scales down on smaller screens */
+        max-height: 100%; /* Ensures it scales down on smaller screens */
+        display: flex;
+        place-items: center; /* Centers the content vertically and horizontally within itself */
+        /* Mask to show only the center line, adjusted for no cropping */
         mask: linear-gradient(
-          #0000 0.25lh,
-         #fff calc(50% - 0.6lh),
-              #fff calc(50% + 0.6lh),
-              #0000 calc(100% - 0.25lh)
-     );
+          #0000 0.25lh, /* Transparent fade from top, ends at 0.25lh */
+          #fff calc(50% - 0.5lh), /* Opaque section begins, exactly 0.5lh from center */
+          #fff calc(50% + 0.5lh), /* Opaque section ends, exactly 0.5lh from center (total 1lh) */
+          #0000 calc(100% - 0.25lh) /* Transparent fade to bottom, starts at 0.25lh from bottom */
+        );
         color: color-mix(in lch, canvasText, canvas 15%);
         text-align: center;
         position: relative;
-        background: #0D0D0D;
-            overflow: hidden;
-     border-radius: 12px;
-     }
-.infinite-scroller-main-container ul {
+        background: #0D0D0D; /* force dark background */
+        overflow: hidden; /* Hide overflowing content */
+        border-radius: 12px; /* Added rounded corners for better aesthetics */
+      }
+
+      /* Styles for the unordered list, scoped under the unique container class */
+      .infinite-scroller-main-container ul {
         padding: 0;
         margin: 0;
         list-style-type: none;
         text-transform: uppercase;
-        line-height: 1;
-     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
-          sans-serif;
-        height: 1lh;
-     display: inline-grid;
+        line-height: 1; /* Essential for 'lh' unit consistency */
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
+        sans-serif;
+        height: 1lh; /* Height of a single line item */
+        display: inline-grid;
         position: relative;
-        padding-inline: 1em;
-     align-items: center;
+        padding-inline: 1em; /* Increased padding-inline for more text gap */
+        align-items: center;
         align-content: center;
         justify-content: center;
         justify-items: center;
         text-align: center;
-        width: 100%;
-     }
- .infinite-scroller-main-container .indicator {
-        --c: 0.3em;
+        width: 100%; /* Ensures the ul takes full available width for proper centering */
+      }
+
+      /* Styles for the indicator, scoped under the unique container class */
+      .infinite-scroller-main-container .indicator {
+        --c: 0.3em; /* Padding around the word inside the indicator */
+
         position: absolute;
         top: 50%;
-        left: 50%;
+        transform: translateY(-50%); /* Explicitly center vertically */
         height: 1lh;
-        translate: -50% -50%;
-    border: 0.05em solid oklch(0.75 1 var(--h, 320));
-     transition: width 0.25s, border-color 0.25s;
-     width: calc((var(--width) * 1px) + (var(--c) * 2));
-      border-radius: 8px;
-         }
-.infinite-scroller-main-container li {
+        border: 0.05em solid oklch(0.75 1 var(--h, 320)); /* Dynamic border color */
+        transition: width 0.25s, border-color 0.25s; /* Smooth transitions for width and color */
+        width: calc((var(--width) * 1px) + (var(--c) * 2)); /* Adjust width based on word width + padding */
+        border-radius: 8px; /* Maintain rounded corners for the box */
+      }
+
+      /* Styles for list items, scoped under the unique container class */
+      .infinite-scroller-main-container li {
         display: inline-block;
-        width: fit-content;
+        width: fit-content; /* Width adjusts to content */
         height: 1lh;
-        grid-area: 1 / 1;
+        grid-area: 1 / 1; /* All list items occupy the same grid area to stack */
       }
     }
+
+    /* BASE LAYER: fluid typography + utilities */
     @layer base {
       :root {
-        --font-size-min: 16;
-    --font-size-max: 20;
-     --font-ratio-min: 1.2;
-     --font-ratio-max: 1.33;
-    --font-width-min: 375;
-    --font-width-max: 1500;
-     }
+        --font-size-min: 16; /* Minimum font size in px */
+        --font-size-max: 20; /* Maximum font size in px */
+        --font-ratio-min: 1.2; /* Minimum font ratio for scaling */
+        --font-ratio-max: 1.33; /* Maximum font ratio for scaling */
+        --font-width-min: 375; /* Minimum viewport width for fluid typography */
+        --font-width-max: 1500; /* Maximum viewport width for fluid typography */
+      }
+
+      /* .fluid makes font “fluid” between min/max */
       :where(.fluid) {
         --fluid-min: calc(
           var(--font-size-min) *
@@ -317,8 +333,8 @@ body {
           (var(--fluid-min) / 16) * 1rem,
           ((var(--fluid-min) / 16) * 1rem) -
             (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
-            (var(--fluid-preferred) * var(--variable-unit, 100vi)),
-              (var(--fluid-max) / 16) * 1rem
+            (var(--fluid-preferred) * var(--variable-unit, 100vi)), /* Use viewport-relative unit */
+          (var(--fluid-max) / 16) * 1rem
         );
         font-size: var(--fluid-type);
       }
@@ -326,9 +342,19 @@ body {
       *,
       *::before,
       *::after {
-        box-sizing: border-box;
+        box-sizing: border-box; /* Include padding and border in the element's total width and height */
       }
-</style>
+
+      body {
+        display: grid;
+        place-items: center; /* Center content vertically and horizontally */
+        min-height: 100vh; /* Full viewport height */
+        margin: 0;
+        background: #000; /* ensure dark background */
+        overflow: hidden; /* Prevent body scroll if content exceeds viewport, especially on small screens */
+      }
+    }
+  </style>
 </head>
 <body class="bg-[#0D0D0D]">
     <section id="section-4" class="relative min-h-[1800px] bg-[#0D0D0D] text-white overflow-hidden pt-32">
@@ -352,16 +378,15 @@ body {
                     </button>
                 </div>
                 <div class="w-full absolute right-[-250px]">
-  <div class="wrap">
+<div class="wrap">
 <div class="c"></div>
-    <div class="c"></div>
-  <div class="c"></div>
-  </div>
-                </div>
-            </div>
-
-            <div class="flex flex-col md:flex-row items-center justify-between gap-16">
-                <div class="md:w-1/2 text-left">
+<div class="c"></div>
+<div class="c"></div>
+</div>
+</div>
+</div>
+<div class="flex flex-col md:flex-row items-center justify-between gap-16">
+<div class="md:w-1/2 text-left">
                     <h2 class="text-4xl font-semibold mb-4">API</h2>
                     <p class="text-lg text-gray-300 mb-8 max-w-md">
                         Supercharge your applications with Grok's enhanced speed, precision, and multilingual capabilities.
@@ -595,68 +620,137 @@ const tempDiv = document.createElement('div');
   </div>
             </div>
 <script type="module">
+    // Import GSAP library
     import gsap from 'https://cdn.skypack.dev/gsap@3.12.0';
-  gsap.defaults({
+
+    // Set default duration for all GSAP animations
+    gsap.defaults({
       duration: 1,
     });
-  const tl = gsap.timeline({ paused: true });
-     const lines = gsap.utils.toArray('ul li');
+
+    // Create a paused timeline for the entire scroller animation
+    const tl = gsap.timeline({ paused: true });
+    // Get all list items (words)
+    const lines = gsap.utils.toArray('ul li');
+
+    // Initially place each <li> off-screen (below) by 300% of its own height
     gsap.set('ul li', { yPercent: 300 });
-const paddedLines = [...lines, ...lines, ...lines];
- paddedLines.forEach((line, index) => {
-    const lineTl = gsap.timeline()
-        .set(line, { yPercent: 300 })
+
+    // Duplicate the array so that it can loop seamlessly
+    // We duplicate it three times to ensure enough content for smooth looping
+    const paddedLines = [...lines, ...lines, ...lines];
+
+    paddedLines.forEach((line, index) => {
+      // Each line has its own mini-timeline: move up by 600% (from +300% to -300%)
+      // This creates the vertical scrolling effect
+      const lineTl = gsap.timeline()
+        .set(line, { yPercent: 300 }) // Start at 300% below original position
         .to(
           line,
           {
-            yPercent: '-=600',
-     repeatRefresh: true,
-         immediateRender: false,
-    ease: 'none',
-        duration: 6,
-              },
-          0
-     );
-      tl.add(lineTl, index);
+            yPercent: '-=600', // Move up by 600% (ends at -300% above original)
+            repeatRefresh: true, // Recalculate values on repeat for responsiveness
+            immediateRender: false, // Don't render immediately on first run
+            ease: 'none', // Linear movement for consistent speed
+            duration: 6, // Duration for one full scroll cycle
+          },
+          0 // Start at the beginning of the lineTl
+        );
+      tl.add(lineTl, index); // Add each line's timeline to the main timeline
     });
+
+    // Create a “scrubber” timeline that drives the totalTime of the main 'tl' timeline
+    // This scrubber is responsible for the continuous looping of the words
     const scrubber = gsap.timeline({ paused: true }).fromTo(
       tl,
       {
-        totalTime: lines.length + 1,
+        totalTime: lines.length + 1, // Starting point of the scrubber (middle of the paddedLines)
       },
       {
-        totalTime: lines.length * 2 + 1,
-        ease: 'none',
-        duration: lines.length,
-    repeat: -1,
-     }
+        totalTime: lines.length * 2 + 1, // Ending point of the scrubber (middle of the paddedLines, one full cycle later)
+        ease: 'none', // Linear progression
+        duration: lines.length, // Duration of one full scroll cycle
+        repeat: -1, // Infinite repeat
+      }
     );
+
+    // Seed the scrubber’s starting position so items start halfway
+    // This ensures that the words appear to be continuously scrolling from the beginning
     gsap.set(scrubber, { totalTime: lines.length + 2 });
 
-     let index = 0;
-     gsap.set('.infinite-scroller-main-container .indicator', {
-      '--width': lines[index].getBoundingClientRect().width,
-    });
- const syncIndicator = () => {
-      index += 1;
-      gsap.set('.infinite-scroller-main-container .indicator', {
-        '--width': lines[index % lines.length].getBoundingClientRect()
-          .width,
-        '--h': gsap.utils.random(0, 359),
+    // The “indicator” must wrap exactly around the currently visible word
+    let index = 0;
+    // Get the indicator element
+    const indicator = document.querySelector('.infinite-scroller-main-container .indicator');
+
+    // Function to synchronize the indicator with the current word
+    const syncIndicator = () => {
+      index += 1; // Move to the next word
+      const currentLine = lines[index % lines.length]; // Get the currently visible line element
+      const wordWidth = currentLine.getBoundingClientRect().width;
+
+      // Calculate the `left` position to center the indicator over the current word.
+      // We get the bounding rectangles of the container, the UL, and the current LI.
+      const containerRect = document.querySelector('.infinite-scroller-main-container').getBoundingClientRect();
+      const ulRect = currentLine.closest('ul').getBoundingClientRect();
+      const lineRect = currentLine.getBoundingClientRect();
+
+      // Calculate the UL's left padding to correctly determine the word's position within the UL's content area.
+      const ulPaddingLeft = parseFloat(getComputedStyle(currentLine.closest('ul')).paddingLeft);
+
+      // Calculate the word's left position relative to the UL's content area.
+      const wordLeftInUlContent = lineRect.left - ulRect.left;
+
+      // Calculate the total left offset from the container's left edge to the word's center.
+      // This includes the UL's offset from the container, the UL's left padding, and the word's position within the UL.
+      const wordCenterXRelativeToContainer = (ulRect.left - containerRect.left) + wordLeftInUlContent + (wordWidth / 2);
+
+      // Update the indicator's width and position using GSAP.
+      // 'left' is set to the calculated center of the word, and 'xPercent: -50' centers the indicator itself.
+      gsap.set(indicator, {
+        '--width': wordWidth,
+        '--h': gsap.utils.random(0, 359), // Random hue for the border color
+        left: wordCenterXRelativeToContainer,
+        xPercent: -50 // This centers the indicator horizontally based on its own width
       });
     };
-    gsap.to(scrubber, {
-      delay: 1,
-      totalTime: '+=1',
-      duration: 1,
-      repeat: -1,
-      repeatDelay: 1,
-      repeatRefresh: true,
-      onStart: syncIndicator,
-      onRepeat: syncIndicator,
-      ease: 'elastic.out(1, 0.875)',
+
+    // Set initial width and position of the indicator based on the first word
+    // Call syncIndicator once initially to set the correct state for the first word
+    // Note: The first call to syncIndicator() increments index, so we need to ensure the initial setup
+    // correctly references the *first* word before any increments occur.
+    // Let's explicitly set the initial state for the indicator here.
+    const initialLine = lines[0];
+    const initialWordWidth = initialLine.getBoundingClientRect().width;
+    const initialContainerRect = document.querySelector('.infinite-scroller-main-container').getBoundingClientRect();
+    const initialUlRect = initialLine.closest('ul').getBoundingClientRect();
+    const initialLineRect = initialLine.getBoundingClientRect();
+    const initialUlPaddingLeft = parseFloat(getComputedStyle(initialLine.closest('ul')).paddingLeft);
+    const initialWordLeftInUlContent = initialLineRect.left - initialUlRect.left;
+    const initialWordCenterXRelativeToContainer = (initialUlRect.left - initialContainerRect.left) + initialWordLeftInUlContent + (initialWordWidth / 2);
+
+    gsap.set(indicator, {
+      '--width': initialWordWidth,
+      left: initialWordCenterXRelativeToContainer,
+      xPercent: -50,
+      '--h': gsap.utils.random(0, 359) // Set an initial random hue
     });
- gsap.set('.infinite-scroller-main-container', { opacity: 1 });
+
+    // Animate the scrubber's totalTime to control the vertical scrolling
+    gsap.to(scrubber, {
+      delay: 1, // Initial delay before animation starts
+      totalTime: '+=1', // Advance the scrubber's totalTime by 1 unit
+      duration: 1, // Duration of this specific animation step
+      repeat: -1, // Infinite repeat
+      repeatDelay: 1, // Delay before each repeat
+      repeatRefresh: true, // Recalculate values on repeat
+      onStart: syncIndicator, // Call syncIndicator when the animation starts
+      onRepeat: syncIndicator, // Call syncIndicator on each repeat
+      ease: 'elastic.out(1, 0.875)', // Elastic easing for a bouncy effect on the indicator
+    });
+
+    // Fade the container in once everything is set up
+    gsap.set('.infinite-scroller-main-container', { opacity: 1 });
 </script>
 </div>
 </section>
