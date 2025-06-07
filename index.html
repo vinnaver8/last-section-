@@ -260,101 +260,95 @@
         flex-direction: column; /* Stack content vertically */
       }
     }
-    
+    /* Pull in Normalize.css for consistency */
     @import url('https://unpkg.com/normalize.css') layer(normalize);
+
+    /* Declare layers */
     @layer normalize, base, demo;
+
+    /* DEMO LAYER: styles for the scroller */
     @layer demo {
-      .container {
-        --font-level: 8;
+      /* Unique class for the main scroller container */
+      .infinite-scroller-main-container {
+        --font-level: 7; /* Adjusted font level for a more balanced text size */
         opacity: 0;
+        width: 520px; /* Set fixed width for larger screens */
+        height: 360px; /* Set fixed height for larger screens */
+        max-width: 100%; /* Ensures it scales down on smaller screens */
+        max-height: 100%; /* Ensures it scales down on smaller screens */
         display: flex;
-        place-items: center;
+        place-items: center; /* Centers the content vertically and horizontally within itself */
+        /* Mask to show only the center line, adjusted for no cropping */
         mask: linear-gradient(
-          #0000 0.25lh,
-          #fff calc(50% - 0.5lh) calc(50% + 0.5lh),
-          #0000 calc(100% - 0.25lh)
+          #0000 0.25lh, /* Transparent fade from top, ends at 0.25lh */
+          #fff calc(50% - 0.6lh), /* Opaque section begins, slightly wider than 0.5lh from center */
+          #fff calc(50% + 0.6lh), /* Opaque section ends */
+          #0000 calc(100% - 0.25lh) /* Transparent fade to bottom, starts at 0.25lh from bottom */
         );
         color: color-mix(in lch, canvasText, canvas 15%);
         text-align: center;
         position: relative;
-        background: #0D0D0D; /* force dark background */
+        background: #000; /* force dark background */
+        overflow: hidden; /* Hide overflowing content */
+        border-radius: 12px; /* Added rounded corners for better aesthetics */
       }
 
-      ul {
+      /* Styles for the unordered list, scoped under the unique container class */
+      .infinite-scroller-main-container ul {
         padding: 0;
         margin: 0;
-          height: 150px;
-          width: 350px;
         list-style-type: none;
         text-transform: uppercase;
-        line-height: 1;
+        line-height: 1; /* Essential for 'lh' unit consistency */
         font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
-        sans-serif;
+          sans-serif;
+        height: 1lh; /* Height of a single line item */
         display: inline-grid;
         position: relative;
-        padding-inline: 0.25em;
+        padding-inline: 1em; /* Increased padding-inline for more text gap */
         align-items: center;
         align-content: center;
         justify-content: center;
         justify-items: center;
         text-align: center;
+        width: 100%; /* Ensures the ul takes full available width for proper centering */
       }
 
-      .indicator {
-        --c: 0.175em;
+      /* Styles for the indicator, scoped under the unique container class */
+      .infinite-scroller-main-container .indicator {
+        --c: 0.3em; /* Padding around the word inside the indicator */
 
         position: absolute;
         top: 50%;
         left: 50%;
-          width:300px;
-          height:100px;
-        translate: -50% -50%;
-        border: 0.05em solid oklch(0.75 1 var(--h, 320));
-        transition: width 0.25s, border-color 0.25s;
-        width: calc((var(--width) * 1px) + var(--c));
+        height: 1lh;
+        translate: -50% -50%; /* Center the indicator */
+        border: 0.05em solid oklch(0.75 1 var(--h, 320)); /* Dynamic border color */
+        transition: width 0.25s, border-color 0.25s; /* Smooth transitions for width and color */
+        width: calc((var(--width) * 1px) + (var(--c) * 2)); /* Adjust width based on word width + padding */
+        border-radius: 8px; /* Maintain rounded corners for the box */
 
-        /* create little rounded-corner mask around the word */
-        clip-path: polygon(
-          0 0,
-          var(--c) 0,
-          var(--c) var(--c),
-          0 var(--c),
-          0 100%,
-          0 calc(100% - var(--c)),
-          var(--c) calc(100% - var(--c)),
-          var(--c) 100%,
-          0 100%,
-          calc(100% - var(--c)) 100%,
-          calc(100% - var(--c)) calc(100% - var(--c)),
-          100% calc(100% - var(--c)),
-          100% 100%,
-          100% var(--c),
-          calc(100% - var(--c)) var(--c),
-          calc(100% - var(--c)) 0,
-          100% 0,
-          100% 100%,
-          0 100%
-        );
+        /* Removed clip-path to ensure the box is a complete rectangle */
       }
 
-      li {
+      /* Styles for list items, scoped under the unique container class */
+      .infinite-scroller-main-container li {
         display: inline-block;
-        width: fit-content;
-        grid-area: 1 / 1;
-        line-height: 1.2;
-          height:150px;
-      width:300px;
+        width: fit-content; /* Width adjusts to content */
+        height: 1lh;
+        grid-area: 1 / 1; /* All list items occupy the same grid area to stack */
+      }
     }
 
     /* BASE LAYER: fluid typography + utilities */
     @layer base {
       :root {
-        --font-size-min: 16;
-        --font-size-max: 20;
-        --font-ratio-min: 1.2;
-        --font-ratio-max: 1.33;
-        --font-width-min: 375;
-        --font-width-max: 1500;
+        --font-size-min: 16; /* Minimum font size in px */
+        --font-size-max: 20; /* Maximum font size in px */
+        --font-ratio-min: 1.2; /* Minimum font ratio for scaling */
+        --font-ratio-max: 1.33; /* Maximum font ratio for scaling */
+        --font-width-min: 375; /* Minimum viewport width for fluid typography */
+        --font-width-max: 1500; /* Maximum viewport width for fluid typography */
       }
 
       /* .fluid makes font “fluid” between min/max */
@@ -375,7 +369,7 @@
           (var(--fluid-min) / 16) * 1rem,
           ((var(--fluid-min) / 16) * 1rem) -
             (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
-            (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+            (var(--fluid-preferred) * var(--variable-unit, 100vi)), /* Use viewport-relative unit */
           (var(--fluid-max) / 16) * 1rem
         );
         font-size: var(--fluid-type);
@@ -384,10 +378,9 @@
       *,
       *::before,
       *::after {
-        box-sizing: border-box;
+        box-sizing: border-box; /* Include padding and border in the element's total width and height */
       }
-
-    </style>
+</style>
 </head>
 <body class="bg-[#0D0D0D]">
     <section id="section-4" class="relative min-h-[1800px] bg-[#0D0D0D] text-white overflow-hidden pt-32">
@@ -694,8 +687,8 @@
                     </button>
                 </div>
 <div class="w-full flex justify-center items-center">
-<div class="container absolute w-[500px] h-[360px] md:absolute md:w-[500px] md:h-[360px] md:right-[1px]">
-<div class="indicator w-[300px] h-[100px] md:w-[300px] md:h-[100px]"></div>
+  <div class="infinite-scroller-main-container fluid">
+    <div class="indicator"></div>
     <ul>
       <li>prototype.</li>
       <li>solve.</li>
@@ -720,90 +713,99 @@
       <li>do it.</li>
     </ul>
   </div>
-  </div>
             </div>
       <script type="module">
+    // Import GSAP library
     import gsap from 'https://cdn.skypack.dev/gsap@3.12.0';
 
+    // Set default duration for all GSAP animations
     gsap.defaults({
       duration: 1,
     });
 
-    // Create a paused timeline for each <li>
+    // Create a paused timeline for the entire scroller animation
     const tl = gsap.timeline({ paused: true });
+    // Get all list items (words)
     const lines = gsap.utils.toArray('ul li');
 
     // Initially place each <li> off-screen (below) by 300% of its own height
     gsap.set('ul li', { yPercent: 300 });
 
     // Duplicate the array so that it can loop seamlessly
+    // We duplicate it three times to ensure enough content for smooth looping
     const paddedLines = [...lines, ...lines, ...lines];
 
     paddedLines.forEach((line, index) => {
       // Each line has its own mini-timeline: move up by 600% (from +300% to -300%)
+      // This creates the vertical scrolling effect
       const lineTl = gsap.timeline()
-        .set(line, { yPercent: 300 })
+        .set(line, { yPercent: 300 }) // Start at 300% below original position
         .to(
           line,
           {
-            yPercent: '-=600',
-            repeatRefresh: true,
-            immediateRender: false,
-            ease: 'none',
-            duration: 6,
+            yPercent: '-=600', // Move up by 600% (ends at -300% above original)
+            repeatRefresh: true, // Recalculate values on repeat for responsiveness
+            immediateRender: false, // Don't render immediately on first run
+            ease: 'none', // Linear movement for consistent speed
+            duration: 6, // Duration for one full scroll cycle
           },
-          0
+          0 // Start at the beginning of the lineTl
         );
-      tl.add(lineTl, index);
+      tl.add(lineTl, index); // Add each line's timeline to the main timeline
     });
 
-    // Create a “scrubber” timeline that drives the totalTime of tl
+    // Create a “scrubber” timeline that drives the totalTime of the main 'tl' timeline
+    // This scrubber is responsible for the continuous looping of the words
     const scrubber = gsap.timeline({ paused: true }).fromTo(
       tl,
       {
-        totalTime: lines.length + 1,
+        totalTime: lines.length + 1, // Starting point of the scrubber (middle of the paddedLines)
       },
       {
-        totalTime: lines.length * 2 + 1,
-        ease: 'none',
-        duration: lines.length,
-        repeat: -1,
+        totalTime: lines.length * 2 + 1, // Ending point of the scrubber (middle of the paddedLines, one full cycle later)
+        ease: 'none', // Linear progression
+        duration: lines.length, // Duration of one full scroll cycle
+        repeat: -1, // Infinite repeat
       }
     );
 
     // Seed the scrubber’s starting position so items start halfway
+    // This ensures that the words appear to be continuously scrolling from the beginning
     gsap.set(scrubber, { totalTime: lines.length + 2 });
 
     // The “indicator” must wrap exactly around the currently visible word
     let index = 0;
-    gsap.set('.indicator', {
+    // Set initial width of the indicator based on the first word
+    gsap.set('.infinite-scroller-main-container .indicator', {
       '--width': lines[index].getBoundingClientRect().width,
     });
 
-    // On each repeat, advance “index” and update the indicator’s width & hue
+    // Function to synchronize the indicator with the current word
     const syncIndicator = () => {
-      index += 1;
-      gsap.set('.indicator', {
+      index += 1; // Move to the next word
+      // Update the indicator's width and a random hue for its border color
+      gsap.set('.infinite-scroller-main-container .indicator', {
         '--width': lines[index % lines.length].getBoundingClientRect()
-          .width,
-        '--h': gsap.utils.random(0, 359),
+          .width, // Use modulo to loop back to the beginning of the original array
+        '--h': gsap.utils.random(0, 359), // Random hue for the border color
       });
     };
 
+    // Animate the scrubber's totalTime to control the vertical scrolling
     gsap.to(scrubber, {
-      delay: 1,
-      totalTime: '+=1',
-      duration: 1,
-      repeat: -1,
-      repeatDelay: 1,
-      repeatRefresh: true,
-      onStart: syncIndicator,
-      onRepeat: syncIndicator,
-      ease: 'elastic.out(1, 0.875)',
+      delay: 1, // Initial delay before animation starts
+      totalTime: '+=1', // Advance the scrubber's totalTime by 1 unit
+      duration: 1, // Duration of this specific animation step
+      repeat: -1, // Infinite repeat
+      repeatDelay: 1, // Delay before each repeat
+      repeatRefresh: true, // Recalculate values on repeat
+      onStart: syncIndicator, // Call syncIndicator when the animation starts
+      onRepeat: syncIndicator, // Call syncIndicator on each repeat
+      ease: 'elastic.out(1, 0.875)', // Elastic easing for a bouncy effect on the indicator
     });
 
-    // Fade the container in
-    gsap.set('.container', { opacity: 1 });
+    // Fade the container in once everything is set up
+    gsap.set('.infinite-scroller-main-container', { opacity: 1 });
       </script>
                     
                 </div>
