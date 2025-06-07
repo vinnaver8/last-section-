@@ -267,7 +267,6 @@
       .container {
         --font-level: 8;
         opacity: 0;
-        height: 3lh; /* “lh” = 1× line-height */
         display: flex;
         place-items: center;
         mask: linear-gradient(
@@ -284,12 +283,13 @@
       ul {
         padding: 0;
         margin: 0;
+          height: 150px;
+          width: 350px;
         list-style-type: none;
         text-transform: uppercase;
         line-height: 1;
         font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
-          sans-serif;
-        height: 1lh;
+        sans-serif;
         display: inline-grid;
         position: relative;
         padding-inline: 0.25em;
@@ -306,7 +306,6 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        height: 1lh;
         translate: -50% -50%;
         border: 0.05em solid oklch(0.75 1 var(--h, 320));
         transition: width 0.25s, border-color 0.25s;
@@ -339,7 +338,6 @@
       li {
         display: inline-block;
         width: fit-content;
-        height: 1lh;
         grid-area: 1 / 1;
         line-height: 1.2;
       }
