@@ -11,31 +11,336 @@
 body {
  font-family: 'Inter', sans-serif;
         }
- .wrap {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  transform-style: preserve-3d;
-  perspective: 1000px;
-  animation: rotate 14s infinite linear;
-}
+ /* first card start */
+    @import url('https://fonts.googleapis.com/css2?family=Reddit+Mono:wght@200..900&display=swap');
+@import url('https://unpkg.com/normalize.css') layer(normalize);
 
-@keyframes rotate {
-  100% {
-    transform: rotateY(360deg) rotateX(360deg);
+@layer normalize, base, demo, snapping;
+
+@layer snapping {
+  @supports (animation-timeline: scroll()) {
+    .scroller header,
+    .scroller footer {
+      scroll-snap-align: unset;
+    }
+    .scroller header {
+      --align: start;
+      animation: snap both linear reverse;
+      animation-timeline: scroll(nearest);
+      animation-range: calc(var(--padding, 0) * 1px) 0;
+    }
+    .scroller footer {
+      --align: end;
+      animation: snap both linear;
+      animation-timeline: scroll(nearest);
+      animation-range: calc(100% - (var(--padding, 0) * 1px)) 100%;
+    }
+    @keyframes snap {
+      to {
+        scroll-snap-align: var(--align, start);
+      }
+    }
   }
 }
 
-.c {
-  position: absolute;
-  width: 2px;
-  height: 2px;
-  border-radius: 50%;
-  opacity: 0;
+@layer demo {
+  :root {
+    --size: 300px;
+    --radius: 32;
+    --padding: 64px;
+    --bg: hsl(180 0% 33%);
+    --bar: hsl(0 0% 100% / 0.5);
+    --panel: hsl(20 60% 50%);
+    timeline-scope: --scroller;
+  }
+  /**
+   * Think the idea here would be to translate a fake scrollbar up/down
+   * Clip the edges and rotate a clipped bordered element on the ends
+   * If we need the fatness, we need to go with something like a morphing SVG
+   * Or we might get away with transform-origin 100% 0 and scale 1.1 to get the thicc
+   * Might be easier to drop two SVG at each end though for that.
+   * */
+  .scroller {
+    position: relative;
+    width: clamp(300px, 50vmin, 600px);
+    aspect-ratio: 3 / 4;
+    resize: both;
+    overflow: hidden;
+    /* padding: 0 0.5rem 0 0; */
+    padding: 1rem;
+  }
+
+  .scroller img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+    filter: contrast(1.5) grayscale(1);
+  }
+
+  .bar__thumb,
+  .bar__track {
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  [data-rounded-scroll='true'] .scroller :is(.bar__thumb, .bar__track) {
+    opacity: 1;
+  }
+
+  .scroller > svg {
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    right: 1rem;
+    pointer-events: none;
+    /* height: 100%; */
+    width: calc(var(--radius) * 2px);
+    overflow: visible !important;
+    z-index: 2;
+  }
+
+  [data-rounded-scroll='true'] .scroller div::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-rounded-scroll='true'] div::-webkit-scrollbar {
+    display: none;
+    opacity: 0 !important;
+  }
+
+  [data-rounded-scroll='true'] .scroller div {
+    scrollbar-width: 0;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scroller path {
+    stroke-width: calc(var(--stroke-width) * 1px);
+  }
+
+  .bar__thumb {
+    stroke: color-mix(
+      in hsl,
+      var(--color, #fff),
+      #0000 calc((1 - var(--bar-alpha, 0.5)) * 100%)
+    );
+    stroke-dasharray: var(--thumb-size) var(--track-length);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    .bar__thumb {
+      animation: scroll both linear;
+      animation-timeline: --scroller;
+    }
+  }
+
+  /* Keyframes are generated via JavaScript for dynamic stuff */
+
+  .bar__track {
+    stroke: hsl(0 0% 100% / var(--track-alpha, 0));
+  }
+
+  .scroller > div {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background: light-dark(#fff, #000);
+    border-radius: calc(var(--radius) * 1px);
+    display: grid;
+    grid-auto-flow: row;
+    gap: 0;
+    margin: 0;
+    padding: calc(var(--padding) * 1px) 0;
+    list-style-type: none;
+    scroll-snap-type: y mandatory;
+    scroll-timeline: --scroller;
+    scroll-behavior: smooth;
+    outline: 1px solid color-mix(in lch, canvas, canvasText);
+    outline-offset: 1px;
+
+    &::after {
+      content: '';
+      height: calc(var(--stroke, 4) * 1px);
+      width: clamp(40px, 50%, 80px);
+      background: canvasText;
+      border-radius: 100px;
+      position: absolute;
+      bottom: calc(1rem + 4px);
+      left: 50%;
+      translate: -50% -50%;
+    }
+  }
+
+  .scroller > div > * {
+    padding-inline: 1.25rem;
+  }
+  .scroller main :not(:last-child) {
+    margin-bottom: 2rem;
+  }
+
+  .scroller main p:last-of-type {
+    opacity: 0.4;
+  }
+
+  .scroller p {
+    opacity: 0.6;
+    font-size: 0.875rem;
+  }
+
+  .scroller header {
+    scroll-snap-align: start;
+    margin-block: 2rem;
+    text-transform: uppercase;
+    font-family: 'Reddit Mono', monospace;
+
+    div {
+      margin-block: 4rem;
+    }
+
+    h1 {
+      font-size: 1.25rem;
+      font-weight: 300;
+      margin: 0;
+    }
+    p {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 300;
+    }
+  }
+
+  .scroller footer {
+    scroll-snap-align: end;
+    padding-inline: 1rem;
+    text-align: center;
+    padding-block: 1rem;
+    font-size: 0.75rem;
+    opacity: 0.5;
+  }
 }
-             #box {
+
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
+
+  html {
+    color-scheme: light dark;
+  }
+
+  [data-theme='light'] {
+    color-scheme: light only;
+  }
+
+  [data-theme='dark'] {
+    color-scheme: dark only;
+  }
+
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+        (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+        (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+        (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
+
+  *,
+  *:after,
+  *:before {
+    box-sizing: border-box;
+  }
+
+  body {
+    background: light-dark(#fff, #000);
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    font-family: 'SF Pro Text', 'SF Pro Icons', 'AOS Icons', 'Helvetica Neue',
+      Helvetica, Arial, sans-serif, system-ui;
+  }
+
+  body::before {
+    --size: 45px;
+    --line: color-mix(in hsl, canvasText, transparent 70%);
+    content: '';
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    background: linear-gradient(
+          90deg,
+          var(--line) 1px,
+          transparent 1px var(--size)
+        )
+        50% 50% / var(--size) var(--size),
+      linear-gradient(var(--line) 1px, transparent 1px var(--size)) 50% 50% /
+        var(--size) var(--size);
+    mask: linear-gradient(-20deg, transparent 50%, white);
+    top: 0;
+    transform-style: flat;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .bear-link {
+    color: canvasText;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    width: 48px;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    opacity: 0.8;
+  }
+
+  :where(.x-link, .bear-link):is(:hover, :focus-visible) {
+    opacity: 1;
+  }
+
+  .bear-link svg {
+    width: 75%;
+  }
+
+  /* Utilities */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+div.tp-dfwv {
+  width: 280px;
+  * {
+    text-transform: lowercase;
+  }
+}
+  /* first card end */
+#box {
       position: relative;
       width: 100%;
       max-width: 500px;
@@ -368,13 +673,154 @@ body {
                     </button>
                 </div>
                 <div class="w-full absolute right-[-250px]">
-<div class="wrap">
-<div class="c"></div>
-<div class="c"></div>
-<div class="c"></div>
-</div>
-</div>
-</div>
+<div class="scroller">
+      <svg
+        class="scroller__bar bar"
+        viewBox="0 0 56 56"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path class="bar__thumb" fill="none" stroke-linecap="round" />
+        <path class="bar__track" fill="none" stroke-linecap="round" />
+      </svg>
+      <div>
+        <header>
+          <div>
+            <h1>023: curved scroller.</h1>
+            <p>Jhey Tompkins.</p>
+          </div>
+          <img src="https://picsum.photos/1280/720?random=12" alt="" />
+        </header>
+        <main>
+          <p>
+            Lorem, ipsum, dolor sit amet consectetur adipisicing elit. Suscipit
+            in voluptatum, ducimus labore iste consectetur laboriosam officiis
+            aliquid similique reprehenderit, consequatur distinctio consequuntur
+            nam magnam blanditiis reiciendis eligendi laudantium a.
+          </p>
+          <p>
+            Dignissimos, nisi tenetur doloremque esse cum amet delectus
+            cupiditate natus quo illum quisquam perspiciatis ipsa maiores aut
+            soluta, facilis sunt rem eius. Alias, illum, cumque. Temporibus
+            doloremque praesentium in, consectetur.
+          </p>
+          <p>
+            Molestias voluptas architecto atque maiores, laboriosam, dolorem
+            commodi autem, id, ipsa praesentium rerum inventore! Optio maiores
+            nulla impedit, sapiente similique, voluptas placeat hic quas dicta a
+            voluptate minima alias aliquam?
+          </p>
+          <img src="https://picsum.photos/1280/720?random=48" alt="" />
+          <p>
+            Suscipit repudiandae, consectetur ratione quo, ipsa inventore
+            doloremque quibusdam sit iusto, obcaecati natus! Tempore, tenetur
+            culpa, mollitia consequuntur necessitatibus minima aliquid in
+            recusandae, exercitationem nulla voluptates atque quaerat,
+            doloremque illum.
+          </p>
+          <p>
+            Quibusdam quas, soluta quisquam nobis porro odio sit, maxime libero,
+            optio cumque, sint! Enim, atque, velit. Iste quisquam minus deleniti
+            quasi saepe! Saepe assumenda iste accusantium rem, sunt repudiandae
+            quae!
+          </p>
+          <p>
+            Mollitia quod fuga ex, consequatur saepe. Id laboriosam aspernatur
+            iusto unde quo. Optio molestiae maxime officia blanditiis voluptate,
+            quasi impedit aperiam corrupti nihil sit doloremque dolorem harum
+            necessitatibus expedita laboriosam.
+          </p>
+          <p>
+            Deleniti molestiae maxime ullam officia natus, eaque nisi numquam,
+            aliquam sapiente doloribus atque obcaecati illum vitae modi labore,
+            eligendi hic illo earum doloremque. Deserunt ut aliquam a aliquid,
+            dolores, magni.
+          </p>
+          <img src="https://picsum.photos/1280/720?random=36" alt="" />
+          <p>
+            Nesciunt dolor fugiat excepturi sunt molestias quis quam
+            consequatur, ea, eos officiis? Veniam totam, quas quasi eos
+            quibusdam, dolorem deleniti minus aperiam, nobis sapiente sit,
+            necessitatibus delectus quidem. Voluptate, nemo!
+          </p>
+          <p>
+            Qui fugit rerum harum, odio eos esse dicta dolore atque itaque
+            voluptatem, doloribus ullam tempora quidem, accusantium quae,
+            incidunt natus error fuga inventore expedita autem veniam in sequi
+            iure. Officia.
+          </p>
+          <p>
+            Ab mollitia, illum. Iusto quam enim, in sapiente sed impedit
+            nesciunt pariatur delectus asperiores officia hic ratione quasi eum
+            quidem facere quaerat ducimus dolor totam omnis itaque sequi
+            expedita optio?
+          </p>
+          <p>Find out how to do things like this and more by subscribing.</p>
+        </main>
+        <footer>
+          <p>The Craft of UI&nbsp;&copy;</p>
+        </footer>
+      </div>
+      <style id="scroller-frames"></style>
+    </div>
+    <a
+      class="bear-link"
+      href="https://twitter.com/intent/follow?screen_name=jh3yy"
+      target="_blank"
+      rel="noreferrer noopener"
+    >
+      <svg
+        class="w-9"
+        viewBox="0 0 969 955"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle
+          cx="161.191"
+          cy="320.191"
+          r="133.191"
+          stroke="currentColor"
+          stroke-width="20"
+        ></circle>
+        <circle
+          cx="806.809"
+          cy="320.191"
+          r="133.191"
+          stroke="currentColor"
+          stroke-width="20"
+        ></circle>
+        <circle
+          cx="695.019"
+          cy="587.733"
+          r="31.4016"
+          fill="currentColor"
+        ></circle>
+        <circle
+          cx="272.981"
+          cy="587.733"
+          r="31.4016"
+          fill="currentColor"
+        ></circle>
+        <path
+          d="M564.388 712.083C564.388 743.994 526.035 779.911 483.372 779.911C440.709 779.911 402.356 743.994 402.356 712.083C402.356 680.173 440.709 664.353 483.372 664.353C526.035 664.353 564.388 680.173 564.388 712.083Z"
+          fill="currentColor"
+        ></path>
+        <rect
+          x="310.42"
+          y="448.31"
+          width="343.468"
+          height="51.4986"
+          fill="#FF1E1E"
+        ></rect>
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M745.643 288.24C815.368 344.185 854.539 432.623 854.539 511.741H614.938V454.652C614.938 433.113 597.477 415.652 575.938 415.652H388.37C366.831 415.652 349.37 433.113 349.37 454.652V511.741L110.949 511.741C110.949 432.623 150.12 344.185 219.845 288.24C289.57 232.295 384.138 200.865 482.744 200.865C581.35 200.865 675.918 232.295 745.643 288.24Z"
+          fill="currentColor"
+        ></path>
+      </svg>
+    </a>
+                </div>
+            </div>
 <div class="flex flex-col md:flex-row items-center justify-between gap-16">
 <div class="md:w-1/2 text-left">
                     <h2 class="text-4xl font-semibold mb-4">API</h2>
@@ -739,43 +1185,275 @@ const tempDiv = document.createElement('div');
 </div>   
 </section>
  <script>
-  const wrap = document.querySelector('.wrap');
-  const total = 300;
-  const orbSize = 100;
-  const time = 14;
+import gsap from 'https://cdn.skypack.dev/gsap@3.12.0'
+import { ScrollTrigger } from 'https://cdn.skypack.dev/gsap@3.12.0/ScrollTrigger'
+import { Pane } from 'https://cdn.skypack.dev/tweakpane@4.0.4'
 
-  for (let i = 1; i <= total; i++) {
-    const dot = document.createElement('div');
-    dot.className = 'c';
-    dot.style.animation = `orbit${i} ${time}s infinite`;
-    dot.style.animationDelay = `${i * 0.01}s`;
-    const hue = (40 / total * i);
-    dot.style.backgroundColor = `hsla(${hue}, 100%, 50%, 1)`;
-    wrap.appendChild(dot);
+let tl
+let configureTimeline
 
-    const z = Math.floor(Math.random() * 360);
-    const y = Math.floor(Math.random() * 360);
+const ctrl = new Pane({
+  title: 'Config',
+  expanded: true,
+})
 
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes orbit${i} {
-        20% {
-          opacity: 1;
-        }
-        30% {
-          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize}px) rotateZ(${z}deg);
-        }
-        80% {
-          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize}px) rotateZ(${z}deg);
-          opacity: 1;
-        }
-        100% {
-          transform: rotateZ(-${z}deg) rotateY(${y}deg) translateX(${orbSize * 3}px) rotateZ(${z}deg);
-        }
-      }
-    `;
-    document.head.appendChild(style);
+const scroller = document.querySelector('.scroller')
+const list = scroller.querySelector('div')
+const bar = scroller.querySelector('.scroller__bar')
+const track = scroller.querySelector('.bar__track')
+const thumb = bar.querySelector('.bar__thumb')
+const styles = scroller.querySelector('style')
+
+const config = {
+  theme: 'dark',
+  show: true,
+  radius: 32,
+  scrollPadding: 60,
+  stroke: 5,
+  inset: 6,
+  trail: 20,
+  thumb: 70,
+  finish: 5,
+  alpha: 0.9,
+  track: 0,
+  color: '#f85922',
+  cornerLength: 0,
+  offsetCorner: -50,
+  offsetEnd: 30,
+}
+let frames = []
+const syncBar = (scrollerBar) => {
+  const mid = config.radius
+  const innerRad = Math.max(
+    0,
+    config.radius - (config.inset + config.stroke * 0.5)
+  )
+  const padTop = config.inset + config.stroke * 0.5
+  const padLeft = config.radius * 2 - padTop
+  bar.setAttribute(
+    'viewBox',
+    `0 0 ${config.radius * 2} ${scrollerBar.target.offsetHeight}`
+  )
+  scroller.style.setProperty('--stroke-width', config.stroke)
+  let d = `
+  M${mid - config.trail},${padTop}
+    ${innerRad === 0 ? '' : `L${mid},${padTop}`}
+    ${
+      innerRad === 0
+        ? `L${padLeft},${padTop}`
+        : `a${innerRad},${innerRad} 0 0 1 ${innerRad} ${innerRad}`
+    }`
+  thumb.setAttribute('d', d)
+  const cornerLength = Math.ceil(thumb.getTotalLength())
+  config.cornerLength = cornerLength
+  d = `
+    M${mid - config.trail},${padTop}
+    ${innerRad === 0 ? '' : `L${mid},${padTop}`}
+    ${
+      innerRad === 0
+        ? `L${padLeft},${padTop}`
+        : `a${innerRad},${innerRad} 0 0 1 ${innerRad} ${innerRad}`
+    }
+    L${padLeft},${
+    scrollerBar.target.offsetHeight -
+    (config.inset + config.stroke * 0.5 + innerRad)
   }
-    </script>
+    ${
+      innerRad === 0
+        ? `L${padLeft},${
+            scrollerBar.target.offsetHeight -
+            (config.inset + config.stroke * 0.5)
+          }`
+        : `a${innerRad},${innerRad} 0 0 1 ${-innerRad} ${innerRad}`
+    }
+    L${mid - config.trail},${
+    scrollerBar.target.offsetHeight - (config.inset + config.stroke * 0.5)
+  }
+  `
+  thumb.setAttribute('d', d)
+  track.setAttribute('d', d)
+  scroller.style.setProperty(
+    '--track-length',
+    Math.ceil(track.getTotalLength())
+  )
+  scroller.style.setProperty('--track-start', cornerLength)
+  scroller.style.setProperty('--start', config.thumb * 2 + cornerLength)
+  scroller.style.setProperty(
+    '--destination',
+    Math.ceil(track.getTotalLength()) - cornerLength + config.thumb
+  )
+  frames = [
+    [0, config.thumb - config.finish - config.offsetEnd],
+    [
+      Math.floor(
+        (config.scrollPadding / (list.scrollHeight - scroller.offsetHeight)) *
+          100
+      ),
+      (cornerLength + config.offsetCorner) * -1,
+    ],
+    [
+      100 -
+        Math.floor(
+          (config.scrollPadding / (list.scrollHeight - scroller.offsetHeight)) *
+            100
+        ),
+      (Math.floor(track.getTotalLength()) -
+        cornerLength -
+        config.thumb -
+        config.offsetCorner) *
+        -1,
+    ],
+    [
+      100,
+      (Math.floor(track.getTotalLength()) - config.finish - config.offsetEnd) *
+        -1,
+    ],
+  ]
+  styles.innerHTML = `
+    @keyframes scroll {
+      ${frames[0][0]}% { stroke-dashoffset: ${frames[0][1]};}
+      ${frames[1][0]}% { stroke-dashoffset: ${frames[1][1]};}
+      ${frames[2][0]}% { stroke-dashoffset: ${frames[2][1]};}
+      ${frames[3][0]}% { stroke-dashoffset: ${frames[3][1]};}
+    }
+  `
+}
+
+const resizeObserver = new ResizeObserver((entries) => {
+  for (const entry of entries) {
+    syncBar(entry)
+    update()
+    if (configureTimeline && !CSS.supports('animation-timeline: scroll()'))
+      configureTimeline()
+  }
+})
+resizeObserver.observe(scroller)
+
+// if (config.show) document.documentElement.toggleAttribute('data-rounded-scroll')
+// const configFolder = CTRL.addFolder('Config')
+const update = () => {
+  document.documentElement.dataset.theme = config.theme
+  document.documentElement.dataset.roundedScroll = config.show
+  scroller.style.setProperty('--radius', config.radius)
+  scroller.style.setProperty('--padding', config.scrollPadding)
+  scroller.style.setProperty('--color', config.color)
+  scroller.style.setProperty('--thumb-size', config.thumb)
+  scroller.style.setProperty('--bar-alpha', config.alpha)
+  scroller.style.setProperty('--track-alpha', config.track)
+  scroller.style.setProperty(
+    '--destination',
+    Math.ceil(track.getTotalLength()) -
+      ((Math.ceil(track.getTotalLength()) - scroller.offsetHeight) * 0.5 +
+        config.inset)
+  )
+  scroller.style.setProperty('--start', config.thumb * 2)
+  syncBar({ target: list })
+}
+
+const setup = ctrl.addFolder({ title: 'setup', expanded: false })
+setup.addBinding(config, 'radius', {
+  min: 2,
+  max: 64,
+  step: 1,
+  label: 'Radius',
+})
+setup.addBinding(config, 'scrollPadding', {
+  min: 10,
+  max: 200,
+  step: 1,
+  label: 'Padding',
+})
+setup.addBinding(config, 'stroke', {
+  min: 1,
+  max: 20,
+  step: 1,
+  label: 'Stroke',
+})
+setup.addBinding(config, 'inset', {
+  min: 0,
+  max: 20,
+  step: 1,
+  label: 'Inset',
+})
+setup.addBinding(config, 'trail', {
+  min: 0,
+  max: 100,
+  step: 1,
+  label: 'Trail',
+})
+setup.addBinding(config, 'thumb', {
+  min: 20,
+  max: 200,
+  step: 1,
+  label: 'Thumb',
+})
+setup.addBinding(config, 'thumb', {
+  min: 5,
+  max: 50,
+  step: 1,
+  label: 'Finish',
+})
+setup.addBinding(config, 'alpha', {
+  min: 0.1,
+  max: 1,
+  step: 0.01,
+  label: 'Thumb Alpha',
+})
+setup.addBinding(config, 'track', {
+  min: 0.1,
+  max: 1,
+  step: 0.01,
+  label: 'Track Alpha',
+})
+setup.addBinding(config, 'offsetCorner', {
+  min: -50,
+  max: 50,
+  step: 1,
+  label: 'Offset start',
+})
+setup.addBinding(config, 'offsetEnd', {
+  min: -50,
+  max: 50,
+  step: 1,
+  label: 'Offset end',
+})
+setup.addBinding(config, 'color', {
+  label: 'Color',
+})
+ctrl.addBinding(config, 'show', {
+  label: 'Enable',
+})
+ctrl.addBinding(config, 'theme', {
+  label: 'Theme',
+  options: {
+    System: 'system',
+    Light: 'light',
+    Dark: 'dark',
+  },
+})
+ctrl.on('change', update)
+
+syncBar({ target: scroller })
+if (!CSS.supports('(animation-timeline: scroll())')) {
+  configureTimeline = () => {
+    if (tl) tl.kill()
+    tl = gsap.to('.bar__thumb', {
+      scrollTrigger: {
+        scroller: list,
+        scrub: true,
+      },
+      ease: 'none',
+      keyframes: {
+        [`${frames[0][0]}`]: { strokeDashoffset: frames[0][1] },
+        [`${frames[1][0]}`]: { strokeDashoffset: frames[1][1] },
+        [`${frames[2][0]}`]: { strokeDashoffset: frames[2][1] },
+        [`${frames[3][0]}`]: { strokeDashoffset: frames[3][1] },
+      },
+    })
+  }
+  gsap.registerPlugin(ScrollTrigger)
+  configureTimeline()
+}
+</script>
 </body>
 </html>
