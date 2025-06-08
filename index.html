@@ -12,7 +12,7 @@
             font-family: 'Inter', sans-serif;
         }
 
-        /* first card start */
+        /* Curved Scroller (Grok section) */
         @import url('https://unpkg.com/normalize.css') layer(normalize);
 
         @layer normalize, base, demo, snapping;
@@ -56,11 +56,10 @@
 
             .scroller {
                 position: relative;
-                /* Adjusted for flex layout */
-                width: 100%; /* Take full width of parent */
-                max-width: 600px; /* Limit max width */
-                aspect-ratio: 3 / 3.5;
-                resize: none; /* Disable resize to avoid layout issues */
+                width: 100%;
+                max-width: 600px;
+                aspect-ratio: 3 / 3.5; /* Updated aspect ratio */
+                resize: none;
                 overflow: hidden;
                 padding: 1rem;
             }
@@ -136,7 +135,7 @@
                 height: 100%;
                 width: 100%;
                 overflow: auto;
-                background: #0D0D0D; /* Changed to solid background color */
+                background: #0D0D0D;
                 border-radius: calc(var(--radius) * 1px);
                 display: grid;
                 grid-auto-flow: row;
@@ -159,7 +158,7 @@
                     position: absolute;
                     bottom: calc(1rem + 4px);
                     left: 50%;
-                    transform: translateX(-50%); /* Use transform for centering */
+                    transform: translateX(-50%);
                 }
             }
 
@@ -211,81 +210,19 @@
             }
         }
 
-        @layer base {
-            :root {
-                --font-size-min: 16;
-                --font-size-max: 20;
-                --font-ratio-min: 1.2;
-                --font-ratio-max: 1.33;
-                --font-width-min: 375;
-                --font-width-max: 1500;
-            }
-
-            html {
-                color-scheme: light dark;
-            }
-
-            [data-theme='dark'] {
-                color-scheme: dark only;
-            }
-
-            :where(.fluid) {
-                --fluid-min: calc(
-                    var(--font-size-min) * pow(var(--font-ratio-min), var(--font-level, 0))
-                );
-                --fluid-max: calc(
-                    var(--font-size-max) * pow(var(--font-ratio-max), var(--font-level, 0))
-                );
-                --fluid-preferred: calc(
-                    (var(--fluid-max) - var(--fluid-min)) /
-                    (var(--font-width-max) - var(--font-width-min))
-                );
-                --fluid-type: clamp(
-                    (var(--fluid-min) / 16) * 1rem,
-                    ((var(--fluid-min) / 16) * 1rem) -
-                    (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
-                    (var(--fluid-preferred) * var(--variable-unit, 100vi)),
-                    (var(--fluid-max) / 16) * 1rem
-                );
-                font-size: var(--fluid-type);
-            }
-
-            *,
-            *:after,
-            *:before {
-                box-sizing: border-box;
-            }
-            .sr-only {
-                position: absolute;
-                width: 1px;
-                height: 1px;
-                padding: 0;
-                margin: -1px;
-                overflow: hidden;
-                clip: rect(0, 0, 0, 0);
-                white-space: nowrap;
-                border-width: 0;
-            }
-        }
-
-        div.tp-dfwv {
-            width: 280px;
-            * {
-                text-transform: lowercase;
-            }
-        }
-        /* first card end */
-        #box {
+        /* API Section Box (middle box) */
+        #api-box {
             position: relative;
             width: 100%;
             max-width: 500px;
-            height: 280px; /* Reduced height */
+            height: 280px;
             background-color: #111;
             border: 1px solid #333;
             border-radius: 12px;
             overflow: hidden;
+            aspect-ratio: 3 / 3.5; /* Updated aspect ratio */
         }
-        #typing {
+        #api-typing {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -297,26 +234,26 @@
             width: max-content;
             max-width: 0;
             animation:
-                typing-reveal 3s steps(29, end) forwards,
-                blink 0.6s step-end infinite alternate;
+                api-typing-reveal 3s steps(29, end) forwards,
+                api-blink 0.6s step-end infinite alternate;
             padding-right: 2px;
-            color: #fff; /* Ensure text color is white */
+            color: #fff;
         }
-        @keyframes typing-reveal {
+        @keyframes api-typing-reveal {
             from { max-width: 0; }
             to   { max-width: 100%; }
         }
-        @keyframes blink {
+        @keyframes api-blink {
             50% { border-color: transparent; }
         }
-        #thinking {
+        #api-thinking {
             display: none;
             width: 100%;
             height: 100%;
             position: relative;
             padding: 16px;
         }
-        #spinner {
+        #api-spinner {
             position: absolute;
             top: 16px;
             left: 16px;
@@ -325,86 +262,88 @@
             border: 3px solid #333;
             border-top: 3px solid #fff;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: api-spin 1s linear infinite;
         }
-        @keyframes spin {
+        @keyframes api-spin {
             to { transform: rotate(360deg); }
         }
-        #countText {
+        #api-countText {
             position: absolute;
             top: 14px;
             left: 46px;
             font-size: 1rem;
             white-space: nowrap;
-            color: #fff; /* Ensure text color is white */
+            color: #fff;
         }
-        #scrollContainer {
+        #api-scrollContainer {
             position: absolute;
             top: 60px;
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
-            height: 150px; /* Adjusted height */
+            height: 150px;
             overflow: hidden;
         }
 
-        #scrollContent {
+        #api-scrollContent {
             position: absolute;
             top: 0;
             width: 100%;
             line-height: 1.4rem;
             color: #ccc;
             font-size: 0.95rem;
-            animation: scrollUp 10s linear infinite;
+            animation: api-scrollUp 10s linear infinite;
         }
 
-        @keyframes scrollUp {
+        @keyframes api-scrollUp {
             0%   { transform: translateY(0); }
             100% { transform: translateY(-50%); }
         }
-        #final {
+        #api-final {
             display: none;
             width: 100%;
             max-width: 500px;
-            height: 280px; /* Reduced height */
+            height: 280px;
             background-color: #111;
             border-radius: 12px;
             border: 1px solid #333;
             padding: 16px;
             box-sizing: border-box;
-            color: #fff; /* Ensure text color is white */
+            color: #fff;
+            aspect-ratio: 3 / 3.5; /* Updated aspect ratio */
         }
-        #checkIcon {
+        #api-checkIcon {
             width: 24px;
             height: 24px;
             fill: #4caf50;
             vertical-align: middle;
             margin-right: 8px;
         }
-        #finalHeader {
+        #api-finalHeader {
             display: flex;
             align-items: center;
             font-size: 1.2rem;
             margin-bottom: 12px;
         }
-        #finalContent {
+        #api-finalContent {
             font-size: 0.95rem;
             line-height: 1.4rem;
             color: #ddd;
-            height: 200px; /* Adjusted height */
+            height: 200px;
             overflow-y: auto;
         }
         #offices-display {
             display: none;
             width: 100%;
-            height: 280px; /* Adjusted height to match #box */
+            height: 280px;
             padding: 20px;
             background-color: #000;
             color: #fff;
             overflow-y: auto;
-            border-radius: 12px; /* Added border-radius */
-            border: 1px solid #333; /* Added border */
-            box-sizing: border-box; /* Ensures padding is included in height */
+            border-radius: 12px;
+            border: 1px solid #333;
+            box-sizing: border-box;
+            aspect-ratio: 3 / 3.5; /* Updated aspect ratio */
         }
 
         #offices-display h2 {
@@ -474,96 +413,90 @@
                 flex-direction: column;
             }
         }
+
+        /* Infinite Scroller (Developer Docs section) */
         @import url('https://unpkg.com/normalize.css') layer(normalize);
 
-        /* Declare layers */
         @layer normalize, base, demo;
 
-        /* DEMO LAYER: styles for the scroller */
         @layer demo {
-            /* Unique class for the main scroller container */
             .infinite-scroller-main-container {
-                --font-level: 5; /* Adjusted font level for a more balanced text size */
+                --font-level: 5;
                 opacity: 0;
-                width: 100%; /* Take full width of parent */
-                max-width: 600px; /* Set fixed width for larger screens */
-                height: 280px; /* Adjusted height for medium size */
-                max-height: 100%; /* Ensures it scales down on smaller screens */
+                width: 100%;
+                max-width: 600px;
+                height: 280px;
+                max-height: 100%;
                 display: flex;
-                place-items: center; /* Centers the content vertically and horizontally within itself */
-                /* Mask to show only the center line, adjusted for no cropping */
+                place-items: center;
                 mask: linear-gradient(
-                    #0000 0.25lh, /* Transparent fade from top, ends at 0.25lh */
-                    #fff calc(50% - 0.5lh), /* Opaque section begins, exactly 0.5lh from center */
-                    #fff calc(50% + 0.5lh), /* Opaque section ends, exactly 0.5lh from center (total 1lh) */
-                    #0000 calc(100% - 0.25lh) /* Transparent fade to bottom, starts at 0.25lh from bottom */
+                    #0000 0.25lh,
+                    #fff calc(50% - 0.5lh),
+                    #fff calc(50% + 0.5lh),
+                    #0000 calc(100% - 0.25lh)
                 );
                 color: color-mix(in lch, canvasText, canvas 15%);
                 text-align: center;
                 position: relative;
-                background: #0D0D0D; /* force dark background */
-                overflow: hidden; /* Hide overflowing content */
-                border-radius: 12px; /* Added rounded corners for better aesthetics */
-                border: 1px solid #333; /* Added border */
+                background: #0D0D0D;
+                overflow: hidden;
+                border-radius: 12px;
+                border: 1px solid #333;
+                aspect-ratio: 3 / 3.5; /* Updated aspect ratio */
             }
 
-            /* Styles for the unordered list, scoped under the unique container class */
             .infinite-scroller-main-container ul {
                 padding: 0;
                 margin: 0;
                 list-style-type: none;
                 text-transform: uppercase;
-                line-height: 1; /* Essential for 'lh' unit consistency */
+                line-height: 1;
                 font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
                 sans-serif;
-                height: 1lh; /* Height of a single line item */
+                height: 1lh;
                 display: inline-grid;
                 position: relative;
-                padding-inline: 1em; /* Increased padding-inline for more text gap */
+                padding-inline: 1em;
                 align-items: center;
                 align-content: center;
                 justify-content: center;
                 justify-items: center;
                 text-align: center;
-                width: 100%; /* Ensures the ul takes full available width for proper centering */
+                width: 100%;
             }
 
-            /* Styles for the indicator, scoped under the unique container class */
             .infinite-scroller-main-container .indicator {
-                --c: 0.3em; /* Padding around the word inside the indicator */
+                --c: 0.3em;
 
                 position: absolute;
                 top: 50%;
-                transform: translateY(-50%); /* Explicitly center vertically */
+                transform: translateY(-50%);
                 height: 1lh;
-                border: 0.05em solid oklch(0.75 1 var(--h, 320)); /* Dynamic border color */
-                transition: width 0.25s, border-color 0.25s; /* Smooth transitions for width and color */
-                width: calc((var(--width) * 1px) + (var(--c) * 2)); /* Adjust width based on word width + padding */
-                border-radius: 8px; /* Maintain rounded corners for the box */
-                opacity: 1; /* Ensure indicator is visible */
+                border: 0.05em solid oklch(0.75 1 var(--h, 320));
+                transition: width 0.25s, border-color 0.25s;
+                width: calc((var(--width) * 1px) + (var(--c) * 2));
+                border-radius: 8px;
+                opacity: 1;
             }
 
-            /* Styles for list items, scoped under the unique container class */
             .infinite-scroller-main-container li {
                 display: inline-block;
-                width: fit-content; /* Width adjusts to content */
+                width: fit-content;
                 height: 1lh;
-                grid-area: 1 / 1; /* All list items occupy the same grid area to stack */
+                grid-area: 1 / 1;
             }
         }
 
-        /* BASE LAYER: fluid typography + utilities */
         @layer base {
             :root {
-                --font-size-min: 16; /* Minimum font size in px */
-                --font-size-max: 20; /* Maximum font size in px */
-                --font-ratio-min: 1.2; /* Minimum font ratio for scaling */
-                --font-ratio-max: 1.33; /* Maximum font ratio for scaling */
-                --font-width-min: 375; /* Minimum viewport width for fluid typography */
-                --font-width-max: 1500; /* Maximum viewport width for fluid typography */
+                --font-size-min: 16;
+                --font-size-max: 20;
+                --font-ratio-min: 1.2;
+                --font-ratio-max: 1.33;
+                --font-width-min: 375;
+                --font-width-max: 1500;
             }
 
-            /* .fluid makes font “fluid” between min/max */
             :where(.fluid) {
                 --fluid-min: calc(
                     var(--font-size-min) *
@@ -581,7 +514,7 @@
                     (var(--fluid-min) / 16) * 1rem,
                     ((var(--fluid-min) / 16) * 1rem) -
                     (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
-                    (var(--fluid-preferred) * var(--variable-unit, 100vi)), /* Use viewport-relative unit */
+                    (var(--fluid-preferred) * var(--variable-unit, 100vi)),
                     (var(--fluid-max) / 16) * 1rem
                 );
                 font-size: var(--fluid-type);
@@ -590,7 +523,7 @@
             *,
             *::before,
             *::after {
-                box-sizing: border-box; /* Include padding and border in the element's total width and height */
+                box-sizing: border-box;
             }
         }
     </style>
@@ -617,7 +550,7 @@
                         USE NOW <span class="ml-2">&#8594;</span>
                     </button>
                 </div>
-                <!-- Curved Scroller (formerly absolute positioned) -->
+                <!-- Curved Scroller (Grok section) -->
                 <div class="md:w-1/2 flex justify-center items-center">
                     <div class="scroller">
                         <svg class="scroller__bar bar" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
@@ -720,13 +653,13 @@
                     </button>
                 </div>
                 <div class="md:w-1/2 flex justify-center items-center">
-                    <div id="box" class="rounded-lg shadow-lg">
-                        <div id="typing">What is the meaning of life?</div>
-                        <div id="thinking" class="rounded-lg">
-                            <div id="spinner"></div>
-                            <div id="countText">Thinking for 1 second...</div>
-                            <div id="scrollContainer">
-                                <div id="scrollContent">
+                    <div id="api-box" class="rounded-lg shadow-lg">
+                        <div id="api-typing">What is the meaning of life?</div>
+                        <div id="api-thinking" class="rounded-lg">
+                            <div id="api-spinner"></div>
+                            <div id="api-countText">Thinking for 1 second...</div>
+                            <div id="api-scrollContainer">
+                                <div id="api-scrollContent">
                                     <p>First, I need to acknowledge the depth of the question. It's not something that can be answered lightly or with a simple phrase. The meaning of life encompasses philosophy, purpose, and individual experience.</p>
                                     <p>Second, perspectives vary: some find meaning through relationships, others through achievements, and still others through self-discovery or spiritual beliefs.</p>
                                     <p>Finally, each person's answer may evolve over time as they grow, learn, and encounter new experiences.</p>
@@ -736,14 +669,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="final" class="rounded-lg shadow-lg">
-                            <div id="finalHeader">
-                                <svg id="checkIcon" viewBox="0 0 24 24">
+                        <div id="api-final" class="rounded-lg shadow-lg">
+                            <div id="api-finalHeader">
+                                <svg id="api-checkIcon" viewBox="0 0 24 24">
                                     <path d="M9 16.2l-3.5-3.5-1.4 1.4 4.9 4.9 10-10-1.4-1.4z"/>
                                 </svg>
                                 Thought for 5 seconds
                             </div>
-                            <div id="finalContent">
+                            <div id="api-finalContent">
                                 <p>The question "What is the meaning of life?" is one that has puzzled humanity for centuries, and it's not something that comes with a single, universal answer. Instead, it's a deeply personal and complex idea that can look very different depending on who's asking and what they value.</p>
                                 <h4 style="margin-top:12px; margin-bottom:8px;">A Range of Perspectives</h4>
                                 <p>People have approached this question from many angles:</p>
@@ -854,67 +787,68 @@
 
     <script>
         // JS for the API section animation
-        let typingDiv, thinkingDiv, finalDiv, countText, finalContent, officesDisplayDiv;
-        let originalFinalContentElements = [];
+        // Renamed IDs to be unique to avoid conflicts and ensure correct targeting
+        let apiTypingDiv, apiThinkingDiv, apiFinalDiv, apiCountText, apiFinalContent, officesDisplayDiv;
+        let originalApiFinalContentElements = [];
 
         function startAnimationSequence() {
-            typingDiv.style.display = "none";
-            thinkingDiv.style.display = "none";
-            finalDiv.style.display = "none";
+            apiTypingDiv.style.display = "none";
+            apiThinkingDiv.style.display = "none";
+            apiFinalDiv.style.display = "none";
             officesDisplayDiv.style.display = "none";
 
             // Reset typing animation
-            typingDiv.style.maxWidth = "0";
-            typingDiv.textContent = "What is the meaning of life?";
+            apiTypingDiv.style.maxWidth = "0";
+            apiTypingDiv.textContent = "What is the meaning of life?";
 
-            countText.textContent = `Thinking for 1 second...`;
-            const scrollContent = document.getElementById("scrollContent");
+            apiCountText.textContent = `Thinking for 1 second...`;
+            const scrollContent = document.getElementById("api-scrollContent");
             scrollContent.style.animationDuration = "10s"; // Ensure scroll animation speed
-            finalContent.innerHTML = ''; // Clear previous content
+            apiFinalContent.innerHTML = ''; // Clear previous content
 
-            typingDiv.style.display = "block"; // Show typing div
+            apiTypingDiv.style.display = "block"; // Show typing div
             setTimeout(() => {
-                typingDiv.style.display = "none"; // Hide typing div
-                thinkingDiv.style.display = "block"; // Show thinking div
+                apiTypingDiv.style.display = "none"; // Hide typing div
+                apiThinkingDiv.style.display = "block"; // Show thinking div
 
                 let seconds = 1;
-                countText.textContent = `Thinking for ${seconds} second...`;
+                apiCountText.textContent = `Thinking for ${seconds} second...`;
                 const intervalId = setInterval(() => {
                     seconds++;
                     const plural = seconds > 1 ? "seconds" : "second";
-                    countText.textContent = `Thinking for ${seconds} ${plural}...`;
+                    apiCountText.textContent = `Thinking for ${seconds} ${plural}...`;
 
                     if (seconds >= 10) { // Stop after 10 seconds of "thinking"
                         clearInterval(intervalId); // Stop the counter
                         setTimeout(() => {
-                            thinkingDiv.style.display = "none"; // Hide thinking div
-                            finalDiv.style.display = "block"; // Show final div
-                            typeOutFinalContent(0); // Start typing out the final content
+                            apiThinkingDiv.style.display = "none"; // Hide thinking div
+                            apiFinalDiv.style.display = "block"; // Show final div
+                            typeOutApiFinalContent(0); // Start typing out the final content
                         }, 1000); // Wait 1 second before showing final
                     }
                 }, 1000); // Update every second
             }, 3000); // Show thinking div after 3 seconds of typing
         }
 
-        function typeOutFinalContent(elementIndex) {
-            if (elementIndex < originalFinalContentElements.length) {
-                const currentElementHTML = originalFinalContentElements[elementIndex];
+        function typeOutApiFinalContent(elementIndex) {
+            if (elementIndex < originalApiFinalContentElements.length) {
+                const currentElementHTML = originalApiFinalContentElements[elementIndex];
                 const tempContainer = document.createElement('div');
                 tempContainer.innerHTML = currentElementHTML;
                 const actualElement = tempContainer.firstElementChild;
                 if (!actualElement) {
                     console.error("Could not parse element:", currentElementHTML);
-                    setTimeout(() => typeOutFinalContent(elementIndex + 1), 100);
+                    setTimeout(() => typeOutApiFinalContent(elementIndex + 1), 100);
                     return;
                 }
 
-                finalContent.appendChild(actualElement);
+                apiFinalContent.appendChild(actualElement);
 
-                if (actualElement.tagName === 'P' || actualElement.tagName === 'LI') { // Also handle LI for bullet points
+                if (actualElement.tagName === 'P' || actualElement.tagName === 'LI') {
                     const originalText = actualElement.textContent;
                     actualElement.textContent = '';
                     let charIndex = 0;
-                    const typingSpeed = 20; // Speed of typing each character
+                    const typingSpeed = 20;
 
                     function typeChar() {
                         if (charIndex < originalText.length) {
@@ -922,38 +856,33 @@
                             charIndex++;
                             setTimeout(typeChar, typingSpeed);
                         } else {
-                            // After typing a paragraph or list item, wait before next element
-                            setTimeout(() => typeOutFinalContent(elementIndex + 1), 500);
+                            setTimeout(() => typeOutApiFinalContent(elementIndex + 1), 500);
                         }
                     }
                     typeChar();
                 } else if (actualElement.tagName === 'H4' || actualElement.tagName === 'UL') {
-                    // For H4 and UL, just append and move to next element immediately or with a small delay
-                    setTimeout(() => typeOutFinalContent(elementIndex + 1), 500);
+                    setTimeout(() => typeOutApiFinalContent(elementIndex + 1), 500);
                 } else {
-                    // Fallback for any other tag
-                    setTimeout(() => typeOutFinalContent(elementIndex + 1), 500);
+                    setTimeout(() => typeOutApiFinalContent(elementIndex + 1), 500);
                 }
             } else {
-                // All content typed out, transition to offices display
                 setTimeout(() => {
-                    finalDiv.style.display = "none";
+                    apiFinalDiv.style.display = "none";
                     officesDisplayDiv.style.display = "block";
-                    // After displaying offices for some time, restart the animation sequence
                     setTimeout(startAnimationSequence, 5000);
-                }, 1000); // Wait 1 second before showing offices
+                }, 1000);
             }
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            typingDiv = document.getElementById("typing");
-            thinkingDiv = document.getElementById("thinking");
-            finalDiv = document.getElementById("final");
-            countText = document.getElementById("countText");
-            finalContent = document.getElementById("finalContent");
-            officesDisplayDiv = document.getElementById("offices-display");
+            // Updated IDs for API section elements
+            apiTypingDiv = document.getElementById("api-typing");
+            apiThinkingDiv = document.getElementById("api-thinking");
+            apiFinalDiv = document.getElementById("api-final");
+            apiCountText = document.getElementById("api-countText");
+            apiFinalContent = document.getElementById("api-finalContent");
+            officesDisplayDiv = document.getElementById("offices-display"); // This ID remains global as per original code
 
-            // Store original content elements to be typed out
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = `
                 <p>The question "What is the meaning of life?" is one that has puzzled humanity for centuries, and it's not something that comes with a single, universal answer. Instead, it's a deeply personal and complex idea that can look very different depending on who's asking and what they value.</p>
@@ -966,7 +895,7 @@
                     <li><strong>Personal Fulfillment:</strong> Others believe the meaning of life is found in personal happiness, relationships, creativity, and leaving a positive impact on the world.</li>
                 </ul>
             `;
-            originalFinalContentElements = Array.from(tempDiv.children).map(child => child.outerHTML);
+            originalApiFinalContentElements = Array.from(tempDiv.children).map(child => child.outerHTML);
 
             startAnimationSequence();
         });
@@ -981,9 +910,9 @@
         });
 
         const tl = gsap.timeline({ paused: true });
-        const lines = gsap.utils.toArray('ul li');
+        const lines = gsap.utils.toArray('.infinite-scroller-main-container ul li'); // Target specific ul for infinite scroller
 
-        gsap.set('ul li', { yPercent: 300 });
+        gsap.set(lines, { yPercent: 300 });
 
         const paddedLines = [...lines, ...lines, ...lines];
 
@@ -1041,7 +970,7 @@
                 '--h': gsap.utils.random(0, 359),
                 left: wordCenterXRelativeToContainer,
                 xPercent: -50,
-                opacity: 1 // Ensure indicator is visible
+                opacity: 1
             });
         };
 
@@ -1059,7 +988,7 @@
             left: initialWordCenterXRelativeToContainer,
             xPercent: -50,
             '--h': gsap.utils.random(0, 359),
-            opacity: 1 // Ensure initial indicator is visible
+            opacity: 1
         });
 
         gsap.to(scrubber, {
@@ -1080,10 +1009,8 @@
     <script type="module">
         // GSAP for Curved Scroller
         import { ScrollTrigger } from 'https://cdn.skypack.dev/gsap@3.12.0/ScrollTrigger';
-        // gsap is already imported from the previous script tag within the same type="module" block.
-        // If this script block was separate, you'd need to import gsap again.
 
-        let tlCurvedScroller; // Renamed to avoid conflict
+        let tlCurvedScroller;
         let configureTimeline;
 
         const scroller = document.querySelector('.scroller');
@@ -1245,7 +1172,7 @@
         syncBar({ target: scroller });
         if (!CSS.supports('(animation-timeline: scroll())')) {
             configureTimeline = () => {
-                if (tlCurvedScroller) tlCurvedScroller.kill(); // Use tlCurvedScroller
+                if (tlCurvedScroller) tlCurvedScroller.kill();
                 tlCurvedScroller = gsap.to('.bar__thumb', {
                     scrollTrigger: {
                         scroller: list,
