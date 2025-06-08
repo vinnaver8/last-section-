@@ -8,11 +8,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        @import url('https://unpkg.com/normalize.css') layer(normalize);
-@layer normalize, base, demo, snapping;
         body {
             font-family: 'Inter', sans-serif;
         }
+
+        /* Curved Scroller (Grok section) */
+        @import url('https://unpkg.com/normalize.css') layer(normalize);
+
+        @layer normalize, base, demo, snapping;
+
+        @layer snapping {
             @supports (animation-timeline: scroll()) {
                 .scroller header,
                 .scroller footer {
@@ -410,7 +415,11 @@
         }
 
         /* Infinite Scroller (Developer Docs section) */
-            @layer demo {
+        @import url('https://unpkg.com/normalize.css') layer(normalize);
+
+        @layer normalize, base, demo;
+
+        @layer demo {
             .infinite-scroller-main-container {
                 --font-level: 5;
                 opacity: 0;
@@ -517,7 +526,6 @@
                 box-sizing: border-box;
             }
         }
-  
     </style>
 </head>
 <body class="bg-[#0D0D0D]">
