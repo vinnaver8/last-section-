@@ -7,18 +7,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        @import url('https://unpkg.com/normalize.css') layer(normalize);
+        @layer normalize, base, snapping, demo;
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
         }
 
         /* Curved Scroller (Grok section) */
-        @import url('https://unpkg.com/normalize.css') layer(normalize);
-
-        @layer normalize, base, demo, snapping;
-
-        @lyer snapng {
-            @sports (animation-timeline: scroll()) {
+        @layer snapping {
+            @supports (animation-timeline: scroll()) {
                 .scroller header,
                 .scroller footer {
                     scroll-snap-align: unset;
@@ -415,10 +413,6 @@
         }
 
         /* Infinite Scroller (Developer Docs section) */
-        @import url('https://unpkg.com/normalize.css') layer(normalize);
-
-        @layer normalize, base, demo;
-
         @layer demo {
             .infinite-scroller-main-container {
                 --font-level: 5;
@@ -902,110 +896,110 @@
     </script>
 
     <script type="module">
-        import { Pane } from 'https://cdn.skypack.dev/tweakpane@4.0.4'
-import gsap from 'https://cdn.skypack.dev/gsap@3.12.0'
+        // GSAP for Infinite Scroller
+        import gsap from 'https://cdn.skypack.dev/gsap@3.12.0';
 
-const config = {
-  theme: 'system',
-}
+        gsap.defaults({
+            duration: 1,
+        });
 
-const ctrl = new Pane({
-  title: 'Config',
-  expanded: true,
-})
+        const tl = gsap.timeline({ paused: true });
+        const lines = gsap.utils.toArray('.infinite-scroller-main-container ul li'); // Target specific ul for infinite scroller
 
-const update = () => {
-  document.documentElement.dataset.theme = config.theme
-}
+        gsap.set(lines, { yPercent: 300 });
 
-const sync = (event) => {
-  if (
-    !document.startViewTransition ||
-    event.target.controller.view.labelElement.innerText !== 'Theme'
-  )
-    return update()
-  document.startViewTransition(() => update())
-}
+        const paddedLines = [...lines, ...lines, ...lines];
 
-ctrl.addBinding(config, 'theme', {
-  label: 'Theme',
-  options: {
-    System: 'system',
-    Light: 'light',
-    Dark: 'dark',
-  },
-})
+        paddedLines.forEach((line, index) => {
+            const lineTl = gsap.timeline()
+                .set(line, { yPercent: 300 })
+                .to(
+                    line,
+                    {
+                        yPercent: '-=600',
+                        repeatRefresh: true,
+                        immediateRender: false,
+                        ease: 'none',
+                        duration: 6,
+                    },
+                    0
+                );
+            tl.add(lineTl, index);
+        });
 
-ctrl.on('change', sync)
-update()
+        const scrubber = gsap.timeline({ paused: true }).fromTo(
+            tl,
+            {
+                totalTime: lines.length + 1,
+            },
+            {
+                totalTime: lines.length * 2 + 1,
+                ease: 'none',
+                duration: lines.length,
+                repeat: -1,
+            }
+        );
 
-// gsap stuff!
-gsap.defaults({
-  duration: 1,
-})
-const tl = gsap.timeline({
-  paused: true,
-})
-const lines = gsap.utils.toArray('ul li')
-gsap.set('ul li', { yPercent: 300 })
-const paddedLines = [...lines, ...lines, ...lines]
-paddedLines.forEach((line, index) => {
-  // create a mini timeline for the line
-  const lineTl = gsap.timeline().set(line, { yPercent: 300 }).to(
-    line,
-    {
-      yPercent: '-=600',
-      repeatRefresh: true,
-      immediateRender: false,
-      ease: 'none',
-      duration: 6,
-    },
-    0
-  )
-  tl.add(lineTl, index)
-})
+        gsap.set(scrubber, { totalTime: lines.length + 2 });
 
-const scrubber = gsap.timeline({ paused: true }).fromTo(
-  tl,
-  {
-    totalTime: lines.length + 1, // lines.length + 2
-  },
-  {
-    totalTime: lines.length * 2 + 1, // lines.length * 2 + 2
-    ease: 'none',
-    duration: lines.length,
-    repeat: -1,
-  }
-)
-gsap.set(scrubber, { totalTime: lines.length + 2 })
+        let index = 0;
+        const indicator = document.querySelector('.infinite-scroller-main-container .indicator');
 
-let index = 0
-gsap.set('.indicator', {
-  '--width': lines[index].getBoundingClientRect().width,
-})
+        const syncIndicator = () => {
+            index += 1;
+            const currentLine = lines[index % lines.length];
+            const wordWidth = currentLine.getBoundingClientRect().width;
 
-const syncIndicator = () => {
-  index += 1
-  gsap.set('.indicator', {
-    '--width': lines[index % lines.length].getBoundingClientRect().width,
-    '--h': gsap.utils.random(0, 359)
-  })
-}
+            const containerRect = document.querySelector('.infinite-scroller-main-container').getBoundingClientRect();
+            const ulRect = currentLine.closest('ul').getBoundingClientRect();
+            const lineRect = currentLine.getBoundingClientRect();
 
-gsap.to(scrubber, {
-  delay: 1,
-  totalTime: '+=1',
-  duration: 1,
-  repeat: -1,
-  repeatDelay: 1,
-  repeatRefresh: true,
-  onStart: syncIndicator,
-  onRepeat: syncIndicator,
-  ease: 'elastic.out(1, 0.875)',
-})
+            const ulPaddingLeft = parseFloat(getComputedStyle(currentLine.closest('ul')).paddingLeft);
 
-gsap.set('.container', { opacity: 1 })
+            const wordLeftInUlContent = lineRect.left - ulRect.left;
+            const wordCenterXRelativeToContainer = (ulRect.left - containerRect.left) + wordLeftInUlContent + (wordWidth / 2);
+
+            gsap.set(indicator, {
+                '--width': wordWidth,
+                '--h': gsap.utils.random(0, 359),
+                left: wordCenterXRelativeToContainer,
+                xPercent: -50,
+                opacity: 1
+            });
+        };
+
+        const initialLine = lines[0];
+        const initialWordWidth = initialLine.getBoundingClientRect().width;
+        const initialContainerRect = document.querySelector('.infinite-scroller-main-container').getBoundingClientRect();
+        const initialUlRect = initialLine.closest('ul').getBoundingClientRect();
+        const initialLineRect = initialLine.getBoundingClientRect();
+        const initialUlPaddingLeft = parseFloat(getComputedStyle(initialLine.closest('ul')).paddingLeft);
+        const initialWordLeftInUlContent = initialLineRect.left - initialUlRect.left;
+        const initialWordCenterXRelativeToContainer = (initialUlRect.left - initialContainerRect.left) + initialWordLeftInUlContent + (initialWordWidth / 2);
+
+        gsap.set(indicator, {
+            '--width': initialWordWidth,
+            left: initialWordCenterXRelativeToContainer,
+            xPercent: -50,
+            '--h': gsap.utils.random(0, 359),
+            opacity: 1
+        });
+
+        gsap.to(scrubber, {
+            delay: 1,
+            totalTime: '+=1',
+            duration: 1,
+            repeat: -1,
+            repeatDelay: 1,
+            repeatRefresh: true,
+            onStart: syncIndicator,
+            onRepeat: syncIndicator,
+            ease: 'elastic.out(1, 0.875)',
+        });
+
+        gsap.set('.infinite-scroller-main-container', { opacity: 1 });
     </script>
+
     <script type="module">
         // GSAP for Curved Scroller
         import { ScrollTrigger } from 'https://cdn.skypack.dev/gsap@3.12.0/ScrollTrigger';
