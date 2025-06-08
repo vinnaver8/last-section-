@@ -417,114 +417,111 @@
         /* Infinite Scroller (Developer Docs section) */
         @import url('https://unpkg.com/normalize.css') layer(normalize);
 
-        @layer normalize, base, demo;
+@layer normalize, base, demo;
 
-        @layer demo {
-            .infinite-scroller-main-container {
-                --font-level: 5;
-                opacity: 0;
-                width: 100%;
-                max-width: 600px;
-                height: 280px;
-                max-height: 100%;
-                display: flex;
-                place-items: center;
-                mask: linear-gradient(
-                    #0000 0.25lh,
-                    #fff calc(50% - 0.5lh),
-                    #fff calc(50% + 0.5lh),
-                    #0000 calc(100% - 0.25lh)
-                );
-                color: color-mix(in lch, canvasText, canvas 15%);
-                text-align: center;
-                position: relative;
-                background: #0D0D0D;
-                overflow: hidden;
-                border-radius: 12px;
-                border: 1px solid #333;
-                aspect-ratio: 3 / 3.5; /* Updated aspect ratio */
-            }
+@layer demo {
+  .infinite-scroller-main-container {
+    --font-level: 5;
+    opacity: 0;
+    width: 100%;
+    max-width: 600px;
+    height: 280px;
+    display: flex;
+    place-items: center;
+    line-height: 2em; /* Set an actual line-height */
+    mask: linear-gradient(
+      #0000 0.25em,
+      #fff calc(50% - 1em),
+      #fff calc(50% + 1em),
+      #0000 calc(100% - 0.25em)
+    );
+    color: color-mix(in lch, canvasText, canvas 15%);
+    text-align: center;
+    position: relative;
+    background: #0D0D0D;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid #333;
+    aspect-ratio: 3 / 3.5;
+  }
 
-            .infinite-scroller-main-container ul {
-                padding: 0;
-                margin: 0;
-                list-style-type: none;
-                text-transform: uppercase;
-                line-height: 1;
-                font-family: Impact, Haettenschweiler, 'Arial Narrow Bold',
-                sans-serif;
-                height: 1lh;
-                display: inline-grid;
-                position: relative;
-                padding-inline: 1em;
-                align-items: center;
-                align-content: center;
-                justify-content: center;
-                justify-items: center;
-                text-align: center;
-                width: 100%;
-            }
+  .infinite-scroller-main-container ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    text-transform: uppercase;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    line-height: 2em;
+    height: 2em; /* match the li height */
+    display: inline-grid;
+    position: relative;
+    padding-inline: 1em;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
 
-            .infinite-scroller-main-container .indicator {
-                --c: 0.3em;
+  .infinite-scroller-main-container .indicator {
+    --c: 0.3em;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2em;
+    border: 0.05em solid oklch(0.75 1 var(--h, 320));
+    box-shadow: 0 0 16px oklch(0.75 1 var(--h, 320));
+    transition: width 0.25s, border-color 0.25s;
+    width: calc((var(--width) * 1px) + (var(--c) * 2));
+    border-radius: 8px;
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.05);
+  }
 
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                height: 1lh;
-                border: 0.05em solid oklch(0.75 1 var(--h, 320));
-                transition: width 0.25s, border-color 0.25s;
-                width: calc((var(--width) * 1px) + (var(--c) * 2));
-                border-radius: 8px;
-                opacity: 1;
-            }
+  .infinite-scroller-main-container li {
+    display: inline-block;
+    width: fit-content;
+    height: 2em;
+    grid-area: 1 / 1;
+  }
+}
 
-            .infinite-scroller-main-container li {
-                display: inline-block;
-                width: fit-content;
-                height: 1lh;
-                grid-area: 1 / 1;
-            }
-        }
+@layer base {
+  :root {
+    --font-size-min: 16;
+    --font-size-max: 20;
+    --font-ratio-min: 1.2;
+    --font-ratio-max: 1.33;
+    --font-width-min: 375;
+    --font-width-max: 1500;
+  }
 
-        @layer base {
-            :root {
-                --font-size-min: 16;
-                --font-size-max: 20;
-                --font-ratio-min: 1.2;
-                --font-ratio-max: 1.33;
-                --font-width-min: 375;
-                --font-width-max: 1500;
-            }
+  :where(.fluid) {
+    --fluid-min: calc(
+      var(--font-size-min) *
+      pow(var(--font-ratio-min), var(--font-level, 0))
+    );
+    --fluid-max: calc(
+      var(--font-size-max) *
+      pow(var(--font-ratio-max), var(--font-level, 0))
+    );
+    --fluid-preferred: calc(
+      (var(--fluid-max) - var(--fluid-min)) /
+      (var(--font-width-max) - var(--font-width-min))
+    );
+    --fluid-type: clamp(
+      (var(--fluid-min) / 16) * 1rem,
+      ((var(--fluid-min) / 16) * 1rem) -
+      (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
+      (var(--fluid-preferred) * var(--variable-unit, 100vi)),
+      (var(--fluid-max) / 16) * 1rem
+    );
+    font-size: var(--fluid-type);
+  }
 
-            :where(.fluid) {
-                --fluid-min: calc(
-                    var(--font-size-min) *
-                    pow(var(--font-ratio-min), var(--font-level, 0))
-                );
-                --fluid-max: calc(
-                    var(--font-size-max) *
-                    pow(var(--font-ratio-max), var(--font-level, 0))
-                );
-                --fluid-preferred: calc(
-                    (var(--fluid-max) - var(--fluid-min)) /
-                    (var(--font-width-max) - var(--font-width-min))
-                );
-                --fluid-type: clamp(
-                    (var(--fluid-min) / 16) * 1rem,
-                    ((var(--fluid-min) / 16) * 1rem) -
-                    (((var(--fluid-preferred) * var(--font-width-min)) / 16) * 1rem) +
-                    (var(--fluid-preferred) * var(--variable-unit, 100vi)),
-                    (var(--fluid-max) / 16) * 1rem
-                );
-                font-size: var(--fluid-type);
-            }
-
-            *,
-            *::before,
-            *::after {
-                box-sizing: border-box;
-            }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
         }
     </style>
 </head>
